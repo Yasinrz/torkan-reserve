@@ -1,9 +1,12 @@
 asgiref==3.8.1
 certifi==2025.1.31
+cffi==1.17.1
 charset-normalizer==3.4.1
+cryptography==44.0.2
 dj-database-url==2.3.0
 dj-email-url==1.0.6
 Django==5.1.7
+django-allauth==65.7.0
 django-cache-url==3.4.5
 django-jalali==7.3.0
 environs==14.1.1
@@ -12,10 +15,14 @@ idna==3.10
 jalali_core==1.0.0
 jdatetime==5.2.0
 marshmallow==3.26.1
+oauthlib==3.2.2
 packaging==24.2
 psycopg2-binary==2.9.10
+pycparser==2.22
+PyJWT==2.10.1
 python-dotenv==1.1.0
 requests==2.32.3
+requests-oauthlib==2.0.0
 sqlparse==0.5.3
 typing_extensions==4.13.1
 tzdata==2025.1

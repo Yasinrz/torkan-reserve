@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from .forms import PhoneNumberForm, VerificationCodeForm
 from random import randint
 from .utils import send_code
-from .models import Time , User
+from .models import Time, User
 import jdatetime
 
 
@@ -20,17 +20,17 @@ def phone_number_view(request):
         form = PhoneNumberForm(request.POST)
         if form.is_valid():
             phone_number = form.cleaned_data['phone_number']
-            name = form.cleaned_data.get('name', '')  # دریافت نام در صورت وجود
+            name = form.cleaned_data.get('name', '')  # Get name if available
 
-            # ایجاد کد تأیید تصادفی و ذخیره در سشن
-            token = str(randint(1000, 9999))  # ایجاد یک کد ۴ رقمی
+            # Generate a random 4-digit session code
+            token = str(randint(1000, 9999))
             request.session['phone_number'] = phone_number
             request.session['verification_code'] = token
             request.session['name'] = name
 
-            send_code(phone_number, token)  # ارسال شماره و کد تأیید به تابع
+            send_code(phone_number, token)
 
-            return redirect('code_view')  # هدایت به صفحه تایید کد
+            return redirect('code_view')
 
     else:
         form = PhoneNumberForm()
@@ -48,12 +48,12 @@ def verify(request):
             name = request.session.get('name')
 
             if entered_code == stored_code:
-                # ذخیره اطلاعات کاربر بعد از تایید موفقیت‌آمیز کد
+
                 user, created = User.objects.get_or_create(phone_number=phone_number)
-                user.name = name  # در صورت نیاز، نام را ذخیره می‌کنیم
+                user.name = name
                 user.save()
 
-                # پاک کردن اطلاعات سشن
+                # Clear session data
                 request.session.pop('verification_code', None)
                 request.session.pop('phone_number', None)
                 request.session.pop('name', None)
@@ -72,12 +72,13 @@ def reservation_api(request):
     events = [
         {
             'title': 'رزرو شده',
-            'start': jdatetime.date.fromgregorian(date=res.shamsi_date).isoformat(),  # تبدیل به شمسی
+            'start': jdatetime.date.fromgregorian(date=res.shamsi_date).isoformat(),
             'color': 'red'
         }
         for res in reservations
     ]
     return JsonResponse(events, safe=False)
+
 
 def calendar(request):
     return render(request, 'home/reservation.html')

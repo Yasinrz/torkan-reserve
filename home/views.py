@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .forms import VerificationCodeForm, PhoneNumberForm
@@ -15,30 +16,28 @@ def home(request):
 def welcome(request):
     return render(request, 'home/welcome.html')
 
-
+@login_required
 def phone_number_view(request):
     if request.method == 'POST':
         form = PhoneNumberForm(request.POST)
         if form.is_valid():
             phone_number = form.cleaned_data['phone_number']
-            name = form.cleaned_data.get('name', '')  # Get name if available
+            name = form.cleaned_data.get('name', '')
 
-            # Generate a random 4-digit session code
             token = str(randint(1000, 9999))
             request.session['phone_number'] = phone_number
             request.session['verification_code'] = token
             request.session['name'] = name
 
             send_code(phone_number, token)
-
             return redirect('code_view')
-
     else:
         form = PhoneNumberForm()
 
-        return render(request, 'home/register.html', {'form': form})
 
+    return render(request, 'home/register.html', {'form': form})
 
+@login_required
 def verify(request):
     if request.method == 'POST':
         form = VerificationCodeForm(request.POST)

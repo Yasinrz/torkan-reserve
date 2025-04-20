@@ -48,11 +48,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # 3-rd party app
-    'allauth',
-    'allauth.account',
     'django_jalali',
     # my app
     'home',
+    'accounts',
 
 ]
 
@@ -65,9 +64,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-
-    # Add the account middleware:
-    'allauth.account.middleware.AccountMiddleware',
 ]
 
 
@@ -162,6 +158,8 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# accounts config
+AUTH_USER_MODEL = 'accounts.User'
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'

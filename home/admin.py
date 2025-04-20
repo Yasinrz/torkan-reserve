@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.db import models
 from django_jalali.admin.widgets import AdminjDateWidget
-from .models import Time , Operation , OperationSetting ,User
+from .models import Time , Operation , OperationSetting
 from django_jalali.admin.filters import JDateFieldListFilter
 
 @admin.register(Time)
@@ -30,7 +30,7 @@ class OperationSettingAdmin(admin.ModelAdmin):
     readonly_fields = ('display_calculation',)
 
 
-@admin.register(User)
-class UserAdmin(admin.ModelAdmin):
-    list_display = ['name', 'phone_number' ]
-    search_fields = ['name',]
+# @admin.register(User)
+# class UserAdmin(admin.ModelAdmin):
+#     list_display = ['name', 'phone_number' ]
+#     search_fields = ['name',]

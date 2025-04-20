@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from .forms import PhoneNumberForm, VerificationCodeForm
+from .forms import VerificationCodeForm, PhoneNumberForm
 from random import randint
 from .utils import send_code
-from .models import Time, User
+from .models import Time
+from accounts.models import User
 import jdatetime
 
 

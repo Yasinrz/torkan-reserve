@@ -4,6 +4,7 @@ from xml.dom import ValidationErr
 from django.core.exceptions import ValidationError
 import jdatetime
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth import get_user_model
 
 
 # Create your models here.
@@ -74,15 +75,6 @@ class OperationSetting(models.Model):
     display_calculation.short_description = 'مدت زمان ذوب'  # عنوان ستون در ادمین
 
 
-
-class User(models.Model):
-    name = models.CharField(max_length=50, verbose_name='نام و نام خانوادگی ')
-    phone_number = models.CharField(max_length=11, verbose_name=' شماره تلفن همراه ')
-
-    def __str__(self):
-        return f" کاربر {self.name} - {self.phone_number}"
-
-
 class Time(models.Model):
     Unit = [
         ("gal", "گالن"),
@@ -90,7 +82,7 @@ class Time(models.Model):
         ("kilo", "کیلو گرم")
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='کاربر',)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name='کاربر',)
     shamsi_date = models.DateField(default=jdatetime.date.today, null=True, blank=True, verbose_name='تاریخ ')
     operation = models.ForeignKey(Operation, on_delete=models.CASCADE, verbose_name='نوع عملیات', null=True, blank=True)
     volume = models.IntegerField(verbose_name='حجم مواد', null=True, blank=True)

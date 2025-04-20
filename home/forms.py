@@ -1,12 +1,12 @@
 from django import forms
-from . models import User ,Time
+from django.contrib.auth import get_user_model
 # from django_jalali.forms import JalaliDateWidget
 from django_jalali.admin.widgets import AdminjDateWidget
 
 class PhoneNumberForm(forms.ModelForm):
     class Meta:
 
-        model = User
+        model = get_user_model()
         fields = ['name' , 'phone_number' ]
 
 

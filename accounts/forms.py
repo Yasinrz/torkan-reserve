@@ -1,7 +1,8 @@
-from django import forms
-from django.contrib.auth.forms import ReadOnlyPasswordHashField
+
 from django.contrib.auth.forms import UserChangeForm
 from .models import User
+from django import forms
+from django.contrib.auth import get_user_model
 
 
 class CustomUserCreationForm(forms.ModelForm):
@@ -57,3 +58,17 @@ class CustomUserChangeForm(UserChangeForm):
             user.save()
             self.save_m2m()
         return user
+
+
+class PhoneNumberForm(forms.ModelForm):
+
+    class Meta:
+        model = get_user_model()
+        fields = ['name', 'phone_number']
+
+
+
+class VerificationCodeForm(forms.Form):
+
+    verification_code = forms.CharField(max_length=4, required=False ,label='کد اعتبار سنجی' )
+

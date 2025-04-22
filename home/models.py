@@ -87,8 +87,8 @@ class Time(models.Model):
     operation = models.ForeignKey(Operation, on_delete=models.CASCADE, verbose_name='نوع عملیات', null=True, blank=True)
     volume = models.IntegerField(verbose_name='حجم مواد', null=True, blank=True)
     unit = models.CharField(choices=Unit, max_length=15, verbose_name='واحد محاسبه', null=True, blank=True)
-    start_session = models.TimeField(max_length=20, verbose_name='از ساعت ', null=True, blank=True, default='08:00')
-    end_session = models.TimeField(max_length=20, verbose_name='تا ساعت ', null=True, blank=True, default='12:00')
+    start_session = models.TimeField( verbose_name='از ساعت ', null=True, blank=True, default='08:00')
+    end_session = models.TimeField( verbose_name='تا ساعت ', null=True, blank=True, default='12:00')
 
     def get_shamsi_date(self):
         # تبدیل تاریخ میلادی به شمسی برای نمایش

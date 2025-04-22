@@ -32,7 +32,7 @@ def phone_number_view(request):
     return render(request, 'registration/login.html', {'form': form})
 
 
-
+@login_required
 def verify(request):
     if request.method == 'POST':
         form = VerificationCodeForm(request.POST)

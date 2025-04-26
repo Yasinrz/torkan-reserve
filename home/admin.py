@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.db import models
 from django_jalali.admin.widgets import AdminjDateWidget
-from .models import Time, Operation, OperationSetting
+from .models import Time, Operation, OperationSetting, RequestReservation
 from django_jalali.admin.filters import JDateFieldListFilter
 from .utils import send_reservation_sms
 
@@ -13,7 +13,7 @@ class TimeAdmin(admin.ModelAdmin):
     list_filter = (('shamsi_date', JDateFieldListFilter),)
     ordering = ('shamsi_date',)
     readonly_fields = ('date_time_reserved',)
-    # autocomplete_fields = ('request_reservation_user',)
+    autocomplete_fields = ('request_reservation',)
     formfield_overrides = {
         models.DateField: {'widget': AdminjDateWidget},
     }
@@ -39,3 +39,13 @@ class OperationAdmin(admin.ModelAdmin):
 class OperationSettingAdmin(admin.ModelAdmin):
     list_display = ['Product', 'capacity_materials', 'unit_capacity', 'display_calculation', ]
     readonly_fields = ('display_calculation',)
+
+@admin.register(RequestReservation)
+class RequestReservationAdmin(admin.ModelAdmin):
+    list_display = ['user', 'suggested_reservation_date', 'status', ]
+    search_fields = ['user__name', 'user__phone_number']
+    list_filter = ['status', ('suggested_reservation_date', JDateFieldListFilter), ]
+    ordering = ['datetime_created',]
+    formfield_overrides = {
+        models.DateField: {'widget': AdminjDateWidget},
+    }

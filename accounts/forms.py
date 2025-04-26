@@ -80,6 +80,13 @@ class PhoneNumberForm(forms.ModelForm):
             raise forms.ValidationError("The name cannot be empty.")
         return cleaned_data
 
+    def validate_unique(self):
+        """
+        Override the unique check so that form doesn't raise error
+        if phone_number already exists.
+        """
+        pass
+
 
 class VerificationCodeForm(forms.Form):
 

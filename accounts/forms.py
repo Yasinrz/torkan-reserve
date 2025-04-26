@@ -70,8 +70,14 @@ class PhoneNumberForm(forms.ModelForm):
         cleaned_data = super().clean()
         phone_number = cleaned_data.get('phone_number')
         name = cleaned_data.get('name')
+        if not phone_number:
+            raise forms.ValidationError("The phone number cannot be empty.")
+        if not phone_number.startswith('09'):
+            raise forms.ValidationError("The phone number must start with '09'.")
+        if len(phone_number) != 11:
+            raise forms.ValidationError("The phone number must be 11 digits long.")
         if not name:
-            raise forms.ValidationError("نام نمی‌تواند خالی باشد.")
+            raise forms.ValidationError("The name cannot be empty.")
         return cleaned_data
 
 

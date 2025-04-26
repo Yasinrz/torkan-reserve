@@ -66,7 +66,7 @@ def verify(request):
 
     return render(request, 'registration/verify.html', {'form': form})
 
-
+@login_required
 def welcome(request):
     return render(request, 'registration/welcome.html')
 

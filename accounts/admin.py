@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from django.utils.translation import gettext_lazy as _
 from .models import User
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 
@@ -11,13 +10,13 @@ class UserAdmin(BaseUserAdmin):
     form = CustomUserChangeForm
     fieldsets = (
         (None, {'fields': ('phone_number', 'password')}),
-        (_('Personal info'), {'fields': ('name',)}),
-        (_('Permissions'), {'fields': ('is_staff', 'is_superuser',)}),
+        (None, {'fields': ('name',)}),
+        (None, {'fields': ('is_superuser',)}),
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('phone_number', 'name', 'password1', 'password2', 'is_superuser', 'is_staff',),
+            'fields': ('phone_number', 'name', 'password1', 'password2', 'is_superuser',),
         }),
     )
     list_display = ('phone_number', 'name', 'is_active', 'date_joined',)

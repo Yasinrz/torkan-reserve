@@ -2,6 +2,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render , redirect
+from django.contrib.auth import get_user_model
 from .forms import VerificationCodeForm, PhoneNumberForm
 from random import randint
 from .utils import send_code
@@ -16,9 +17,12 @@ def phone_number_view(request):
     if request.method == 'POST':
         form = PhoneNumberForm(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
             phone_number = form.cleaned_data['phone_number']
             name = form.cleaned_data['name']
+            User = get_user_model()
+            user = User.objects.filter(phone_number=phone_number).first()
+            if not user:
+                user = User.objects.create(phone_number=phone_number, name=name)
 
             token = str(randint(1000, 9999))
             request.session['phone_number'] = phone_number

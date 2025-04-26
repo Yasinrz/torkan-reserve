@@ -16,8 +16,9 @@ def phone_number_view(request):
     if request.method == 'POST':
         form = PhoneNumberForm(request.POST)
         if form.is_valid():
+            print(form.cleaned_data)
             phone_number = form.cleaned_data['phone_number']
-            name = form.cleaned_data.get('name', '')
+            name = form.cleaned_data['name']
 
             token = str(randint(1000, 9999))
             request.session['phone_number'] = phone_number

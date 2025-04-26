@@ -66,6 +66,13 @@ class PhoneNumberForm(forms.ModelForm):
         model = get_user_model()
         fields = ['name', 'phone_number']
 
+    def clean(self):
+        cleaned_data = super().clean()
+        phone_number = cleaned_data.get('phone_number')
+        name = cleaned_data.get('name')
+        if not name:
+            raise forms.ValidationError("نام نمی‌تواند خالی باشد.")
+        return cleaned_data
 
 
 class VerificationCodeForm(forms.Form):

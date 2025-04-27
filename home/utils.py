@@ -48,38 +48,6 @@ def send_reminder_sms(phone_number, date, time):
         return {"error": f"Exception occurred: {str(e)}"}
 
 
-
-# def get_gold_price():
-#     # تلاش برای دریافت قیمت از کش
-#     prices = cache.get('live_prices')
-#     if prices:
-#         return prices
-#
-#     # درخواست به API برای دریافت قیمت طلا
-#     try:
-#         response = requests.get('https://api.navasan.tech/latest/?api_key=freeZ9rqreIdClKOXPcoStwUfngCSQrR')
-#         if response.status_code == 200:
-#             data = response.json()
-#             prices = {
-#                 '18ayar': int(data.get('18ayar', {}).get('value', 0)) * 1000,
-#                 'abshodeh': int(data.get('abshodeh', {}).get('value', 0)) * 1000,
-#                 'sekkeh': int(data.get('sekkeh', {}).get('value', 0)) * 1000,
-#                 'gerami': int(data.get('gerami', {}).get('value', 0)) * 1000,
-#             }
-#             if prices:
-#                 # ذخیره قیمت در کش به ریال
-#                 cache.set('live_prices', prices, timeout=180)
-#                 return prices
-#             else:
-#                 return None
-#         else:
-#             return None
-#     except Exception as e:
-#         import logging
-#         logger = logging.getLogger(__name__)
-#         logger.error(f"Error fetching gold price: {e}")
-#         return None
-
 def get_gold_price():
     prices = cache.get('live_prices')
     if not prices:

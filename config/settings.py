@@ -14,6 +14,7 @@ from pathlib import Path
 from environs import Env
 
 
+
 # This is for loading environment variables from a .env file
 env = Env()
 env.read_env()
@@ -85,7 +86,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'home.context_processors.live_prices',
+                'home.context_processors.prices_context',
             ],
         },
     },

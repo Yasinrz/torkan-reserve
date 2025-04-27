@@ -1,3 +1,4 @@
+{% load humanize %}
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
@@ -17,6 +18,34 @@
 
   <!-- استایل‌های سفارشی -->
   <style>
+    .price-line {
+        font-size: 13px;
+        white-space: nowrap;
+        overflow-x: auto;
+        padding: 5px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .price-line span {
+        font-weight: bold;
+    }
+
+    .price-line .up {
+        color: #42730c; /* سبز خوشگل */
+    }
+
+    .price-line .down {
+        color: #e74c3c; /* قرمز خوشگل */
+    }
+
+    .price-line .nochange {
+        color: #0cc8d7; /* خاکستری ملایم */
+    }
+
+
     body {
       font-family: Vazir, sans-serif;
       margin: 0;
@@ -158,6 +187,25 @@
     <div class="logo">
       <img src="{% static 'images/logo.png' %}" alt="قالکاری ترکان">
     </div>
+        <div class="price-line">
+          {% for key, price_data in prices.items %}
+            <span class="
+              {% if price_data.change > 0 %} up
+              {% elif price_data.change < 0 %} down
+              {% else %} nochange
+              {% endif %}
+            ">
+              {% if key == '18ayar' %}🪙 طلا ۱۸ عیار{% elif key == 'abshodeh' %}⚖️ آبشده{% elif key == 'sekkeh' %}🥇 سکه{% elif key == 'gerami' %}🏅 سکه گرمی{% endif %}
+              : {{ price_data.value|intcomma }} ریال
+              (
+              {% if price_data.change > 0 %}📈{% elif price_data.change < 0 %}📉{% endif %}
+              {{ price_data.change|floatformat:0 }}
+              )
+            </span>
+            {% if not forloop.last %} | {% endif %}
+          {% endfor %}
+        </div>
+
     <nav>
       <ul>
         <li><a href="{% url 'home' %}">خانه</a></li>
@@ -196,5 +244,6 @@
   <script src="https://cdn.jsdelivr.net/npm/moment-jalaali@0.9.2/build/moment-jalaali.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

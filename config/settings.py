@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     # my app
     'home',
     'accounts',
-
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
@@ -85,6 +85,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'home.context_processors.live_prices',
             ],
         },
     },

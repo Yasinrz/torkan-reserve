@@ -1,8 +1,9 @@
-
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from .models import Time
 import jdatetime
+from .models import Time
+from .forms import RequestReservationForm
 
 
 def home(request):
@@ -22,3 +23,15 @@ def reservation_api(request):
     return JsonResponse(events, safe=False)
 
 
+@login_required
+def calendar(request):
+    if request.method == 'POST':
+        form = RequestReservationForm(request.POST)
+        if form.is_valid():
+            reservation = form.save(commit=False)
+            reservation.user = request.user
+            reservation.save()
+            return redirect('home')
+    else:
+        form = RequestReservationForm()
+    return render(request, 'home/reservation.html', {'form': form})

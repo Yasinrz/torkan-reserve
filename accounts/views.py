@@ -70,6 +70,6 @@ def verify(request):
 def welcome(request):
     return render(request, 'registration/welcome.html')
 
-@login_required
+# @login_required
 def calendar(request):
     return render(request, 'registration/reservation.html')

@@ -12,7 +12,7 @@ class CustomUserCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('phone_number', 'name', 'is_superuser', 'is_staff',)
+        fields = ('phone_number', 'name', 'is_superuser',)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -44,7 +44,7 @@ class CustomUserChangeForm(UserChangeForm):
 
     class Meta:
         model = User
-        fields = ('phone_number', 'name', 'is_superuser', 'is_staff',)
+        fields = ('phone_number', 'name', 'is_superuser',)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -67,6 +67,26 @@ class PhoneNumberForm(forms.ModelForm):
         model = get_user_model()
         fields = ['name', 'phone_number']
 
+    def clean(self):
+        cleaned_data = super().clean()
+        phone_number = cleaned_data.get('phone_number')
+        name = cleaned_data.get('name')
+        if not phone_number:
+            raise forms.ValidationError("The phone number cannot be empty.")
+        if not phone_number.startswith('09'):
+            raise forms.ValidationError("The phone number must start with '09'.")
+        if len(phone_number) != 11:
+            raise forms.ValidationError("The phone number must be 11 digits long.")
+        if not name:
+            raise forms.ValidationError("The name cannot be empty.")
+        return cleaned_data
+
+    def validate_unique(self):
+        """
+        Override the unique check so that form doesn't raise error
+        if phone_number already exists.
+        """
+        pass
 
 
 class VerificationCodeForm(forms.Form):

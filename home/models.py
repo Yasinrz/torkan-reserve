@@ -5,7 +5,6 @@ from django.core.exceptions import ValidationError
 import jdatetime
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import get_user_model
-from datetime import date
 
 
 # Create your models here.
@@ -79,13 +78,12 @@ class OperationSetting(models.Model):
 class Time(models.Model):
     Unit = [
         ("gal", "گالن"),
-
         ("but", "بوته",),
         ("kilo", "کیلو گرم")
     ]
 
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name='کاربر',)
-    shamsi_date = models.DateField(default=date.today, null=True, blank=True, verbose_name='تاریخ ')
+    shamsi_date = models.DateField(default=jdatetime.date.today, null=True, blank=True, verbose_name='تاریخ ')
     operation = models.ForeignKey(Operation, on_delete=models.CASCADE, verbose_name='نوع عملیات', null=True, blank=True)
     volume = models.IntegerField(verbose_name='حجم مواد', null=True, blank=True)
     unit = models.CharField(choices=Unit, max_length=15, verbose_name='واحد محاسبه', null=True, blank=True)
@@ -99,4 +97,5 @@ class Time(models.Model):
 
     def __str__(self):
         return f"{self.user}{self.shamsi_date}{self.operation}"
+
 

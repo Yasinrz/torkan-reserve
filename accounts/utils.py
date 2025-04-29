@@ -1,4 +1,4 @@
-from django import forms
+
 import requests
 from environs import Env
 
@@ -25,6 +25,3 @@ def send_code(phone_number, token):
     except Exception as e:
         return {"error": f"Exception occurred: {str(e)}"}
 
-
-class VerificationCodeForm(forms.Form):
-    verification_code = forms.CharField(max_length=4, required=True)

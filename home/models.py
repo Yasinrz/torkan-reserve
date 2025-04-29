@@ -79,6 +79,7 @@ class OperationSetting(models.Model):
 class Time(models.Model):
     Unit = [
         ("gal", "گالن"),
+
         ("but", "بوته",),
         ("kilo", "کیلو گرم")
     ]
@@ -98,5 +99,4 @@ class Time(models.Model):
 
     def __str__(self):
         return f"{self.user}{self.shamsi_date}{self.operation}"
-
 

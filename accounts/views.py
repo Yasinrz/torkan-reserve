@@ -73,3 +73,4 @@ def welcome(request):
 @login_required
 def calendar(request):
     return render(request, 'registration/reservation.html')
+

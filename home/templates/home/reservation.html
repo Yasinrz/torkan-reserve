@@ -1,13 +1,22 @@
 {% extends '_base.html' %}
+{% load jalali_tags %}
+{% load static %}
+{% block head %}
+
+{#    <link rel="stylesheet" href="{% static 'admin/css/widgets.css' %}">#}
+{#    <link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">#}
+{% endblock %}
 
 {% block content %}
     <div class="hero-content">
-        <h1>please select your suggestion time reserve</h1>
         <form method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="reserve-btn"> reserve time </button>
+            {{ form }}
+            <button type="submit" class="reserve-btn"> reserve </button>
         </form>
+        {{ form.media }}
     </div>
+{#<script src="{% static 'admin/js/django_jalali.min.js' %}"></script>#}
+{#<script src="{% static 'admin/js/core.js' %}"></script>#}
 {% endblock %}
 

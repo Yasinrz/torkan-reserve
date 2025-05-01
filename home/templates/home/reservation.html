@@ -2,9 +2,9 @@
 {% load jalali_tags %}
 {% load static %}
 {% block head %}
-
-{#    <link rel="stylesheet" href="{% static 'admin/css/widgets.css' %}">#}
-{#    <link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">#}
+    <link href="{% static 'admin/css/django_jalali.min.css' %}" media="all" rel="stylesheet">
+    <script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+    <script src="{% static 'js/datepicker-config.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -14,9 +14,6 @@
             {{ form }}
             <button type="submit" class="reserve-btn"> reserve </button>
         </form>
-        {{ form.media }}
     </div>
-{#<script src="{% static 'admin/js/django_jalali.min.js' %}"></script>#}
-{#<script src="{% static 'admin/js/core.js' %}"></script>#}
 {% endblock %}
 

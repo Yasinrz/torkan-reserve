@@ -42,10 +42,10 @@ class OperationSettingAdmin(admin.ModelAdmin):
 
 @admin.register(RequestReservation)
 class RequestReservationAdmin(admin.ModelAdmin):
-    list_display = ['user', 'suggested_reservation_date', 'status', ]
+    list_display = ['user', 'datetime_created', 'suggested_reservation_date', 'status',]
     search_fields = ['user__name', 'user__phone_number']
     list_filter = ['status', ('suggested_reservation_date', JDateFieldListFilter), ]
-    ordering = ['datetime_created',]
+    ordering = ['-datetime_created',]
     formfield_overrides = {
         models.DateField: {'widget': AdminjDateWidget},
     }

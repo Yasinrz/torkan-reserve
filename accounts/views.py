@@ -1,15 +1,10 @@
-
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
-from django.shortcuts import render , redirect
+from django.shortcuts import render, redirect
 from .forms import VerificationCodeForm, PhoneNumberForm
 from random import randint
 from .utils import send_code
 from accounts.models import User
-
-
-# Create your views here.
-
 
 
 def phone_number_view(request):
@@ -30,7 +25,6 @@ def phone_number_view(request):
         form = PhoneNumberForm()
 
     return render(request, 'registration/login.html', {'form': form})
-
 
 
 def verify(request):
@@ -69,7 +63,3 @@ def verify(request):
 
 def welcome(request):
     return render(request, 'registration/welcome.html')
-
-# @login_required
-def calendar(request):
-    return render(request, 'registration/reservation.html')

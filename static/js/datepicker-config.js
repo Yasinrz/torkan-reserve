@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const today = new Date();
     const oneWeekLater = new Date();
     oneWeekLater.setDate(today.getDate() + 7);
+
     function toJalali(gregorianDate) {
         var t, n, e = gregorianDate,
             i = parseInt(e.getFullYear()),
@@ -15,12 +16,30 @@ document.addEventListener("DOMContentLoaded", function () {
             day: 1 + (n < 186 ? n % 31 : (n - 186) % 30)
         };
     }
+
     const todayJalali = toJalali(today);
     const oneWeekLaterJalali = toJalali(oneWeekLater);
+
     jalaliDatepicker.startWatch({
         minDate: todayJalali,
         maxDate: oneWeekLaterJalali,
         changeMonth: false,
-        changeYear: false
+        changeYear: false,
+        dayRendering: function (day, input) {
+
+            const dayOfWeek = it(day.year, day.month, day.day);
+            if (dayOfWeek === 6) {
+                day.isValid = false;
+                day.className += " disabled-friday";
+            }
+            return day;
+        }
     });
+
+    function it(year, month, day) {
+        const a = (year - 1) * 365 + Math.floor((year) / 4) - Math.floor((year) / 100) + Math.floor((year) / 400);
+        const b = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334][month - 1];
+        const totalDays = a + b + day;
+        return (totalDays + 5) % 7;
+    }
 });

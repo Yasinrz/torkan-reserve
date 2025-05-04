@@ -2,7 +2,8 @@
 {% load jalali_tags %}
 {% load static %}
 {% block head %}
-
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
 {#    <link rel="stylesheet" href="{% static 'admin/css/widgets.css' %}">#}
 {#    <link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">#}
 {% endblock %}
@@ -11,7 +12,7 @@
     <div class="hero-content">
         <form method="POST">
             {% csrf_token %}
-            {{ form }}
+            {{ form | crispy }}
             <button type="submit" class="reserve-btn"> reserve </button>
         </form>
         {{ form.media }}

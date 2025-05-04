@@ -32,3 +32,8 @@ typing_extensions==4.13.1
 tzdata==2025.1
 urllib3==2.3.0
 whitenoise==6.9.0
+
+pip~=23.2.1
+PySocks~=1.7.1
+pillow~=11.1.0
+django-crispy-forms~=2.4

@@ -18,7 +18,7 @@ class RequestReservationForm(forms.ModelForm):
         super(RequestReservationForm, self).__init__(*args, **kwargs)
 
         self.fields['suggested_reservation_date'] = JalaliDateField(
-            label='Jalali Date',
+            label='تقویم',
             widget=AdminJalaliDateWidget
         )
         self.fields['suggested_reservation_date'].widget.attrs.update({'class': 'data-jdp-only-date'})

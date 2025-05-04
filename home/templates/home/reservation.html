@@ -1,20 +1,22 @@
 {% extends '_base.html' %}
-{% load crispy_forms_tags %}
 {% load jalali_tags %}
 {% load static %}
 {% block head %}
-    <link href="{% static 'admin/css/django_jalali.min.css' %}" media="all" rel="stylesheet">
-    <script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
-    <script src="{% static 'js/datepicker-config.js' %}"></script>
+
+{#    <link rel="stylesheet" href="{% static 'admin/css/widgets.css' %}">#}
+{#    <link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">#}
 {% endblock %}
 
 {% block content %}
     <div class="hero-content">
         <form method="POST">
             {% csrf_token %}
-            {{ form | crispy }}
+            {{ form }}
             <button type="submit" class="reserve-btn"> reserve </button>
         </form>
+        {{ form.media }}
     </div>
+{#<script src="{% static 'admin/js/django_jalali.min.js' %}"></script>#}
+{#<script src="{% static 'admin/js/core.js' %}"></script>#}
 {% endblock %}
 

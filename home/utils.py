@@ -52,7 +52,8 @@ def get_gold_price():
     prices = cache.get('live_prices')
     if not prices:
         try:
-            response = requests.get('https://api.navasan.tech/latest/?api_key=freeZ9rqreIdClKOXPcoStwUfngCSQrR')
+            response = requests.get('https://api.navasan.tech/latest/?api_key=freeMMB6Fxbba9GwXTNtPssUlB07u75n'
+)
             if response.status_code == 200:
                 data = response.json()
                 prices = {
@@ -77,3 +78,23 @@ def get_gold_price():
         except:
             prices = None
     return prices
+
+def send_temporary(phone, name, date):
+    api_key = env("API_KEY")
+    url = f"https://api.kavenegar.com/v1/{api_key}/verify/lookup.json"
+
+    params = {
+        "receptor": phone,
+        "template": "temporary",
+        "token10": name,
+        "token": date,
+    }
+    try:
+        response = requests.get(url, params=params)
+        if response.status_code == 200:
+            return response.json()
+        else:
+            return {"error": f"Failed to send reserve sms: {response.text}"}
+    except Exception as e:
+        return {"error": f"Exception occurred: {str(e)}"}
+

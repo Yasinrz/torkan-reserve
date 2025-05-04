@@ -28,8 +28,8 @@ class UserManager(BaseUserManager):
         return self.create_user(phone_number, name='Admin', password=password, **extra_fields)
 
 class User(AbstractBaseUser, PermissionsMixin):
-    phone_number = models.CharField(max_length=20, unique=True)
-    name = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=20, unique=True,verbose_name='شماره همراه')
+    name = models.CharField(max_length=100,verbose_name='نام و نام خانوادگی')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)

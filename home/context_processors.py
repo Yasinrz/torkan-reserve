@@ -2,7 +2,9 @@
 from .utils import get_gold_price
 
 def prices_context(request):
+
     prices = get_gold_price()
+    # print("💰 قیمت‌ها:", prices)
     if prices:
         for key, item in prices.items():
             try:

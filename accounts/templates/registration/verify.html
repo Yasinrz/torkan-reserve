@@ -1,12 +1,13 @@
 {% extends '_base.html' %}
-
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
 {% block content %}
    <div class="hero-content">
            <form method="POST">
         {% csrf_token %}
 
-            {{ form.as_p }}
-             <h3>-------------------------------------</h3>
+            {{ form | crispy }}
+{#             <h3>-------------------------------------</h3>#}
             <button type="submit" class="reserve-btn">  تایید کد  </button>
 
             </form>

@@ -1,8 +1,8 @@
 {% load humanize %}
-<!doctype html>
+{% load static %}
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  {% load static %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}کارگاه ذوب طلا{% endblock %}</title>
@@ -17,36 +17,7 @@
   <!-- FullCalendar CSS -->
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.css" rel="stylesheet">
 
-  <!-- استایل‌های سفارشی -->
   <style>
-    .price-line {
-        font-size: 13px;
-        white-space: nowrap;
-        overflow-x: auto;
-        padding: 5px 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .price-line span {
-        font-weight: bold;
-    }
-
-    .price-line .up {
-        color: #42730c; /* سبز خوشگل */
-    }
-
-    .price-line .down {
-        color: #e74c3c; /* قرمز خوشگل */
-    }
-
-    .price-line .nochange {
-        color: #0cc8d7; /* خاکستری ملایم */
-    }
-
-
     body {
       font-family: Vazir, sans-serif;
       margin: 0;
@@ -55,10 +26,11 @@
       background-image: url('{% static "images/back.jpg" %}');
       background-size: cover;
     }
+
     header {
       background: rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(10px);
-      padding: 15px 20px;
+      padding: 10px 20px;
       position: fixed;
       width: 100%;
       top: 0;
@@ -67,10 +39,47 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
     }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
     .logo img {
-      height: 50px;
+      height: 45px;
     }
+
+    .price-line {
+      font-size: 13px;
+      white-space: nowrap;
+      overflow-x: auto;
+      padding: 5px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .price-line span {
+      font-weight: bold;
+    }
+
+    .price-line .up {
+      color: #42730c;
+    }
+
+    .price-line .down {
+      color: #e74c3c;
+    }
+
+    .price-line .nochange {
+      color: #0cc8d7;
+    }
+
     nav ul {
       list-style: none;
       display: flex;
@@ -78,15 +87,18 @@
       margin: 0;
       padding: 0;
     }
+
     nav ul li a {
       color: #333;
       text-decoration: none;
       font-weight: bold;
       transition: all 0.3s ease;
     }
+
     nav ul li a:hover {
       color: #d4af37;
     }
+
     .hero-section {
       height: 100vh;
       display: flex;
@@ -95,20 +107,24 @@
       text-align: center;
       color: #333;
     }
+
     .hero-content {
       background: rgba(255, 255, 255, 0.6);
       padding: 40px;
       border-radius: 15px;
       box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
     }
+
     .hero-content h1 {
       font-size: 2.5rem;
       margin-bottom: 20px;
     }
+
     .hero-content p {
       font-size: 1.2rem;
       margin-bottom: 30px;
     }
+
     .reserve-btn {
       background: linear-gradient(45deg, #ffd700, #e6b800);
       color: #1a1a1a;
@@ -120,10 +136,12 @@
       box-shadow: 0 4px 15px rgba(255, 215, 0, 0.6);
       transition: all 0.3s ease;
     }
+
     .reserve-btn:hover {
       transform: translateY(-5px);
       box-shadow: 0 6px 20px rgba(255, 215, 0, 0.8);
     }
+
     footer {
       background: linear-gradient(90deg, rgba(255, 215, 0, 0.7), rgba(230, 184, 0, 0.7));
       color: #1a1a1a;
@@ -132,80 +150,113 @@
       border-top-left-radius: 50px;
       border-top-right-radius: 50px;
     }
+
     .footer-content {
       display: flex;
       justify-content: space-around;
       flex-wrap: wrap;
       gap: 20px;
     }
+
     .footer-section {
       max-width: 300px;
     }
+
     .footer-section h3 {
       margin-bottom: 15px;
     }
+
     .footer-section ul {
       list-style: none;
       padding: 0;
     }
+
     .footer-section ul li {
       margin: 10px 0;
     }
+
     .footer-section ul li a {
       color: #1a1a1a;
       text-decoration: none;
       transition: color 0.3s ease;
     }
+
     .footer-section ul li a:hover {
       color: #fff;
     }
+
     .social-icons {
       margin-top: 20px;
     }
+
     .social-icons a {
       color: #1a1a1a;
       margin: 0 10px;
       font-size: 1.5rem;
       transition: color 0.3s ease;
     }
+
     .social-icons a:hover {
       color: #fff;
     }
+
     @media (max-width: 768px) {
-      .footer-content {
+      header {
         flex-direction: column;
         align-items: center;
+        text-align: center;
+        padding: 10px;
+      }
+
+      .logo img {
+        height: 40px;
+      }
+
+      .price-line {
+        flex-wrap: wrap;
+        justify-content: center;
+        font-size: 12px;
+        margin: 10px 0;
+      }
+
+      nav ul {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 10px;
       }
     }
   </style>
 
-  <!-- بلوک برای اضافه کردن استایل‌ها و اسکریپت‌های اضافی -->
   {% block head %}{% endblock %}
 </head>
+
 <body>
-  <!-- هدر -->
+  <!-- Header -->
   <header>
-    <div class="logo">
-      <img src="{% static 'images/logo.png' %}" alt="قالکاری ترکان">
+{#    <div class="logo">#}
+{#      <img src="{% static 'images/logo.png' %}" alt="قالکاری ترکان">#}
+{#    </div>#}
+
+    <div class="price-line">
+      {% for key, price_data in prices.items %}
+        <span class="
+          {% if price_data.change > 0 %} up
+          {% elif price_data.change < 0 %} down
+          {% else %} nochange
+          {% endif %}
+        ">
+          {% if key == '18ayar' %}🪙 طلا ۱۸ عیار{% elif key == 'abshodeh' %}⚖️ آبشده{% elif key == 'sekkeh' %}🥇 سکه{% elif key == 'gerami' %}🏅 سکه گرمی{% endif %}
+          : {{ price_data.value|intcomma }} ریال
+          (
+          {% if price_data.change > 0 %}📈{% elif price_data.change < 0 %}📉{% endif %}
+          {{ price_data.change|floatformat:0 }}
+          )
+        </span>
+        {% if not forloop.last %} | {% endif %}
+      {% endfor %}
     </div>
-        <div class="price-line">
-          {% for key, price_data in prices.items %}
-            <span class="
-              {% if price_data.change > 0 %} up
-              {% elif price_data.change < 0 %} down
-              {% else %} nochange
-              {% endif %}
-            ">
-              {% if key == '18ayar' %}🪙 طلا ۱۸ عیار{% elif key == 'abshodeh' %}⚖️ آبشده{% elif key == 'sekkeh' %}🥇 سکه{% elif key == 'gerami' %}🏅 سکه گرمی{% endif %}
-              : {{ price_data.value|intcomma }} ریال
-              (
-              {% if price_data.change > 0 %}📈{% elif price_data.change < 0 %}📉{% endif %}
-              {{ price_data.change|floatformat:0 }}
-              )
-            </span>
-            {% if not forloop.last %} | {% endif %}
-          {% endfor %}
-        </div>
 
     <nav>
       <ul>
@@ -216,12 +267,12 @@
     </nav>
   </header>
 
-  <!-- بخش اصلی -->
+  <!-- Main content -->
   <section class="hero-section">
     {% block content %}{% endblock %}
   </section>
 
-  <!-- فوتر -->
+  <!-- Footer -->
   <footer>
     <div class="footer-content">
       <div class="footer-section">
@@ -240,11 +291,10 @@
     </div>
   </footer>
 
-  <!-- اسکریپت‌های پایه -->
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/moment-jalaali@0.9.2/build/moment-jalaali.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>

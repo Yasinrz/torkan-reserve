@@ -16,6 +16,9 @@ class Operation(models.Model):
     def __str__(self):
         return self.operation_name
 
+    class Meta:
+        verbose_name = "عملیات ها"
+
 
 class OperationSetting(models.Model):
     Unit = [
@@ -75,7 +78,8 @@ class OperationSetting(models.Model):
 
     display_calculation.short_description = 'مدت زمان ذوب'  # عنوان ستون در ادمین
 
-
+    class Meta:
+        verbose_name = "محاسبه تقریبی زمان"
 
 class RequestReservation(models.Model):
     STATUS_CHOICES = [
@@ -92,7 +96,8 @@ class RequestReservation(models.Model):
     def __str__(self):
         return f"{self.user} reserved date [ {self.suggested_reservation_date} ] {self.status}"
 
-
+    class Meta:
+        verbose_name = "درخواست های نوبت"
 
 class Time(models.Model):
     Unit = [
@@ -122,5 +127,6 @@ class Time(models.Model):
             return f"{self.request_reservation.user}{self.shamsi_date}{self.operation}"
         return f"{self.shamsi_date}{self.operation}"
 
-
+    class Meta:
+        verbose_name = "رزرو نوبت"
 

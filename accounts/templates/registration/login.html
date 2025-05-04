@@ -1,12 +1,16 @@
 {% extends '_base.html' %}
-{%load crispy_forms_tags %}
+{% load humanize %}
+
+{% block head %}
+    <div class="prices"></div>
+{% endblock %}
 
 {% block content %}
     <div class="hero-content">
         <h1>شماره تلفن خود را جهت رزرو نوبت وارد کنید .</h1>
         <form method="POST">
             {% csrf_token %}
-            {{ form | crispy }}
+            {{ form.as_p }}
             <button type="submit" class="reserve-btn"> دریافت کد اعتبار سنجی </button>
         </form>
     </div>

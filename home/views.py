@@ -4,6 +4,8 @@ from django.http import JsonResponse
 from .models import Time
 from .forms import RequestReservationForm
 import jdatetime
+from .utils import send_temporary
+
 
 
 def home(request):
@@ -31,7 +33,16 @@ def calendar(request):
             reservation = form.save(commit=False)
             reservation.user = request.user
             reservation.save()
-            return redirect('home')
+
+            phone = reservation.user.phone_number
+            name = reservation.user.name
+            miladi_date = form.cleaned_data['suggested_reservation_date']
+            date = jdatetime.date.fromgregorian(date=miladi_date)
+
+            send_temporary(phone, name, date)
+            return redirect('welcome')
     else:
         form = RequestReservationForm()
+
     return render(request, 'home/reservation.html', {'form': form})
+

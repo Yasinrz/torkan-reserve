@@ -1,14 +1,7 @@
-from django.utils.timezone import now
 from django.db import models
 from datetime import date
-from xml.dom import ValidationErr
-from django.core.exceptions import ValidationError
-import jdatetime
-from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import get_user_model
 
-
-# Create your models here.
 
 class Operation(models.Model):
     operation_name = models.CharField(max_length=50, verbose_name='نام عملیات ')
@@ -33,8 +26,6 @@ class OperationSetting(models.Model):
     capacity_materials = models.IntegerField(default=1, verbose_name='حجم مواد')
     zamini = models.BooleanField(verbose_name='ذوب زمینی دارد؟', default=False)
     Product = models.CharField(max_length=20, null=True, blank=True, verbose_name='نام محصول')
-
-    # برای مثال تعداد هر ظرفیت برابر 5 بوته است
 
     def calculation(self):
         Cap = 0
@@ -76,8 +67,7 @@ class OperationSetting(models.Model):
     def display_calculation(self):
         return self.calculation()
 
-    display_calculation.short_description = 'مدت زمان ذوب'  # عنوان ستون در ادمین
-
+    display_calculation.short_description = 'مدت زمان ذوب'  # column name in admin
     class Meta:
         verbose_name = "محاسبه تقریبی زمان"
 
@@ -91,6 +81,8 @@ class RequestReservation(models.Model):
     datetime_created = models.DateTimeField(auto_now_add=True)
     suggested_reservation_date = models.DateField(default=date.today, null=True, blank=True,
                                                   verbose_name='reservation date')
+    suggested_reservation_time = models.TimeField(default='08:00', null=True, blank=True,
+                                                  verbose_name='reservation time')
     status = models.CharField(choices=STATUS_CHOICES, max_length=10, default='pending', verbose_name='status')
 
     def __str__(self):
@@ -107,26 +99,17 @@ class Time(models.Model):
     ]
 
     request_reservation = models.ForeignKey(RequestReservation, on_delete=models.CASCADE,
-                        verbose_name='request reservation', null=True, blank=True)
-
-    shamsi_date = models.DateField(default=jdatetime.date.today, null=True, blank=True, verbose_name='تاریخ ')
-    operation = models.ForeignKey(Operation, on_delete=models.CASCADE, verbose_name='نوع عملیات', null=True, blank=True)
-    volume = models.IntegerField(verbose_name='حجم مواد', null=True, blank=True)
-    unit = models.CharField(choices=Unit, max_length=15, verbose_name='واحد محاسبه', null=True, blank=True)
-    start_session = models.TimeField(verbose_name='از ساعت ', null=True, blank=True, default='08:00')
-    end_session = models.TimeField(verbose_name='تا ساعت ', null=True, blank=True, default='12:00')
-    date_time_reserved = models.DateTimeField(default=now)
-
-    def get_shamsi_date(self):
-        # تبدیل تاریخ میلادی به شمسی برای نمایش
-        print(f"self type: {type(self)}")
-        return jdatetime.date.fromgregorian(date=self.shamsi_date).strftime("%Y/%m/%d")
+                                            verbose_name='request reservation', null=True, blank=True)
+    fix_reserved_date = models.DateField(default=date.today, null=True, blank=True, verbose_name='date')
+    operation = models.ForeignKey(Operation, on_delete=models.CASCADE, verbose_name='operation type', null=True,
+                                  blank=True)
+    volume = models.IntegerField(verbose_name='volume', null=True, blank=True)
+    unit = models.CharField(choices=Unit, max_length=15, verbose_name='unit', null=True, blank=True)
+    start_session = models.TimeField(verbose_name='operation start time', null=True, blank=True, default='08:00')
+    end_session = models.TimeField(verbose_name='operation end time', null=True, blank=True, default='12:00')
+    date_time_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
         if self.request_reservation and self.request_reservation.user:
-            return f"{self.request_reservation.user}{self.shamsi_date}{self.operation}"
-        return f"{self.shamsi_date}{self.operation}"
-
-    class Meta:
-        verbose_name = "رزرو نوبت"
-
+            return f"{self.request_reservation.user}{self.fix_reserved_date}{self.operation}"
+        return f"{self.fix_reserved_date}{self.operation}"

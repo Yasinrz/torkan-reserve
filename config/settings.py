@@ -53,12 +53,12 @@ INSTALLED_APPS = [
     # 3-rd party app
     'django_jalali',
     'jalali_date',
-    # my app
-    'home',
-    'accounts',
     'django.contrib.humanize',
     'crispy_forms',
     'crispy_bootstrap5',
+    # my app
+    'home',
+    'accounts',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -106,14 +106,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': env("DB_NAME"),
-        # 'USER': env("DB_USER"),
-        # 'PASSWORD': env("DB_PASSWORD"),
-        # 'HOST': env("DB_HOST"),
-        # 'PORT': env.int("DB_PORT"),
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env("DB_NAME"),
+        'USER': env("DB_USER"),
+        'PASSWORD': env("DB_PASSWORD"),
+        'HOST': env("DB_HOST"),
+        'PORT': env.int("DB_PORT"),
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -140,7 +140,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fa'
 
 TIME_ZONE = 'Asia/Tehran'
 

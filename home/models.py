@@ -6,18 +6,18 @@ from django.core.exceptions import ValidationError
 import jdatetime
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import get_user_model
-
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 
 class Operation(models.Model):
-    operation_name = models.CharField(max_length=50, verbose_name='نام عملیات ')
+    operation_name = models.CharField(max_length=50, verbose_name=_('Operation name'))
 
     def __str__(self):
         return self.operation_name
 
     class Meta:
-        verbose_name = "عملیات ها"
+        verbose_name = _("Operations")
 
 
 class OperationSetting(models.Model):
@@ -27,12 +27,12 @@ class OperationSetting(models.Model):
         ("kilo", "کیلو گرم")
     ]
 
-    operation = models.ForeignKey(Operation, on_delete=models.CASCADE, verbose_name='نوع عملیات', null=True, blank=True)
-    unit_capacity = models.CharField(choices=Unit, max_length=10, null=True, blank=True, verbose_name='واحد محاسبه ')
-    capacity = models.IntegerField(default=0, verbose_name='تعداد کوره برای انجام این عملیات ')
-    capacity_materials = models.IntegerField(default=1, verbose_name='حجم مواد')
-    zamini = models.BooleanField(verbose_name='ذوب زمینی دارد؟', default=False)
-    Product = models.CharField(max_length=20, null=True, blank=True, verbose_name='نام محصول')
+    operation = models.ForeignKey(Operation, on_delete=models.CASCADE, verbose_name=_('Operation type'), null=True, blank=True)
+    unit_capacity = models.CharField(choices=Unit, max_length=10, null=True, blank=True, verbose_name=_('Unit of calculation'))
+    capacity = models.IntegerField(default=0, verbose_name=_('Number of furnaces'))
+    capacity_materials = models.IntegerField(default=1, verbose_name=_('Material volume'))
+    zamini = models.BooleanField(verbose_name=_('Is there ground melting?'), default=False)
+    Product = models.CharField(max_length=20, null=True, blank=True, verbose_name=_('Product name'))
 
     # برای مثال تعداد هر ظرفیت برابر 5 بوته است
 
@@ -76,10 +76,10 @@ class OperationSetting(models.Model):
     def display_calculation(self):
         return self.calculation()
 
-    display_calculation.short_description = 'مدت زمان ذوب'  # عنوان ستون در ادمین
+    display_calculation.short_description = _('Melting time')  # عنوان ستون در ادمین
 
     class Meta:
-        verbose_name = "محاسبه تقریبی زمان"
+        verbose_name = _('Approximate time')
 
 class RequestReservation(models.Model):
     STATUS_CHOICES = [
@@ -87,17 +87,17 @@ class RequestReservation(models.Model):
         ('approved', 'Approved'),
         ('rejected', 'Rejected'),
     ]
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name='user', )
-    datetime_created = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name=_('User'), )
+    datetime_created = models.DateTimeField(auto_now_add=True , verbose_name=_('Date created'))
     suggested_reservation_date = models.DateField(default=date.today, null=True, blank=True,
-                                                  verbose_name='reservation date')
-    status = models.CharField(choices=STATUS_CHOICES, max_length=10, default='pending', verbose_name='status')
+                                                  verbose_name=_('reservation date'))
+    status = models.CharField(choices=STATUS_CHOICES, max_length=10, default='pending', verbose_name=_('Status'))
 
     def __str__(self):
         return f"{self.user} reserved date [ {self.suggested_reservation_date} ] {self.status}"
 
     class Meta:
-        verbose_name = "درخواست های نوبت"
+        verbose_name = _("Reservation requests")
 
 class Time(models.Model):
     Unit = [
@@ -109,12 +109,12 @@ class Time(models.Model):
     request_reservation = models.ForeignKey(RequestReservation, on_delete=models.CASCADE,
                         verbose_name='request reservation', null=True, blank=True)
 
-    shamsi_date = models.DateField(default=jdatetime.date.today, null=True, blank=True, verbose_name='تاریخ ')
-    operation = models.ForeignKey(Operation, on_delete=models.CASCADE, verbose_name='نوع عملیات', null=True, blank=True)
-    volume = models.IntegerField(verbose_name='حجم مواد', null=True, blank=True)
-    unit = models.CharField(choices=Unit, max_length=15, verbose_name='واحد محاسبه', null=True, blank=True)
-    start_session = models.TimeField(verbose_name='از ساعت ', null=True, blank=True, default='08:00')
-    end_session = models.TimeField(verbose_name='تا ساعت ', null=True, blank=True, default='12:00')
+    shamsi_date = models.DateField(default=jdatetime.date.today, null=True, blank=True, verbose_name='Date')
+    operation = models.ForeignKey(Operation, on_delete=models.CASCADE, verbose_name=_('Operation type'), null=True, blank=True)
+    volume = models.IntegerField(verbose_name=_('Material volume'), null=True, blank=True)
+    unit = models.CharField(choices=Unit, max_length=15, verbose_name=_('Unit of calculation'), null=True, blank=True)
+    start_session = models.TimeField(verbose_name=_('From the clock'), null=True, blank=True, default='08:00')
+    end_session = models.TimeField(verbose_name=_('Up to the hour'), null=True, blank=True, default='12:00')
     date_time_reserved = models.DateTimeField(default=now)
 
     def get_shamsi_date(self):
@@ -128,5 +128,5 @@ class Time(models.Model):
         return f"{self.shamsi_date}{self.operation}"
 
     class Meta:
-        verbose_name = "رزرو نوبت"
+        verbose_name = _("Appointment booking")
 

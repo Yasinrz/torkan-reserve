@@ -1,10 +1,11 @@
 {% extends '_base.html' %}
+{% load i18n %}
 
 {% block content %}
     <div class="hero-content">
-        <h1>نوبت شما به صورت موقت ثبت گردید  </h1>
-        <p> به زودی جهت تنظیم نوبت و رزرو نوبت قطعی با شما تماس خواهیم گرفت </p>
-        <p> از شکیبایی شما سپاس گزاریم</p>
-        <a href="{% url 'home' %}" class="reserve-btn">بازگشت به خانه</a>
+        <h1> {% trans 'Your appointment has been temporarily booked.' %} </h1>
+        <p>{% trans 'We will contact you soon to arrange a definitive reservation.' %} </p>
+        <p>{% trans 'Thank you for your patience.' %}</p>
+        <a href="{% url 'home' %}" class="reserve-btn">{% trans 'return home' %}</a>
     </div>
 {% endblock %}

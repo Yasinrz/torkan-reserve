@@ -1,9 +1,10 @@
 {% extends '_base.html' %}
+{% load i18n %}
 {% load humanize %}
 {% block content %}
     <div class="hero-content">
-        <h1>کارگاه قالکاری ترکان</h1>
-        <p>جهت ذوب فلزات گرانبها خود در کارگاه قالکاری ترکان همین حالا نوبت خود را رزرو کنید.</p>
-        <a href="{% url 'login' %}" class="reserve-btn">رزرو نوبت</a>
+        <h1>{% trans 'Precious metals smelting workshop' %}</h1>
+        <p>{% trans 'Book your appointment now to melt precious metals in our workshop.' %}</p>
+        <a href="{% url 'login' %}" class="reserve-btn">{% trans 'reservation' %}</a>
     </div>
 {% endblock %}

@@ -1,24 +1,23 @@
-
 from django import forms
 from .models import RequestReservation
 from jalali_date.fields import JalaliDateField
 from jalali_date.widgets import AdminJalaliDateWidget
-from django_jalali.admin.widgets import AdminjDateWidget
-from django_jalali.forms import jDateField
 import jdatetime
 
 
 class RequestReservationForm(forms.ModelForm):
-    # suggested_reservation_date = jDateField(widget=AdminjDateWidget)
     class Meta:
         model = RequestReservation
-        fields = ('suggested_reservation_date',)
+        fields = ('suggested_reservation_date', 'suggested_reservation_time', )
+        widgets = {
+            'suggested_reservation_time': forms.TimeInput(attrs={'class': 'form-control big-timepicker'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super(RequestReservationForm, self).__init__(*args, **kwargs)
 
         self.fields['suggested_reservation_date'] = JalaliDateField(
-            label='تقویم',
+            label='Jalali Date',
             widget=AdminJalaliDateWidget
         )
         self.fields['suggested_reservation_date'].widget.attrs.update({'class': 'data-jdp-only-date'})

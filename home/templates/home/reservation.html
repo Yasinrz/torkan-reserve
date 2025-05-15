@@ -1,11 +1,115 @@
 {% extends '_base.html' %}
+{% load crispy_forms_tags %}
 {% load jalali_tags %}
 {% load static %}
 {% block head %}
-{% load crispy_forms_filters %}
-{% load crispy_forms_tags %}
-{#    <link rel="stylesheet" href="{% static 'admin/css/widgets.css' %}">#}
-{#    <link rel="stylesheet" href="{% static 'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css' %}">#}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/fa.js"></script>
+    <link href="{% static 'admin/css/django_jalali.min.css' %}" media="all" rel="stylesheet">
+    <script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+    <script src="{% static 'js/datepicker-config.js' %}"></script>
+    <style>
+        .big-timepicker {
+            font-size: 1.2rem;
+            padding: 0.6rem 1rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .flatpickr-time .arrowUp,
+        .flatpickr-time .arrowDown {
+            display: none !important;
+        }
+
+        .flatpickr-time .custom-arrow-container {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 5px 0;
+            box-sizing: border-box;
+            width: 20px;
+        }
+
+        .flatpickr-time .custom-arrow {
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            cursor: pointer;
+            margin: 0 auto;
+        }
+
+        .flatpickr-time .custom-arrow-up {
+            border-bottom: 8px solid #807105;
+        }
+
+        .flatpickr-time .custom-arrow-down {
+            border-top: 8px solid #807105;
+        }
+
+        .flatpickr-time .numInputWrapper {
+            position: relative;
+            padding-right: 25px;
+        }
+
+        .flatpickr-time input {
+            -webkit-appearance: none !important;
+            -moz-appearance: textfield !important;
+            appearance: none !important;
+            border: none;
+            background: transparent;
+            box-shadow: none;
+            text-align: center;
+            font-size: 18px;
+            width: 100%;
+            padding: 8px 5px;
+        }
+
+        .flatpickr-time input:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .flatpickr-calendar {
+            font-size: 16px;
+            background-color: #fffbea;
+            border-radius: 12px;
+            direction: ltr;
+        }
+
+        @media (max-width: 576px) {
+            .big-timepicker {
+                font-size: 1rem;
+                padding: 0.5rem;
+            }
+
+            .flatpickr-time .numInputWrapper {
+                padding-right: 20px;
+            }
+
+            .flatpickr-time .custom-arrow-container {
+                width: 18px;
+            }
+
+            .flatpickr-time .custom-arrow {
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+            }
+
+            .flatpickr-time .custom-arrow-up {
+                border-bottom: 7px solid #0d6efd;
+            }
+
+            .flatpickr-time .custom-arrow-down {
+                border-top: 7px solid #0d6efd;
+            }
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -13,11 +117,49 @@
         <form method="POST">
             {% csrf_token %}
             {{ form | crispy }}
-            <button type="submit" class="reserve-btn"> reserve </button>
+            <button type="submit" class="reserve-btn"> reserve</button>
         </form>
-        {{ form.media }}
     </div>
-{#<script src="{% static 'admin/js/django_jalali.min.js' %}"></script>#}
-{#<script src="{% static 'admin/js/core.js' %}"></script>#}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            flatpickr(".big-timepicker", {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true,
+                locale: "fa",
+                onReady: function (selectedDates, dateStr, instance) {
+                    setTimeout(function () {
+                        const inputs = instance.timeContainer.querySelectorAll('.numInputWrapper');
+                        inputs.forEach(wrapper => {
+                            wrapper.querySelectorAll('.arrowUp, .arrowDown').forEach(el => el.remove());
+                            const arrowContainer = document.createElement('div');
+                            arrowContainer.className = 'custom-arrow-container';
+                            const arrowUp = document.createElement('div');
+                            arrowUp.className = 'custom-arrow custom-arrow-up';
+                            arrowUp.onclick = function () {
+                                const input = wrapper.querySelector('input');
+                                input.stepUp();
+                                input.dispatchEvent(new Event('change'));
+                            };
+                            const arrowDown = document.createElement('div');
+                            arrowDown.className = 'custom-arrow custom-arrow-down';
+                            arrowDown.onclick = function () {
+                                const input = wrapper.querySelector('input');
+                                input.stepDown();
+                                input.dispatchEvent(new Event('change'));
+                            };
+                            arrowContainer.appendChild(arrowUp);
+                            arrowContainer.appendChild(arrowDown);
+                            // add container to wrapper
+                            wrapper.appendChild(arrowContainer);
+                            // set final style
+                            wrapper.style.position = 'relative';
+                            wrapper.querySelector('input').style.paddingRight = '25px';
+                        });
+                    }, 300);
+                }
+            });
+        });
+    </script>
 {% endblock %}
-

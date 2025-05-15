@@ -1,14 +1,8 @@
-from django.utils.timezone import now
 from django.db import models
 from datetime import date
-from xml.dom import ValidationErr
-from django.core.exceptions import ValidationError
-import jdatetime
-from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
-# Create your models here.
 
 class Operation(models.Model):
     operation_name = models.CharField(max_length=50, verbose_name=_('Operation name'))
@@ -33,8 +27,6 @@ class OperationSetting(models.Model):
     capacity_materials = models.IntegerField(default=1, verbose_name=_('Material volume'))
     zamini = models.BooleanField(verbose_name=_('Is there ground melting?'), default=False)
     Product = models.CharField(max_length=20, null=True, blank=True, verbose_name=_('Product name'))
-
-    # برای مثال تعداد هر ظرفیت برابر 5 بوته است
 
     def calculation(self):
         Cap = 0
@@ -91,6 +83,8 @@ class RequestReservation(models.Model):
     datetime_created = models.DateTimeField(auto_now_add=True , verbose_name=_('Date created'))
     suggested_reservation_date = models.DateField(default=date.today, null=True, blank=True,
                                                   verbose_name=_('reservation date'))
+    suggested_reservation_time = models.TimeField(default='08:00', null=True, blank=True,
+                                                  verbose_name='reservation time')
     status = models.CharField(choices=STATUS_CHOICES, max_length=10, default='pending', verbose_name=_('Status'))
 
     def __str__(self):
@@ -109,24 +103,19 @@ class Time(models.Model):
     request_reservation = models.ForeignKey(RequestReservation, on_delete=models.CASCADE,
                         verbose_name='request reservation', null=True, blank=True)
 
-    shamsi_date = models.DateField(default=jdatetime.date.today, null=True, blank=True, verbose_name='Date')
+    fix_reserved_date = models.DateField(default=date.today, null=True, blank=True, verbose_name='Date')
     operation = models.ForeignKey(Operation, on_delete=models.CASCADE, verbose_name=_('Operation type'), null=True, blank=True)
     volume = models.IntegerField(verbose_name=_('Material volume'), null=True, blank=True)
     unit = models.CharField(choices=Unit, max_length=15, verbose_name=_('Unit of calculation'), null=True, blank=True)
     start_session = models.TimeField(verbose_name=_('From the clock'), null=True, blank=True, default='08:00')
     end_session = models.TimeField(verbose_name=_('Up to the hour'), null=True, blank=True, default='12:00')
-    date_time_reserved = models.DateTimeField(default=now)
+    date_time_created = models.DateTimeField(auto_now_add=True, null=True)
 
-    def get_shamsi_date(self):
-        # تبدیل تاریخ میلادی به شمسی برای نمایش
-        print(f"self type: {type(self)}")
-        return jdatetime.date.fromgregorian(date=self.shamsi_date).strftime("%Y/%m/%d")
 
     def __str__(self):
         if self.request_reservation and self.request_reservation.user:
-            return f"{self.request_reservation.user}{self.shamsi_date}{self.operation}"
-        return f"{self.shamsi_date}{self.operation}"
+            return f"{self.request_reservation.user}{self.fix_reserved_date}{self.operation}"
+        return f"{self.fix_reserved_date}{self.operation}"
 
     class Meta:
         verbose_name = _("Appointment booking")
-

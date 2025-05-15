@@ -51,7 +51,10 @@ def calendar(request):
             for admin in admin_users:
                 phone_admin = admin.phone_number
                 miladi_date = form.cleaned_data['suggested_reservation_date']
-                date_request = jdatetime.date.fromgregorian(date=miladi_date)
+                shamsi_date = jdatetime.date.fromgregorian(date=miladi_date)
+                date_request = shamsi_date.strftime('%Y/%m/%d')
+
+
                 phone_user = reservation.user.phone_number
 
                 send_sms_to_admin(admin.phone_number , date_request, phone_user ,name )

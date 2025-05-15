@@ -1,0 +1,81 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-14 10:44+0330\n"
+"PO-Revision-Date: 2025-05-14 10:45+0330\n"
+"Last-Translator: Anonymous User <anonymous@user.tld>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Translated-Using: django-rosetta 0.10.2\n"
+
+#: .\forms.py:13
+#| msgid "Password1"
+msgid "Password"
+msgstr "رمز عبور "
+
+#: .\forms.py:14
+#| msgid "Confirm Password"
+msgid "Confirm password"
+msgstr "تکرار گذرواژه"
+
+#: .\models.py:32
+msgid "phone number"
+msgstr "شماره همراه"
+
+#: .\models.py:33
+msgid "First and last name"
+msgstr "نام و نام خانوادگی"
+
+#: .\models.py:34
+msgid "is active ?"
+msgstr "فغال است؟"
+
+#: .\models.py:35
+msgid "is staff ?"
+msgstr "کارمند است؟"
+
+#: .\models.py:36
+msgid "is superuser ?"
+msgstr "ادمین است؟"
+
+#: .\models.py:37
+msgid "date joined"
+msgstr "تاریخ عضویت"
+
+#: .\templates\registration\login.html:12
+msgid "Enter your phone number to book an appointment."
+msgstr "شماره تلفن خود را جهت رزرو نوبت وارد کنید."
+
+#: .\templates\registration\login.html:16
+msgid "Get validation code"
+msgstr "دریافت کد اعتبار سنجی"
+
+#: .\templates\registration\verify.html:12
+msgid "verification"
+msgstr "تایید کد "
+
+#: .\templates\registration\welcome.html:6
+msgid "Your appointment has been temporarily booked."
+msgstr "نوبت شما به صورت موقت ثبت گردید"
+
+#: .\templates\registration\welcome.html:7
+msgid "We will contact you soon to arrange a definitive reservation."
+msgstr " به زودی جهت تنظیم رزرو نوبت قطعی با شما تماس خواهیم گرفت ."
+
+#: .\templates\registration\welcome.html:8
+msgid "Thank you for your patience."
+msgstr "از شکیبایی شما سپاسگزاریم"
+
+#: .\templates\registration\welcome.html:9
+msgid "return home"
+msgstr "بازگشت به خانه"

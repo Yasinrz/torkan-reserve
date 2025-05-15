@@ -32,7 +32,7 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DJANGO_DEBUG", False)
 
-ALLOWED_HOSTS = ['87.107.155.246', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = []
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
@@ -54,13 +54,12 @@ INSTALLED_APPS = [
     'rosetta',
     'django_jalali',
     'jalali_date',
-
-    # my app
-    'home',
-    'accounts',
     'django.contrib.humanize',
     'crispy_forms',
     'crispy_bootstrap5',
+    # my app
+    'home',
+    'accounts',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -108,14 +107,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'my_postgres_new',
-        # 'USER': 'myuser',
-        # 'PASSWORD': 'mypassword',
-        # 'HOST': 'localhost',
-        # 'PORT': '5432',
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env("DB_NAME"),
+        'USER': env("DB_USER"),
+        'PASSWORD': env("DB_PASSWORD"),
+        'HOST': env("DB_HOST"),
+        'PORT': env.int("DB_PORT"),
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -183,5 +182,3 @@ AUTH_USER_MODEL = 'accounts.User'
 LOGIN_REDIRECT_URL = 'reservation'
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
-
-

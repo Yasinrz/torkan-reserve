@@ -30,9 +30,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DJANGO_DEBUG", False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['87.107.155.246', 'localhost', '127.0.0.1']
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
@@ -51,8 +51,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # 3-rd party app
+    'rosetta',
     'django_jalali',
     'jalali_date',
+
     # my app
     'home',
     'accounts',
@@ -107,11 +109,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': env("DB_NAME"),
-        # 'USER': env("DB_USER"),
-        # 'PASSWORD': env("DB_PASSWORD"),
-        # 'HOST': env("DB_HOST"),
-        # 'PORT': env.int("DB_PORT"),
+        # 'NAME': 'my_postgres_new',
+        # 'USER': 'myuser',
+        # 'PASSWORD': 'mypassword',
+        # 'HOST': 'localhost',
+        # 'PORT': '5432',
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
@@ -140,8 +142,15 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fa-ir'
 
+LANGUAGES = (
+    ('en', 'English'),
+    ('fa', 'Persian'),
+)
+
+# TIME_ZONE = 'UTC'
 TIME_ZONE = 'Asia/Tehran'
 
 USE_I18N = True
@@ -174,3 +183,5 @@ AUTH_USER_MODEL = 'accounts.User'
 LOGIN_REDIRECT_URL = 'reservation'
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
+
+

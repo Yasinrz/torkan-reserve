@@ -1,5 +1,6 @@
 {% extends '_base.html' %}
 {% load crispy_forms_filters %}
+{% load i18n %}
 {% load crispy_forms_tags %}
 {% block content %}
    <div class="hero-content">
@@ -8,7 +9,7 @@
 
             {{ form | crispy }}
 {#             <h3>-------------------------------------</h3>#}
-            <button type="submit" class="reserve-btn">  تایید کد  </button>
+            <button type="submit" class="reserve-btn"> {% trans 'verification' %}  </button>
 
             </form>
    </div>

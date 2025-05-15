@@ -4,13 +4,14 @@ from .models import User
 from home.models import Time
 from django import forms
 from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Field, Submit
 
 
 class CustomUserCreationForm(forms.ModelForm):
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput, required=False)
-    password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput, required=False)
+    password1 = forms.CharField(label=_('Password'), widget=forms.PasswordInput, required=False)
+    password2 = forms.CharField(label=_('Confirm password'), widget=forms.PasswordInput, required=False)
 
     class Meta:
         model = User

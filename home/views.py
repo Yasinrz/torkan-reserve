@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from .models import Time
 from .forms import RequestReservationForm
 import jdatetime
-from .utils import send_temporary
+from .utils import send_temporary , send_sms_to_admin
 
 
 
@@ -37,9 +37,25 @@ def calendar(request):
             phone = reservation.user.phone_number
             name = reservation.user.name
             miladi_date = form.cleaned_data['suggested_reservation_date']
-            date = jdatetime.date.fromgregorian(date=miladi_date)
+            shamsi_date = jdatetime.date.fromgregorian(date=miladi_date)
+            date = shamsi_date.strftime('%Y/%m/%d')
+
 
             send_temporary(phone, name, date)
+            print('sms ok')
+
+            User = get_user_model()
+            admin_users = User.objects.filter(is_superuser=True)
+
+            for admin in admin_users:
+                phone_admin = admin.phone_number
+                miladi_date = form.cleaned_data['suggested_reservation_date']
+                date_request = jdatetime.date.fromgregorian(date=miladi_date)
+                phone_user = reservation.user.phone_number
+
+                send_sms_to_admin(admin.phone_number , date_request, phone_user ,name )
+
+
             return redirect('welcome')
     else:
         form = RequestReservationForm()

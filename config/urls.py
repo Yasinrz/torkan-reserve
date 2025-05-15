@@ -21,4 +21,11 @@ urlpatterns = [
         path('admin/', admin.site.urls),
         path('',include('home.urls')),
         path('accounts/', include('accounts.urls')),
+
+
+        # Rosetta (i18n)
+        path('rosetta/',include('rosetta.urls')),
+
 ]
+
+

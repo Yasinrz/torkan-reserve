@@ -8,86 +8,95 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-14 10:26+0330\n"
-"PO-Revision-Date: 2025-05-14 10:29+0330\n"
+"POT-Creation-Date: 2025-05-15 13:50+0330\n"
+"PO-Revision-Date: 2025-05-15 13:50+0330\n"
 "Last-Translator: Anonymous User <anonymous@user.tld>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Translated-Using: django-rosetta 0.10.2\n"
 
-#: .\models.py:14
+#: .\forms.py:21
+msgid "Requested Data Reservation "
+msgstr "تاریخ پیشنهادی نوبت"
+
+#: .\models.py:8
 msgid "Operation name"
 msgstr "نام عملیات"
 
-#: .\models.py:20
+#: .\models.py:14
 msgid "Operations"
 msgstr "عملیات ها "
 
-#: .\models.py:30 .\models.py:113
+#: .\models.py:24 .\models.py:107
 msgid "Operation type"
 msgstr "نوع عملیات"
 
-#: .\models.py:31 .\models.py:115
+#: .\models.py:25 .\models.py:109
 msgid "Unit of calculation"
 msgstr "واحد محاسبه"
 
-#: .\models.py:32
+#: .\models.py:26
 msgid "Number of furnaces"
 msgstr "تعداد کوره برای عملیات"
 
-#: .\models.py:33 .\models.py:114
+#: .\models.py:27 .\models.py:108
 msgid "Material volume"
 msgstr "حجم مواد"
 
-#: .\models.py:34
+#: .\models.py:28
 msgid "Is there ground melting?"
 msgstr "ذوب زمینی دارد ؟"
 
-#: .\models.py:35
+#: .\models.py:29
 msgid "Product name"
 msgstr "نام محصول"
 
-#: .\models.py:79
+#: .\models.py:71
 msgid "Melting time"
 msgstr "زمان ذوب"
 
-#: .\models.py:82
+#: .\models.py:74
 msgid "Approximate time"
 msgstr "زمان تقریبی"
 
-#: .\models.py:90
+#: .\models.py:82
 msgid "User"
 msgstr "کاربر"
 
-#: .\models.py:91
+#: .\models.py:83
 msgid "Date created"
 msgstr "تاریخ ایجاد"
 
-#: .\models.py:93
-#| msgid "reservation"
+#: .\models.py:85
 msgid "reservation date"
 msgstr "تاریخ رزرو "
 
-#: .\models.py:94
+#: .\models.py:87
+#| msgid "reservation time"
+msgid "suggested reservation time"
+msgstr "ساعت پیشنهادی نوبت"
+
+#: .\models.py:88
 msgid "Status"
 msgstr "وضعیت"
 
-#: .\models.py:100
+#: .\models.py:94
 msgid "Reservation requests"
 msgstr " درخواست رزرو نوبت"
 
-#: .\models.py:116
+#: .\models.py:110
 msgid "From the clock"
 msgstr "از ساعت "
 
-#: .\models.py:117
+#: .\models.py:111
 msgid "Up to the hour"
 msgstr "تا ساعت"
 
-#: .\models.py:131
+#: .\models.py:121
 msgid "Appointment booking"
 msgstr "رزرو نوبت "
 
@@ -101,4 +110,8 @@ msgstr "جهت ذوب فلزات گرانبها خود همین حالا نوب�
 
 #: .\templates\home\home.html:8
 msgid "reservation"
+msgstr "رزرو نوبت"
+
+#: .\templates\home\reservation.html:121
+msgid "reserve"
 msgstr "رزرو نوبت"

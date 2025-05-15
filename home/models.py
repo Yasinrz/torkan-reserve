@@ -84,7 +84,7 @@ class RequestReservation(models.Model):
     suggested_reservation_date = models.DateField(default=date.today, null=True, blank=True,
                                                   verbose_name=_('reservation date'))
     suggested_reservation_time = models.TimeField(default='08:00', null=True, blank=True,
-                                                  verbose_name='reservation time')
+                                                  verbose_name=_('suggested reservation time'))
     status = models.CharField(choices=STATUS_CHOICES, max_length=10, default='pending', verbose_name=_('Status'))
 
     def __str__(self):

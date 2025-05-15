@@ -1,6 +1,7 @@
 {% extends '_base.html' %}
 {% load crispy_forms_tags %}
 {% load jalali_tags %}
+{% load i18n %}
 {% load static %}
 {% block head %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -117,7 +118,7 @@
         <form method="POST">
             {% csrf_token %}
             {{ form | crispy }}
-            <button type="submit" class="reserve-btn"> reserve</button>
+            <button type="submit" class="reserve-btn"> {% trans 'reserve' %} </button>
         </form>
     </div>
     <script>

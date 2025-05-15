@@ -37,3 +37,4 @@ pip~=23.2.1
 PySocks~=1.7.1
 pillow~=11.1.0
 django-crispy-forms~=2.4
+persiantools~=5.2.0

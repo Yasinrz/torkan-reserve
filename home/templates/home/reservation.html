@@ -117,6 +117,8 @@
     <div class="hero-content">
         <form method="POST">
             {% csrf_token %}
+            <p> {% trans 'Please enter your suggested time to book an appointment.' %} </p>
+            <p><strong>{% trans 'Note that the time you select is not guaranteed.'%}</strong></p>
             {{ form | crispy }}
             <button type="submit" class="reserve-btn"> {% trans 'reserve' %} </button>
         </form>

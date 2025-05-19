@@ -4,19 +4,28 @@ services:
 
   web:
     build: .
-    command: python /code/manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/code
+    container_name: django-torkan-reserve
     depends_on:
       - db
     env_file:
       - .env
+    volumes:
+      - ./staticfiles:/code/staticfiles
     ports:
       - "8000:8000"
 
     environment:
-      - "DJANGO_DEBUG=True"
+      - "DJANGO_DEBUG=False"
 
+  web_server:
+    image: nginx:stable-alpine3.21
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./staticfiles:/static:ro
+    depends_on:
+      - web
   db:
     image: postgres:17.0
     ports:
@@ -24,6 +33,11 @@ services:
     env_file:
       - .env
 
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
     environment:
       - "POSTGRES_USER=${DB_USER}"
       - "POSTGRES_PASSWORD=${DB_PASSWORD}"
+volumes:
+  postgres_data:

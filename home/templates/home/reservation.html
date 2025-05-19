@@ -1,6 +1,7 @@
 {% extends '_base.html' %}
 {% load crispy_forms_tags %}
 {% load jalali_tags %}
+{% load i18n %}
 {% load static %}
 {% block head %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -116,8 +117,10 @@
     <div class="hero-content">
         <form method="POST">
             {% csrf_token %}
+            <p> {% trans 'Please enter your suggested time to book an appointment.' %} </p>
+            <p><strong>{% trans 'Note that the time you select is not guaranteed.'%}</strong></p>
             {{ form | crispy }}
-            <button type="submit" class="reserve-btn"> reserve</button>
+            <button type="submit" class="reserve-btn"> {% trans 'reserve' %} </button>
         </form>
     </div>
     <script>

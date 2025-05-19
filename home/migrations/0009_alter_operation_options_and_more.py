@@ -75,7 +75,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='time',
-            name='shamsi_date',
+            name='fix_reserved_date',
             field=models.DateField(blank=True, default=jdatetime.date.today, null=True, verbose_name='Date'),
         ),
         migrations.AlterField(

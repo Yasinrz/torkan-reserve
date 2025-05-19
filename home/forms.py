@@ -3,6 +3,7 @@ from .models import RequestReservation
 from jalali_date.fields import JalaliDateField
 from jalali_date.widgets import AdminJalaliDateWidget
 import jdatetime
+from django.utils.translation import gettext_lazy as _
 
 
 class RequestReservationForm(forms.ModelForm):
@@ -17,7 +18,7 @@ class RequestReservationForm(forms.ModelForm):
         super(RequestReservationForm, self).__init__(*args, **kwargs)
 
         self.fields['suggested_reservation_date'] = JalaliDateField(
-            label='Jalali Date',
+            label=_('Requested Data Reservation '),
             widget=AdminJalaliDateWidget
         )
         self.fields['suggested_reservation_date'].widget.attrs.update({'class': 'data-jdp-only-date'})

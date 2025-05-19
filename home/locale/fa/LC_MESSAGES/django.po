@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-19 09:33+0330\n"
-"PO-Revision-Date: 2025-05-19 09:36+0330\n"
+"PO-Revision-Date: 2025-05-19 09:50+0330\n"
 "Last-Translator: Anonymous User <anonymous@user.tld>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -106,7 +106,7 @@ msgstr "یادآوری نوبت ها"
 #: .\templates\home\dashbord.html:7
 #| msgid "Number of furnaces"
 msgid "Total number of turns:"
-msgstr "تعداد کوره برای عملیات"
+msgstr "تعداد کل نوبت ها"
 
 #: .\templates\home\dashbord.html:9
 msgid "Today's shifts"

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
 from .models import Time
@@ -67,7 +68,7 @@ def calendar(request):
 
     return render(request, 'home/reservation.html', {'form': form})
 
-
+@staff_member_required
 def dashbord(request):
     today = date.today()
     today_reserve = Time.objects.filter(fix_reserved_date=today)

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-14 10:44+0330\n"
-"PO-Revision-Date: 2025-05-14 10:45+0330\n"
+"POT-Creation-Date: 2025-05-19 09:14+0330\n"
+"PO-Revision-Date: 2025-05-19 09:18+0330\n"
 "Last-Translator: Anonymous User <anonymous@user.tld>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,12 +19,10 @@ msgstr ""
 "X-Translated-Using: django-rosetta 0.10.2\n"
 
 #: .\forms.py:13
-#| msgid "Password1"
 msgid "Password"
 msgstr "رمز عبور "
 
 #: .\forms.py:14
-#| msgid "Confirm Password"
 msgid "Confirm password"
 msgstr "تکرار گذرواژه"
 
@@ -60,9 +58,26 @@ msgstr "شماره تلفن خود را جهت رزرو نوبت وارد کنی
 msgid "Get validation code"
 msgstr "دریافت کد اعتبار سنجی"
 
-#: .\templates\registration\verify.html:12
+#: .\templates\registration\verify.html:21
+#| msgid "verification"
+msgid "Phone number verification"
+msgstr "تأیید شماره تلفن"
+
+#: .\templates\registration\verify.html:22
+msgid "Please enter the 4-digit code sent to your number."
+msgstr "لطفا کد ۴ رقمی ارسال شده به شماره خود را وارد کنید"
+
+#: .\templates\registration\verify.html:27
 msgid "verification"
 msgstr "تایید کد "
+
+#: .\templates\registration\verify.html:31
+msgid "Didn't receive a code?"
+msgstr "کدی دریافت نکردید؟"
+
+#: .\templates\registration\verify.html:31
+msgid "Resend"
+msgstr "ارسال مجدد"
 
 #: .\templates\registration\welcome.html:6
 msgid "Your appointment has been temporarily booked."

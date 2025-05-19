@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
 from .models import Time
 from .forms import RequestReservationForm
 import jdatetime
 from .utils import send_temporary , send_sms_to_admin
+from datetime import date
 
 
 
@@ -65,4 +67,41 @@ def calendar(request):
         form = RequestReservationForm()
 
     return render(request, 'home/reservation.html', {'form': form})
+
+@staff_member_required
+def dashbord(request):
+    today = date.today()
+    today_reserve = Time.objects.filter(fix_reserved_date=today)
+    upcoming = Time.objects.filter(fix_reserved_date__gt=today).order_by('fix_reserved_date')[:10]
+    total = Time.objects.count()
+    print("TODAY:", today)
+
+    return render(request, 'home/dashbord.html', {
+
+        'today_reserve': today_reserve,
+        'upcoming': upcoming,
+        'total': total,
+
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-15 14:05+0330\n"
-"PO-Revision-Date: 2025-05-15 14:07+0330\n"
+"POT-Creation-Date: 2025-05-19 09:33+0330\n"
+"PO-Revision-Date: 2025-05-19 09:50+0330\n"
 "Last-Translator: Anonymous User <anonymous@user.tld>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -99,15 +99,40 @@ msgstr "تا ساعت"
 msgid "Appointment booking"
 msgstr "رزرو نوبت "
 
-#: .\templates\home\home.html:6
+#: .\templates\home\dashbord.html:6
+msgid "Reminder of appointments"
+msgstr "یادآوری نوبت ها"
+
+#: .\templates\home\dashbord.html:7
+#| msgid "Number of furnaces"
+msgid "Total number of turns:"
+msgstr "تعداد کل نوبت ها"
+
+#: .\templates\home\dashbord.html:9
+msgid "Today's shifts"
+msgstr "نوبت های امروز:"
+
+#: .\templates\home\dashbord.html:14
+msgid "No appointments are scheduled today."
+msgstr "نوبتی برای امروز ثبت نشده "
+
+#: .\templates\home\dashbord.html:18
+msgid "Future turns"
+msgstr "نوبت های آینده"
+
+#: .\templates\home\dashbord.html:23
+msgid "No future turn recorded."
+msgstr "نوبتی برای آینده ثبت نشده"
+
+#: .\templates\home\home.html:14
 msgid "Precious metals smelting workshop"
 msgstr "کارگاه قالکاری ترکان "
 
-#: .\templates\home\home.html:7
+#: .\templates\home\home.html:15
 msgid "Book your appointment now to melt precious metals in our workshop."
 msgstr "جهت ذوب فلزات گرانبها خود همین حالا نوبت خود را رزرو کنید."
 
-#: .\templates\home\home.html:8
+#: .\templates\home\home.html:16
 msgid "reservation"
 msgstr "رزرو نوبت"
 

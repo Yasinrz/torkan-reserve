@@ -9,7 +9,7 @@
 
 {% block content %}
     <div class="hero-content">
-        <h1>{% trans 'Enter your phone number to book an appointment.' %}</h1>
+        <h2>{% trans 'Enter your phone number to book an appointment.' %}</h2>
         <form method="POST">
             {% csrf_token %}
             {{ form | crispy }}

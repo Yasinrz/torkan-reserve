@@ -105,7 +105,7 @@ def send_sms_to_admin(phone_admin, date_request ,phone_user , name):
 
     params = {
         "receptor":phone_admin,
-        "template": "temporary",
+        "template": "smsadmin",
         "token10": name,
         "token": phone_user,
         "token2": date_request,

@@ -1,0 +1,27 @@
+{% extends '_base.html' %}
+{% load jformat %}
+{% block content %}
+{% load i18n %}    
+<div class="hero-content">
+    <h1>{% trans 'Reminder of appointments' %}</h1>
+    <p>{% trans 'Total number of turns:' %}{{ total }}</p>
+
+    <h3>{% trans "Today's shifts" %}</h3>
+    <ul>
+        {% for app in today_reserve %}
+            <li>{{ app.fix_reserved_date |to_jalali }} - {{ app.request_reservation.user }}</li>
+        {% empty %}
+            <li>{% trans "No appointments are scheduled today." %}</li>
+        {% endfor %}
+    </ul>    
+
+    <h3>{% trans 'Future turns' %}</h3>
+    <ul>
+        {% for app in upcoming %}
+            <li>{{ app.fix_reserved_date|to_jalali }} - {{ app.request_reservation.user }}</li>
+        {% empty %}
+            <li>{% trans 'No future turn recorded.' %}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

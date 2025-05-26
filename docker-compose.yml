@@ -10,22 +10,28 @@ services:
     env_file:
       - .env
     volumes:
-      - ./staticfiles:/code/staticfiles
+      - ./static:/code/static
+      -  static_volume:/code/staticfiles
     ports:
       - "8000:8000"
 
     environment:
       - "DJANGO_DEBUG=False"
+    restart: always
 
   web_server:
     image: nginx:stable-alpine3.21
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./staticfiles:/static:ro
+      - static_volume:/static:ro
+      - ./acme-challenge:/var/www/html/.well-known/acme-challenge:ro
+      - ~/ssl_certs/zarnobat.ir:/etc/nginx/ssl:ro
     depends_on:
       - web
+    restart: always
   db:
     image: postgres:17.0
     ports:
@@ -39,5 +45,7 @@ services:
     environment:
       - "POSTGRES_USER=${DB_USER}"
       - "POSTGRES_PASSWORD=${DB_PASSWORD}"
+    restart: always
 volumes:
   postgres_data:
+  static_volume:

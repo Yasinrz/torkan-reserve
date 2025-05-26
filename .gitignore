@@ -1,6 +1,7 @@
 __pycache__/
 db.sqlite3
 __pypackages__/
+acme-challenge
 # Environments
 .env
 .venv

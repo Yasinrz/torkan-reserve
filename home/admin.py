@@ -1,22 +1,17 @@
 from django.contrib import admin
 import jdatetime
-from jalali_date.widgets import AdminJalaliDateWidget
-from django.db import models
-from django_jalali.admin.widgets import AdminjDateWidget
-from .models import Time, Operation, OperationSetting, RequestReservation
-from django_jalali.admin.filters import JDateFieldListFilter
 from jalali_date.admin import ModelAdminJalaliMixin
 from jalali_date import date2jalali
 from .models import Time, Operation, OperationSetting, RequestReservation
 from .utils import send_reservation_sms
+from django.utils.translation import gettext_lazy as _
 
 
 @admin.register(Time)
 class TimeAdmin(ModelAdminJalaliMixin, admin.ModelAdmin):
-    list_display = ('request_reservation', 'fix_reserved_date', 'start_session', 'volume', 'unit')
+    list_display = ('request_reservation', 'format_date', 'start_session', 'volume', 'unit')
     search_fields = ('request_reservation__user__name', 'request_reservation__user__phone_number')
     ordering = ('-fix_reserved_date',)
-    readonly_fields = ('date_time_created',)
     autocomplete_fields = ('request_reservation',)
 
     def save_model(self, request, obj, form, change):
@@ -33,9 +28,9 @@ class TimeAdmin(ModelAdminJalaliMixin, admin.ModelAdmin):
         send_reservation_sms(phone, name, date)
 
 
-    @admin.display(description='fixed_reserved_date')
-    def get_jalali_date(self, obj):
-        return date2jalali(obj.date).strftime('%Y/%m/%d')
+    @admin.display(description=_('Reservation date'))
+    def format_date(self, obj):
+        return date2jalali(obj.fix_reserved_date).strftime('%Y/%m/%d')
 
 
 @admin.register(Operation)

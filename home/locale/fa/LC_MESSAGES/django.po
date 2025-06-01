@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-30 02:13+0330\n"
-"PO-Revision-Date: 2025-05-30 02:14+0330\n"
+"POT-Creation-Date: 2025-05-30 17:10+0330\n"
+"PO-Revision-Date: 2025-05-30 17:11+0330\n"
 "Last-Translator: Anonymous User <anonymous@user.tld>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -20,13 +20,16 @@ msgstr ""
 "X-Translated-Using: django-rosetta 0.10.2\n"
 
 #: .\admin.py:31
-#| msgid "reservation date"
 msgid "Reservation date"
 msgstr "تاریخ رزرو "
 
 #: .\forms.py:21
 msgid "Requested Data Reservation "
 msgstr "تاریخ پیشنهادی نوبت"
+
+#: .\forms.py:34
+msgid "you can't reserve on Friday"
+msgstr "روز جمعه قابل رزرو نمی‌باشد."
 
 #: .\models.py:8
 msgid "Operation name"
@@ -144,14 +147,14 @@ msgstr "جهت ذوب فلزات گرانبها خود همین حالا نوب�
 msgid "reservation"
 msgstr "رزرو نوبت"
 
-#: .\templates\home\reservation.html:120
+#: .\templates\home\reservation.html:137
 msgid "Please enter your suggested time to book an appointment."
 msgstr "لطفا زمان پیشنهادی خود را جهت رزور نوبت وارد کنید."
 
-#: .\templates\home\reservation.html:121
+#: .\templates\home\reservation.html:138
 msgid "Note that the time you select is not guaranteed."
 msgstr "توجه کنید زمان تعیین شده قطعی نمی باشد."
 
-#: .\templates\home\reservation.html:123
+#: .\templates\home\reservation.html:158
 msgid "reserve"
 msgstr "رزرو نوبت"

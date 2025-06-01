@@ -29,7 +29,10 @@ class RequestReservationForm(forms.ModelForm):
         if isinstance(date, jdatetime.date):
             # Convert Jalali date to Gregorian date
             gregorian_date = date.togregorian()
-
-        if gregorian_date.weekday() == 4:
+        if gregorian_date < jdatetime.date.today().togregorian():
+            raise forms.ValidationError(_("you can't reserve in the past"))
+        elif gregorian_date > jdatetime.date.today().togregorian() + jdatetime.timedelta(days=7):
+            raise forms.ValidationError(_("you can reserve only for the next 7 days"))
+        elif gregorian_date.weekday() == 4:
             raise forms.ValidationError(_("you can't reserve on Friday"))
         return gregorian_date

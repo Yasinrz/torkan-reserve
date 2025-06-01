@@ -15,19 +15,6 @@ def home(request):
     return render(request, 'home/home.html')
 
 
-def reservation_api(request):
-    reservations = Time.objects.all()
-    events = [
-        {
-            'title': 'رزرو شده',
-            'start': jdatetime.date.fromgregorian(date=res.shamsi_date).isoformat(),
-            'color': 'red'
-        }
-        for res in reservations
-    ]
-    return JsonResponse(events, safe=False)
-
-
 @login_required
 def calendar(request):
     if request.method == 'POST':

@@ -6,9 +6,9 @@ from django.contrib.auth import get_user_model
 from .models import Time
 from .forms import RequestReservationForm
 import jdatetime
-from .utils import send_temporary , send_sms_to_admin
+from .utils import send_temporary, send_sms_to_admin
 from datetime import date
-
+from django.contrib import messages
 
 
 def home(request):
@@ -43,7 +43,6 @@ def calendar(request):
             shamsi_date = jdatetime.date.fromgregorian(date=miladi_date)
             date = shamsi_date.strftime('%Y/%m/%d')
 
-
             send_temporary(phone, name, date)
             print('sms ok')
 
@@ -56,17 +55,21 @@ def calendar(request):
                 shamsi_date = jdatetime.date.fromgregorian(date=miladi_date)
                 date_request = shamsi_date.strftime('%Y/%m/%d')
 
-
                 phone_user = reservation.user.phone_number
 
-                send_sms_to_admin(admin.phone_number , date_request, phone_user ,name )
-
+                send_sms_to_admin(admin.phone_number, date_request, phone_user, name)
 
             return redirect('welcome')
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, error)
+            return redirect('calendar')
     else:
         form = RequestReservationForm()
 
     return render(request, 'home/reservation.html', {'form': form})
+
 
 @staff_member_required
 def dashbord(request):
@@ -83,25 +86,3 @@ def dashbord(request):
         'total': total,
 
     })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

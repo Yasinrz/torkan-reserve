@@ -85,14 +85,14 @@
             position: absolute;
             left: 10px;
             top: 50%;
-            color: #aaa;
+            color: #6b5f12;
         }
 
         .flatpickr-time-icon-inside {
             position: absolute;
             left: 10px;
             top: 50%;
-            color: #aaa;
+            color: #6b5f12;
         }
 
     </style>
@@ -118,11 +118,11 @@
                 {% endfor %}
             {% endif %}
 
-            <div>
+            <div class="position-relative">
                 <i class="bi bi-calendar-event calendar-icon-inside"></i>
                 {{ form.suggested_reservation_date | as_crispy_field }}
             </div>
-            <div>
+            <div class="position-relative">
                 <i class="bi bi-clock flatpickr-time-icon-inside"></i>
                 {{ form.suggested_reservation_time | as_crispy_field }}
             </div>

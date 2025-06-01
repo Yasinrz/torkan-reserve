@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-30 17:10+0330\n"
-"PO-Revision-Date: 2025-05-30 17:11+0330\n"
+"POT-Creation-Date: 2025-06-01 20:30+0330\n"
+"PO-Revision-Date: 2025-06-01 20:32+0330\n"
 "Last-Translator: Anonymous User <anonymous@user.tld>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -27,7 +27,16 @@ msgstr "تاریخ رزرو "
 msgid "Requested Data Reservation "
 msgstr "تاریخ پیشنهادی نوبت"
 
-#: .\forms.py:34
+#: .\forms.py:33
+msgid "you can't reserve in the past"
+msgstr "روز‌های گذشته قابل رزرو نمی‌باشد."
+
+#: .\forms.py:35
+#| msgid "you can't reserve in the past"
+msgid "you can reserve only for the next 7 days"
+msgstr "تا یک هفته بعد قابل رزرو می‌باشد."
+
+#: .\forms.py:37
 msgid "you can't reserve on Friday"
 msgstr "روز جمعه قابل رزرو نمی‌باشد."
 
@@ -147,14 +156,14 @@ msgstr "جهت ذوب فلزات گرانبها خود همین حالا نوب�
 msgid "reservation"
 msgstr "رزرو نوبت"
 
-#: .\templates\home\reservation.html:137
+#: .\templates\home\reservation.html:106
 msgid "Please enter your suggested time to book an appointment."
 msgstr "لطفا زمان پیشنهادی خود را جهت رزور نوبت وارد کنید."
 
-#: .\templates\home\reservation.html:138
+#: .\templates\home\reservation.html:107
 msgid "Note that the time you select is not guaranteed."
 msgstr "توجه کنید زمان تعیین شده قطعی نمی باشد."
 
-#: .\templates\home\reservation.html:158
+#: .\templates\home\reservation.html:129
 msgid "reserve"
 msgstr "رزرو نوبت"

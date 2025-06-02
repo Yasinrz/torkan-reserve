@@ -39,12 +39,13 @@
             background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
             position: fixed;
-            height: 60px;
             width: 100%;
-            top: 0;
             z-index: 1000;
             border-bottom: 1px solid rgba(255, 215, 0, 0.5);
-            display: inline-list-item;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            padding-right: 15px;
         }
 
         .form-control {
@@ -71,15 +72,13 @@
         }
 
         .price-line {
-            font-size: 13px;
-            white-space: nowrap;
-            overflow-x: auto;
-            padding: 5px 0;
+            font-size: 0.75rem;
+            padding: 10px;
             display: flex;
             justify-content: center;
-            align-items: center;
-            gap: 10px;
-            flex: 1;
+            flex-wrap: wrap;
+            background: transparent;
+            direction: rtl;
         }
 
         .price-line span {
@@ -99,17 +98,18 @@
         }
 
         nav ul {
+            display: flex;
+            gap: 20px;
             list-style: none;
-            display: inline-flex;
-            gap: 25px;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
         }
 
-        nav ul li a {
-            color: #333;
+        nav li a {
             text-decoration: none;
+            color: black;
             font-weight: bold;
-            transition: all 0.3s ease;
-            font-size: 1rem;
         }
 
         nav ul li a:hover {
@@ -118,7 +118,7 @@
 
         .hero-section {
             min-height: calc(100vh - 60px);
-            padding-top: 60px;
+            padding-top: 75px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -223,16 +223,22 @@
 
 
         @media screen and (max-width: 768px) {
+            nav {
+                justify-content: center;
+            }
+
+            nav ul {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
 
             .logo img {
                 height: 40px;
             }
 
             .price-line {
-                flex-wrap: wrap;
-                justify-content: center;
-                font-size: 12px;
-                margin: 10px 0;
+                font-size: 0.65rem;
             }
 
             .hero-content {

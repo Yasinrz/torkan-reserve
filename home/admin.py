@@ -25,10 +25,10 @@ class TimeAdmin(ModelAdminJalaliMixin, admin.ModelAdmin):
         date = shamsi_date.strftime('%Y/%m/%d')
         send_reservation_sms(phone, name, date)
 
-
     @admin.display(description=_('Reservation date'))
     def format_date(self, obj):
         return date2jalali(obj.fix_reserved_date).strftime('%Y/%m/%d')
+
     @admin.display(description=_('Request reservation date'))
     def trans_request_reservation_date(self, obj):
         return obj.request_reservation.user
@@ -46,6 +46,21 @@ class OperationSettingAdmin(admin.ModelAdmin):
     readonly_fields = ('display_calculation',)
 
 
+# class TimeInline(admin.TabularInline):
+#     model = Time
+#     extra = 0
+#     max_num = 1
+#     fields = ['fix_reserved_date', 'formatted_date', 'volume', 'unit']
+#     readonly_fields = ['formatted_date']
+#
+#     def formatted_date(self, obj):
+#         if obj.fix_reserved_date:
+#             return date2jalali(obj.fix_reserved_date).strftime('%Y/%m/%d')
+#         return "-"
+#
+#     formatted_date.short_description = "تاریخ نوبت (شمسی)"
+
+
 @admin.register(RequestReservation)
 class RequestReservationAdmin(ModelAdminJalaliMixin, admin.ModelAdmin):
     list_display = ['user', 'datetime_created_jalali', 'suggested_jalali_date', 'status', ]
@@ -55,6 +70,7 @@ class RequestReservationAdmin(ModelAdminJalaliMixin, admin.ModelAdmin):
     @admin.display(description=_('suggested_reservation_date'))
     def suggested_jalali_date(self, obj):
         return date2jalali(obj.suggested_reservation_date).strftime('%Y/%m/%d')
+
     @admin.display(description=_('datetime_created'))
     def datetime_created_jalali(self, obj):
         return date2jalali(obj.datetime_created.date()).strftime('%Y/%m/%d')

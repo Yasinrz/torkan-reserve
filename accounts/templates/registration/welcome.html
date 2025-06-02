@@ -1,11 +1,20 @@
 {% extends '_base.html' %}
 {% load i18n %}
-
+{% block head %}
+<style>
+.hero-content h2{
+    font-size: 1.4rem;
+}
+.hero-content p{
+    font-size: 1rem; !important;
+}
+</style>
+{% endblock head %}
 {% block content %}
     <div class="hero-content">
-        <h1> {% trans 'Your appointment has been temporarily booked.' %} </h1>
+        <h2> {% trans 'Your appointment has been temporarily booked.' %} </h2>
         <p>{% trans 'We will contact you soon to arrange a definitive reservation.' %} </p>
         <p>{% trans 'Thank you for your patience.' %}</p>
-        <a href="{% url 'home' %}" class="reserve-btn">{% trans 'return home' %}</a>
+        <a type="submit" href="{% url 'home' %}" class="reserve-btn">{% trans 'return home' %}</a>
     </div>
 {% endblock %}

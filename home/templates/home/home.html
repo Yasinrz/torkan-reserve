@@ -2,17 +2,10 @@
 {% load i18n %}
 {% load humanize %}
 {% block content %}
-    <style>
-    .hero-content-3 {
-      background: rgba(255, 255, 255, 0.6);
-      padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
-    }
-    </style>
-    <div class="hero-content-3">
-        <h1>{% trans 'Precious metals smelting workshop' %}</h1>
+
+    <div class="hero-content">
+        <h2>{% trans 'Precious metals smelting workshop' %}</h2>
         <p>{% trans 'Book your appointment now to melt precious metals in our workshop.' %}</p>
-        <a href="{% url 'login' %}" class="reserve-btn">{% trans 'reservation' %}</a>
+        <a type="submit" href="{% url 'login' %}" class="reserve-btn">{% trans 'reservation' %}</a>
     </div>
 {% endblock %}

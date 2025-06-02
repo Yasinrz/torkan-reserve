@@ -183,6 +183,17 @@ AUTH_USER_MODEL = 'accounts.User'
 LOGIN_REDIRECT_URL = 'reservation'
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
+# settings for localization
+
+LOCALE_PATHS = [
+    BASE_DIR / "locale",
+]
+# For messages framework
+from django.contrib.messages import constants
+
+MESSAGE_TAGS = {
+    constants.ERROR: 'danger',
+}
 
 SECURE_SSL_REDIRECT = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-19 09:33+0330\n"
-"PO-Revision-Date: 2025-05-19 09:50+0330\n"
+"POT-Creation-Date: 2025-06-02 03:50+0330\n"
+"PO-Revision-Date: 2025-06-02 03:45+0330\n"
 "Last-Translator: Anonymous User <anonymous@user.tld>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -19,9 +19,37 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Translated-Using: django-rosetta 0.10.2\n"
 
+#: .\admin.py:29
+msgid "Reservation date"
+msgstr "تاریخ رزرو "
+
+#: .\admin.py:32
+msgid "Request reservation date"
+msgstr "درخواست رزرو نوبت"
+
+#: .\admin.py:55
+msgid "suggested_reservation_date"
+msgstr "تاریخ پیشنهادی نوبت"
+
+#: .\admin.py:58
+msgid "datetime_created"
+msgstr "تاریخ ایجاد"
+
 #: .\forms.py:21
 msgid "Requested Data Reservation "
 msgstr "تاریخ پیشنهادی نوبت"
+
+#: .\forms.py:33
+msgid "you can't reserve in the past"
+msgstr "روز‌های گذشته قابل رزرو نمی‌باشد."
+
+#: .\forms.py:35
+msgid "you can reserve only for the next 7 days"
+msgstr "تا یک هفته بعد قابل رزرو می‌باشد."
+
+#: .\forms.py:37
+msgid "you can't reserve on Friday"
+msgstr "روز جمعه قابل رزرو نمی‌باشد."
 
 #: .\models.py:8
 msgid "Operation name"
@@ -87,6 +115,14 @@ msgstr "وضعیت"
 msgid "Reservation requests"
 msgstr " درخواست رزرو نوبت"
 
+#: .\models.py:104
+msgid "Request reservation"
+msgstr "درخواست رزرو نوبت"
+
+#: .\models.py:106
+msgid "Date"
+msgstr "تاریخ"
+
 #: .\models.py:110
 msgid "From the clock"
 msgstr "از ساعت "
@@ -104,7 +140,6 @@ msgid "Reminder of appointments"
 msgstr "یادآوری نوبت ها"
 
 #: .\templates\home\dashbord.html:7
-#| msgid "Number of furnaces"
 msgid "Total number of turns:"
 msgstr "تعداد کل نوبت ها"
 
@@ -124,26 +159,29 @@ msgstr "نوبت های آینده"
 msgid "No future turn recorded."
 msgstr "نوبتی برای آینده ثبت نشده"
 
-#: .\templates\home\home.html:14
+#: .\templates\home\home.html:7
 msgid "Precious metals smelting workshop"
 msgstr "کارگاه قالکاری ترکان "
 
-#: .\templates\home\home.html:15
+#: .\templates\home\home.html:8
 msgid "Book your appointment now to melt precious metals in our workshop."
 msgstr "جهت ذوب فلزات گرانبها خود همین حالا نوبت خود را رزرو کنید."
 
-#: .\templates\home\home.html:16
+#: .\templates\home\home.html:9
 msgid "reservation"
 msgstr "رزرو نوبت"
 
-#: .\templates\home\reservation.html:120
+#: .\templates\home\reservation.html:106
 msgid "Please enter your suggested time to book an appointment."
 msgstr "لطفا زمان پیشنهادی خود را جهت رزور نوبت وارد کنید."
 
-#: .\templates\home\reservation.html:121
+#: .\templates\home\reservation.html:107
 msgid "Note that the time you select is not guaranteed."
 msgstr "توجه کنید زمان تعیین شده قطعی نمی باشد."
 
-#: .\templates\home\reservation.html:123
+#: .\templates\home\reservation.html:129
 msgid "reserve"
 msgstr "رزرو نوبت"
+
+#~ msgid "request_reservation__user"
+#~ msgstr "تاریخ پیشنهادی نوبت"

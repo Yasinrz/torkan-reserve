@@ -1,0 +1,66 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-01 21:21+0330\n"
+"PO-Revision-Date: 2025-06-01 21:24+0330\n"
+"Last-Translator: Anonymous User <anonymous@user.tld>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Translated-Using: django-rosetta 0.10.2\n"
+
+#: .\templates\_base.html:9
+msgid "Gold smelting workshop"
+msgstr "کارگاه ذوب طلا"
+
+#: .\templates\_base.html:294
+msgid "18-karat gold"
+msgstr "طلا 18 عیار"
+
+#: .\templates\_base.html:295
+msgid "Melted"
+msgstr "آبشده"
+
+#: .\templates\_base.html:296
+msgid "Coin"
+msgstr "سکه"
+
+#: .\templates\_base.html:296
+msgid "Gram coin"
+msgstr "سکه گرمی"
+
+#: .\templates\_base.html:308
+msgid "Home"
+msgstr "خانه"
+
+#: .\templates\_base.html:309
+msgid "Articles"
+msgstr "مقاله‌ها"
+
+#: .\templates\_base.html:310
+msgid "Contact us"
+msgstr "ارتباط با ما"
+
+#: .\templates\_base.html:328
+msgid "About us"
+msgstr "درباره ما"
+
+#: .\templates\_base.html:329
+msgid ""
+"Melting and separating various precious metals with more than 20 years of "
+"experience."
+msgstr "ذوب و جداسازی انوع فلزات گرانبها با بیش از 20 سال سابقه."
+
+#: .\templates\_base.html:332
+msgid "Ways to contact us"
+msgstr "راه‌های ارتباط با ما"

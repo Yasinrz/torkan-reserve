@@ -2,7 +2,7 @@ from django.db import models
 from datetime import date
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-
+import jdatetime
 
 class Operation(models.Model):
     operation_name = models.CharField(max_length=50, verbose_name=_('Operation name'))
@@ -68,7 +68,7 @@ class OperationSetting(models.Model):
     def display_calculation(self):
         return self.calculation()
 
-    display_calculation.short_description = _('Melting time')  # عنوان ستون در ادمین
+    display_calculation.short_description = _('Melting time')
 
     class Meta:
         verbose_name = _('Approximate time')
@@ -88,7 +88,8 @@ class RequestReservation(models.Model):
     status = models.CharField(choices=STATUS_CHOICES, max_length=10, default='pending', verbose_name=_('Status'))
 
     def __str__(self):
-        return f"{self.user} reserved date [ {self.suggested_reservation_date} ] {self.status}"
+        suggested_jalali_date = jdatetime.date.fromgregorian(date=self.suggested_reservation_date)
+        return f"{self.user} [ {suggested_jalali_date.strftime('%Y/%m/%d')} ]"
 
     class Meta:
         verbose_name = _("Reservation requests")
@@ -101,9 +102,9 @@ class Time(models.Model):
     ]
 
     request_reservation = models.ForeignKey(RequestReservation, on_delete=models.CASCADE,
-                        verbose_name='request reservation', null=True, blank=True)
+                        verbose_name=_('Request reservation'), null=True, blank=True)
 
-    fix_reserved_date = models.DateField(default=date.today, null=True, blank=True, verbose_name='Date')
+    fix_reserved_date = models.DateField(default=date.today, null=True, blank=True, verbose_name=_('Date'))
     operation = models.ForeignKey(Operation, on_delete=models.CASCADE, verbose_name=_('Operation type'), null=True, blank=True)
     volume = models.IntegerField(verbose_name=_('Material volume'), null=True, blank=True)
     unit = models.CharField(choices=Unit, max_length=15, verbose_name=_('Unit of calculation'), null=True, blank=True)

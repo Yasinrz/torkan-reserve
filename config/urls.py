@@ -24,7 +24,7 @@ urlpatterns = [
 
 
         # Rosetta (i18n)
-        path('rosetta/',include('rosetta.urls')),
+        # path('rosetta/',include('rosetta.urls')),
 
 ]
 

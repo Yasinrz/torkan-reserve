@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const today = new Date();
     const oneWeekLater = new Date();
-    oneWeekLater.setDate(today.getDate() + 7);
+    oneWeekLater.setDate(today.getDate() + 14);
 
     function toJalali(gregorianDate) {
         var t, n, e = gregorianDate,

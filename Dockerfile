@@ -28,7 +28,9 @@ ENV PYTHONUNBUFFERED=1
 USER appuser
 
 # Collect static files
-RUN python manage.py collectstatic --noinput
+COPY --chown=appuser:appuser entrypoint.sh /code/entrypoint.sh
+RUN chmod +x /code/entrypoint.sh
+ENTRYPOINT ["/code/entrypoint.sh"]
 
 EXPOSE 8000
 

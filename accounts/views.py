@@ -5,8 +5,9 @@ from .forms import VerificationCodeForm, PhoneNumberForm
 from random import randint
 from .utils import send_code
 from accounts.models import User
+from django.views.decorators.cache import never_cache
 
-
+@never_cache
 def phone_number_view(request):
     if request.method == 'POST':
         form = PhoneNumberForm(request.POST)
@@ -27,7 +28,7 @@ def phone_number_view(request):
     return render(request, 'registration/login.html', {'form': form})
 
 
-
+@never_cache
 def verify(request):
     if request.method == 'POST':
         form = VerificationCodeForm(request.POST)
@@ -64,3 +65,7 @@ def verify(request):
 
 def welcome(request):
     return render(request, 'registration/welcome.html')
+
+
+def custom_permission_denied_view(request, exception=None):
+    return render(request, '403.html', status=403)

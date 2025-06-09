@@ -9,12 +9,13 @@ import jdatetime
 from .utils import send_temporary, send_sms_to_admin
 from datetime import date
 from django.contrib import messages
+from django.views.decorators.cache import never_cache
 
 
 def home(request):
     return render(request, 'home/home.html')
 
-
+@never_cache
 @login_required
 def calendar(request):
     if request.method == 'POST':

@@ -1,0 +1,11 @@
+{% extends '_base.html' %}
+{% load i18n %}
+{% load humanize %}
+{% block content %}
+
+    <div class="hero-content">
+        <h2>{% trans 'This page does not appear to exist.' %}</h2>
+        <p>{% trans 'Refresh the page to exit, otherwise click the option below.' %}</p>
+        <a type="submit" href="{% url 'home' %}" class="reserve-btn">{% trans 'return home' %}</a>
+    </div>
+{% endblock %}

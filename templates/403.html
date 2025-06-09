@@ -1,0 +1,11 @@
+{% extends '_base.html' %}
+{% load i18n %}
+{% load humanize %}
+{% block content %}
+
+    <div class="hero-content">
+        <h2>{% trans 'It seems you have come to the wrong page.' %}</h2>
+        <p>{% trans 'To exit this page, refresh or press the key below to return home.' %}</p>
+        <a type="submit" href="{% url 'home' %}" class="reserve-btn">{% trans 'home' %}</a>
+    </div>
+{% endblock %}

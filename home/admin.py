@@ -1,6 +1,6 @@
 from django.contrib import admin
 import jdatetime
-from jalali_date.admin import ModelAdminJalaliMixin
+from jalali_date.admin import ModelAdminJalaliMixin, StackedInlineJalaliMixin
 from jalali_date import date2jalali
 from .models import Time, Operation, OperationSetting, RequestReservation
 from .utils import send_reservation_sms
@@ -45,20 +45,9 @@ class OperationSettingAdmin(admin.ModelAdmin):
     list_display = ['Product', 'capacity_materials', 'unit_capacity', 'display_calculation', ]
     readonly_fields = ('display_calculation',)
 
-
-# class TimeInline(admin.TabularInline):
-#     model = Time
-#     extra = 0
-#     max_num = 1
-#     fields = ['fix_reserved_date', 'formatted_date', 'volume', 'unit']
-#     readonly_fields = ['formatted_date']
-#
-#     def formatted_date(self, obj):
-#         if obj.fix_reserved_date:
-#             return date2jalali(obj.fix_reserved_date).strftime('%Y/%m/%d')
-#         return "-"
-#
-#     formatted_date.short_description = "تاریخ نوبت (شمسی)"
+# StackedInline part in admin for RequestReservation model
+class TimeInline(StackedInlineJalaliMixin, admin.TabularInline):
+    model = Time
 
 
 @admin.register(RequestReservation)
@@ -66,6 +55,7 @@ class RequestReservationAdmin(ModelAdminJalaliMixin, admin.ModelAdmin):
     list_display = ['user', 'datetime_created_jalali', 'suggested_jalali_date', 'status', ]
     search_fields = ['user__name', 'user__phone_number']
     ordering = ['-datetime_created', ]
+    inlines = [TimeInline]
 
     @admin.display(description=_('suggested_reservation_date'))
     def suggested_jalali_date(self, obj):

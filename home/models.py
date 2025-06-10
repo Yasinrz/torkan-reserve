@@ -101,8 +101,8 @@ class Time(models.Model):
         ("kilo", "کیلو گرم"),
     ]
 
-    request_reservation = models.ForeignKey(RequestReservation, on_delete=models.CASCADE,
-                        verbose_name=_('Request reservation'), null=True, blank=True)
+    request_reservation = models.OneToOneField(RequestReservation, on_delete=models.CASCADE,
+                        verbose_name=_('Request reservation'))
 
     fix_reserved_date = models.DateField(default=date.today, null=True, blank=True, verbose_name=_('Date'))
     operation = models.ForeignKey(Operation, on_delete=models.CASCADE, verbose_name=_('Operation type'), null=True, blank=True)

@@ -110,6 +110,7 @@ class Time(models.Model):
     start_session = models.TimeField(verbose_name=_('From the clock'), null=True, blank=True, default='08:00')
     end_session = models.TimeField(verbose_name=_('Up to the hour'), null=True, blank=True, default='12:00')
     date_time_created = models.DateTimeField(auto_now_add=True, null=True)
+    date_time_modified = models.DateTimeField(auto_now=True, null=True)
 
 
     def __str__(self):

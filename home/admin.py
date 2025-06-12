@@ -9,7 +9,7 @@ from django.utils.translation import gettext_lazy as _
 
 @admin.register(Time)
 class TimeAdmin(ModelAdminJalaliMixin, admin.ModelAdmin):
-    list_display = ('trans_request_reservation_date', 'format_date', 'start_session', 'volume', 'unit')
+    list_display = ('id', 'trans_request_reservation_date', 'format_date', 'start_session', 'volume', 'unit')
     search_fields = ('request_reservation__user__name', 'request_reservation__user__phone_number')
     ordering = ('-fix_reserved_date',)
     autocomplete_fields = ('request_reservation',)
@@ -52,9 +52,10 @@ class TimeInline(StackedInlineJalaliMixin, admin.TabularInline):
 
 @admin.register(RequestReservation)
 class RequestReservationAdmin(ModelAdminJalaliMixin, admin.ModelAdmin):
-    list_display = ['user', 'datetime_created_jalali', 'suggested_jalali_date', 'status', ]
+    list_display = ['id', 'user', 'datetime_created_jalali', 'suggested_jalali_date', 'status', ]
     search_fields = ['user__name', 'user__phone_number']
     ordering = ['-datetime_created', ]
+    readonly_fields = ['user']
     inlines = [TimeInline]
 
     @admin.display(description=_('suggested_reservation_date'))

@@ -88,8 +88,7 @@ class RequestReservation(models.Model):
     status = models.CharField(choices=STATUS_CHOICES, max_length=10, default='pending', verbose_name=_('Status'))
 
     def __str__(self):
-        suggested_jalali_date = jdatetime.date.fromgregorian(date=self.suggested_reservation_date)
-        return f"{self.user} [ {suggested_jalali_date.strftime('%Y/%m/%d')} ]"
+        return f"{self.id}) {self.user}"
 
     class Meta:
         verbose_name = _("Reservation requests")
@@ -114,9 +113,7 @@ class Time(models.Model):
 
 
     def __str__(self):
-        if self.request_reservation and self.request_reservation.user:
-            return f"{self.request_reservation.user}{self.fix_reserved_date}{self.operation}"
-        return f"{self.fix_reserved_date}{self.operation}"
+        return f"{self.id}) {self.request_reservation.user}"
 
     class Meta:
         verbose_name = _("Appointment booking")

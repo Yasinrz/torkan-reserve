@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-02 03:50+0330\n"
-"PO-Revision-Date: 2025-06-02 03:45+0330\n"
+"POT-Creation-Date: 2025-06-13 03:14+0330\n"
+"PO-Revision-Date: 2025-06-13 03:15+0330\n"
 "Last-Translator: Anonymous User <anonymous@user.tld>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -23,15 +23,20 @@ msgstr ""
 msgid "Reservation date"
 msgstr "تاریخ رزرو "
 
-#: .\admin.py:32
+#: .\admin.py:33
 msgid "Request reservation date"
 msgstr "درخواست رزرو نوبت"
 
-#: .\admin.py:55
+#: .\admin.py:37
+#| msgid "datetime_created"
+msgid "datetime saved"
+msgstr "تاریخ ایجاد"
+
+#: .\admin.py:67
 msgid "suggested_reservation_date"
 msgstr "تاریخ پیشنهادی نوبت"
 
-#: .\admin.py:58
+#: .\admin.py:71
 msgid "datetime_created"
 msgstr "تاریخ ایجاد"
 
@@ -44,8 +49,9 @@ msgid "you can't reserve in the past"
 msgstr "روز‌های گذشته قابل رزرو نمی‌باشد."
 
 #: .\forms.py:35
-msgid "you can reserve only for the next 7 days"
-msgstr "تا یک هفته بعد قابل رزرو می‌باشد."
+#| msgid "you can reserve only for the next 7 days"
+msgid "you can reserve only for the next 14 days"
+msgstr "تا دو هفته بعد قابل رزرو می‌باشد."
 
 #: .\forms.py:37
 msgid "you can't reserve on Friday"
@@ -131,7 +137,7 @@ msgstr "از ساعت "
 msgid "Up to the hour"
 msgstr "تا ساعت"
 
-#: .\models.py:121
+#: .\models.py:120
 msgid "Appointment booking"
 msgstr "رزرو نوبت "
 

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-13 03:14+0330\n"
-"PO-Revision-Date: 2025-06-13 03:15+0330\n"
+"POT-Creation-Date: 2025-06-13 03:32+0330\n"
+"PO-Revision-Date: 2025-06-13 03:32+0330\n"
 "Last-Translator: Anonymous User <anonymous@user.tld>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -28,15 +28,14 @@ msgid "Request reservation date"
 msgstr "درخواست رزرو نوبت"
 
 #: .\admin.py:37
-#| msgid "datetime_created"
 msgid "datetime saved"
 msgstr "تاریخ ایجاد"
 
-#: .\admin.py:67
+#: .\admin.py:68
 msgid "suggested_reservation_date"
 msgstr "تاریخ پیشنهادی نوبت"
 
-#: .\admin.py:71
+#: .\admin.py:72
 msgid "datetime_created"
 msgstr "تاریخ ایجاد"
 
@@ -49,7 +48,6 @@ msgid "you can't reserve in the past"
 msgstr "روز‌های گذشته قابل رزرو نمی‌باشد."
 
 #: .\forms.py:35
-#| msgid "you can reserve only for the next 7 days"
 msgid "you can reserve only for the next 14 days"
 msgstr "تا دو هفته بعد قابل رزرو می‌باشد."
 
@@ -126,8 +124,8 @@ msgid "Request reservation"
 msgstr "درخواست رزرو نوبت"
 
 #: .\models.py:106
-msgid "Date"
-msgstr "تاریخ"
+msgid "fixed date"
+msgstr "تاریخ قطعی نوبت"
 
 #: .\models.py:110
 msgid "From the clock"
@@ -188,6 +186,9 @@ msgstr "توجه کنید زمان تعیین شده قطعی نمی باشد."
 #: .\templates\home\reservation.html:129
 msgid "reserve"
 msgstr "رزرو نوبت"
+
+#~ msgid "Date"
+#~ msgstr "تاریخ"
 
 #~ msgid "request_reservation__user"
 #~ msgstr "تاریخ پیشنهادی نوبت"

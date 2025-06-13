@@ -103,7 +103,7 @@ class Time(models.Model):
     request_reservation = models.OneToOneField(RequestReservation, on_delete=models.CASCADE,
                         verbose_name=_('Request reservation'))
 
-    fix_reserved_date = models.DateField(default=date.today, null=True, blank=True, verbose_name=_('Date'))
+    fix_reserved_date = models.DateField(default=date.today, null=True, blank=True, verbose_name=_('fixed date'))
     operation = models.ForeignKey(Operation, on_delete=models.CASCADE, verbose_name=_('Operation type'), null=True, blank=True)
     volume = models.IntegerField(verbose_name=_('Material volume'), null=True, blank=True)
     unit = models.CharField(choices=Unit, max_length=15, verbose_name=_('Unit of calculation'), null=True, blank=True)

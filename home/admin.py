@@ -5,10 +5,12 @@ from jalali_date import date2jalali, datetime2jalali
 from .models import Time, Operation, OperationSetting, RequestReservation
 from .utils import send_reservation_sms
 from django.utils.translation import gettext_lazy as _
+from .forms import TimeAdminForm
 
 
 @admin.register(Time)
 class TimeAdmin(ModelAdminJalaliMixin, admin.ModelAdmin):
+    form = TimeAdminForm
     list_display = (
     'id', 'trans_request_reservation_date', 'format_date', 'start_session', 'volume', 'unit', 'datetime_saved')
     search_fields = ('request_reservation__user__name', 'request_reservation__user__phone_number')
@@ -54,6 +56,7 @@ class OperationSettingAdmin(admin.ModelAdmin):
 # StackedInline part in admin for RequestReservation model
 class TimeInline(StackedInlineJalaliMixin, admin.TabularInline):
     model = Time
+    form = TimeAdminForm
 
 
 @admin.register(RequestReservation)

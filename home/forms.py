@@ -1,5 +1,5 @@
 from django import forms
-from .models import RequestReservation
+from .models import RequestReservation, Time
 from jalali_date.fields import JalaliDateField
 from jalali_date.widgets import AdminJalaliDateWidget
 import jdatetime
@@ -36,3 +36,23 @@ class RequestReservationForm(forms.ModelForm):
         elif gregorian_date.weekday() == 4:
             raise forms.ValidationError(_("you can't reserve on Friday"))
         return gregorian_date
+
+
+class TimeAdminForm(forms.ModelForm):
+    class Meta:
+        model = Time
+        fields = '__all__'
+        widgets = {
+            'start_session': forms.TimeInput(attrs={'class': 'timepicker'}),
+            'end_session': forms.TimeInput(attrs={'class': 'timepicker'}),
+        }
+
+    class Media:
+        css = {
+            'all': ('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css',)
+        }
+        js = [
+            'https://cdn.jsdelivr.net/npm/flatpickr',
+            'https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/fa.js',
+            'js/init_flatpickr.js',
+        ]

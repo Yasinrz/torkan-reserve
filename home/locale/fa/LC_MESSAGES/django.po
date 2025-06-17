@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-13 03:32+0330\n"
-"PO-Revision-Date: 2025-06-13 03:32+0330\n"
+"POT-Creation-Date: 2025-06-17 03:20+0330\n"
+"PO-Revision-Date: 2025-06-17 03:21+0330\n"
 "Last-Translator: Anonymous User <anonymous@user.tld>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -19,23 +19,23 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Translated-Using: django-rosetta 0.10.2\n"
 
-#: .\admin.py:29
+#: .\admin.py:31
 msgid "Reservation date"
 msgstr "تاریخ رزرو "
 
-#: .\admin.py:33
+#: .\admin.py:35
 msgid "Request reservation date"
 msgstr "درخواست رزرو نوبت"
 
-#: .\admin.py:37
+#: .\admin.py:39
 msgid "datetime saved"
 msgstr "تاریخ ایجاد"
 
-#: .\admin.py:68
+#: .\admin.py:71
 msgid "suggested_reservation_date"
 msgstr "تاریخ پیشنهادی نوبت"
 
-#: .\admin.py:72
+#: .\admin.py:75
 msgid "datetime_created"
 msgstr "تاریخ ایجاد"
 
@@ -55,87 +55,91 @@ msgstr "تا دو هفته بعد قابل رزرو می‌باشد."
 msgid "you can't reserve on Friday"
 msgstr "روز جمعه قابل رزرو نمی‌باشد."
 
-#: .\models.py:8
+#: .\models.py:9
 msgid "Operation name"
 msgstr "نام عملیات"
 
-#: .\models.py:14
+#: .\models.py:15
 msgid "Operations"
 msgstr "عملیات ها "
 
-#: .\models.py:24 .\models.py:107
+#: .\models.py:25 .\models.py:112
 msgid "Operation type"
 msgstr "نوع عملیات"
 
-#: .\models.py:25 .\models.py:109
+#: .\models.py:28 .\models.py:115
 msgid "Unit of calculation"
 msgstr "واحد محاسبه"
 
-#: .\models.py:26
+#: .\models.py:29
 msgid "Number of furnaces"
 msgstr "تعداد کوره برای عملیات"
 
-#: .\models.py:27 .\models.py:108
+#: .\models.py:30 .\models.py:114
 msgid "Material volume"
 msgstr "حجم مواد"
 
-#: .\models.py:28
+#: .\models.py:31
 msgid "Is there ground melting?"
 msgstr "ذوب زمینی دارد ؟"
 
-#: .\models.py:29
+#: .\models.py:32
 msgid "Product name"
 msgstr "نام محصول"
 
-#: .\models.py:71
+#: .\models.py:74
 msgid "Melting time"
 msgstr "زمان ذوب"
 
-#: .\models.py:74
+#: .\models.py:77
 msgid "Approximate time"
 msgstr "زمان تقریبی"
 
-#: .\models.py:82
+#: .\models.py:86
 msgid "User"
 msgstr "کاربر"
 
-#: .\models.py:83
+#: .\models.py:87
 msgid "Date created"
 msgstr "تاریخ ایجاد"
 
-#: .\models.py:85
+#: .\models.py:88
 msgid "reservation date"
 msgstr "تاریخ رزرو "
 
-#: .\models.py:87
+#: .\models.py:90
 msgid "suggested reservation time"
 msgstr "ساعت پیشنهادی نوبت"
 
-#: .\models.py:88
+#: .\models.py:91
+msgid "Explanation"
+msgstr "توضیحات لازم"
+
+#: .\models.py:92
 msgid "Status"
 msgstr "وضعیت"
 
-#: .\models.py:94
+#: .\models.py:98
 msgid "Reservation requests"
 msgstr " درخواست رزرو نوبت"
 
-#: .\models.py:104
+#: .\models.py:109
 msgid "Request reservation"
 msgstr "درخواست رزرو نوبت"
 
-#: .\models.py:106
+#: .\models.py:111
 msgid "fixed date"
 msgstr "تاریخ قطعی نوبت"
 
-#: .\models.py:110
+#: .\models.py:116
 msgid "From the clock"
 msgstr "از ساعت "
 
-#: .\models.py:111
+#: .\models.py:117
 msgid "Up to the hour"
 msgstr "تا ساعت"
 
-#: .\models.py:120
+#: .\models.py:125
 msgid "Appointment booking"
 msgstr "رزرو نوبت "
 
@@ -175,15 +179,15 @@ msgstr "جهت ذوب فلزات گرانبها خود همین حالا نوب�
 msgid "reservation"
 msgstr "رزرو نوبت"
 
-#: .\templates\home\reservation.html:106
+#: .\templates\home\reservation.html:111
 msgid "Please enter your suggested time to book an appointment."
 msgstr "لطفا زمان پیشنهادی خود را جهت رزور نوبت وارد کنید."
 
-#: .\templates\home\reservation.html:107
+#: .\templates\home\reservation.html:112
 msgid "Note that the time you select is not guaranteed."
 msgstr "توجه کنید زمان تعیین شده قطعی نمی باشد."
 
-#: .\templates\home\reservation.html:129
+#: .\templates\home\reservation.html:137
 msgid "reserve"
 msgstr "رزرو نوبت"
 

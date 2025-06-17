@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-17 03:20+0330\n"
-"PO-Revision-Date: 2025-06-17 03:21+0330\n"
+"PO-Revision-Date: 2025-06-17 14:26+0330\n"
 "Last-Translator: Anonymous User <anonymous@user.tld>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -169,7 +169,7 @@ msgstr "نوبتی برای آینده ثبت نشده"
 
 #: .\templates\home\home.html:7
 msgid "Precious metals smelting workshop"
-msgstr "کارگاه قالکاری ترکان "
+msgstr "صنایع ذوب فلزات نجیب ترکان"
 
 #: .\templates\home\home.html:8
 msgid "Book your appointment now to melt precious metals in our workshop."

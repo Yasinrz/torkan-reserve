@@ -62,10 +62,10 @@ class TimeInline(StackedInlineJalaliMixin, admin.TabularInline):
 @admin.register(RequestReservation)
 class RequestReservationAdmin(ModelAdminJalaliMixin, admin.ModelAdmin):
     list_display = ['id', 'user', 'datetime_created_jalali', 'suggested_jalali_date', 'status', ]
-    fields = ['suggested_jalali_date', 'suggested_reservation_time', 'user', 'status']
+    fields = ['suggested_jalali_date', 'suggested_reservation_time', 'user', 'explanation', 'status']
     search_fields = ['user__name', 'user__phone_number']
     ordering = ['-datetime_created', ]
-    readonly_fields = ['user', 'suggested_jalali_date', 'suggested_reservation_time']
+    readonly_fields = ['user', 'suggested_jalali_date', 'suggested_reservation_time', 'explanation']
     inlines = [TimeInline]
 
     @admin.display(description=_('suggested_reservation_date'))

@@ -9,7 +9,7 @@ from django.utils.translation import gettext_lazy as _
 class RequestReservationForm(forms.ModelForm):
     class Meta:
         model = RequestReservation
-        fields = ('suggested_reservation_date', 'suggested_reservation_time',)
+        fields = ('suggested_reservation_date', 'suggested_reservation_time', 'explanation',)
         widgets = {
             'suggested_reservation_time': forms.TimeInput(attrs={'class': 'form-control big-timepicker'}),
         }

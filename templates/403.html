@@ -4,8 +4,8 @@
 {% block content %}
 
     <div class="hero-content">
-        <h2>{% trans 'This page does not appear to exist.' %}</h2>
-        <p>{% trans 'Refresh the page to exit, otherwise click the option below.' %}</p>
-        <a type="submit" href="{% url 'home' %}" class="reserve-btn">{% trans 'return home' %}</a>
+        <h2>{% trans 'It seems you have come to the wrong page.' %}</h2>
+        <p>{% trans 'To exit this page, refresh or press the key below to return home.' %}</p>
+        <a type="submit" href="{% url 'home' %}" class="reserve-btn">{% trans 'home' %}</a>
     </div>
 {% endblock %}

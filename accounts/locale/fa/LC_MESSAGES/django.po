@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-01 21:08+0330\n"
-"PO-Revision-Date: 2025-05-19 09:18+0330\n"
+"POT-Creation-Date: 2025-06-13 01:54+0330\n"
+"PO-Revision-Date: 2025-06-13 01:54+0330\n"
 "Last-Translator: Anonymous User <anonymous@user.tld>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -19,78 +19,83 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Translated-Using: django-rosetta 0.10.2\n"
 
-#: .\accounts\forms.py:13
+#: .\admin.py:29
+#| msgid "date joined"
+msgid "datetime joined"
+msgstr "تاریخ عضویت"
+
+#: .\forms.py:13
 msgid "Password"
 msgstr "رمز عبور "
 
-#: .\accounts\forms.py:14
+#: .\forms.py:14
 msgid "Confirm password"
 msgstr "تکرار گذرواژه"
 
-#: .\accounts\models.py:32
+#: .\models.py:32
 msgid "phone number"
 msgstr "شماره همراه"
 
-#: .\accounts\models.py:33
+#: .\models.py:33
 msgid "First and last name"
 msgstr "نام و نام خانوادگی"
 
-#: .\accounts\models.py:34
+#: .\models.py:34
 msgid "is active ?"
 msgstr "فغال است؟"
 
-#: .\accounts\models.py:35
+#: .\models.py:35
 msgid "is staff ?"
 msgstr "کارمند است؟"
 
-#: .\accounts\models.py:36
+#: .\models.py:36
 msgid "is superuser ?"
 msgstr "ادمین است؟"
 
-#: .\accounts\models.py:37
+#: .\models.py:37
 msgid "date joined"
 msgstr "تاریخ عضویت"
 
-#: .\accounts\templates\registration\login.html:12
+#: .\templates\registration\login.html:12
 msgid "Enter your phone number to book an appointment."
 msgstr "شماره تلفن خود را جهت رزرو نوبت وارد کنید."
 
-#: .\accounts\templates\registration\login.html:16
+#: .\templates\registration\login.html:16
 msgid "Get validation code"
 msgstr "دریافت کد اعتبار سنجی"
 
-#: .\accounts\templates\registration\verify.html:21
+#: .\templates\registration\verify.html:21
 msgid "Phone number verification"
 msgstr "تأیید شماره تلفن"
 
-#: .\accounts\templates\registration\verify.html:22
+#: .\templates\registration\verify.html:22
 msgid "Please enter the 4-digit code sent to your number."
 msgstr "لطفا کد ۴ رقمی ارسال شده به شماره خود را وارد کنید"
 
-#: .\accounts\templates\registration\verify.html:27
+#: .\templates\registration\verify.html:27
 msgid "verification"
 msgstr "تایید کد "
 
-#: .\accounts\templates\registration\verify.html:31
+#: .\templates\registration\verify.html:31
 msgid "Didn't receive a code?"
 msgstr "کدی دریافت نکردید؟"
 
-#: .\accounts\templates\registration\verify.html:31
+#: .\templates\registration\verify.html:31
 msgid "Resend"
 msgstr "ارسال مجدد"
 
-#: .\accounts\templates\registration\welcome.html:15
+#: .\templates\registration\welcome.html:15
 msgid "Your appointment has been temporarily booked."
 msgstr "نوبت شما به صورت موقت ثبت گردید"
 
-#: .\accounts\templates\registration\welcome.html:16
+#: .\templates\registration\welcome.html:16
 msgid "We will contact you soon to arrange a definitive reservation."
 msgstr " به زودی جهت تنظیم رزرو نوبت قطعی با شما تماس خواهیم گرفت ."
 
-#: .\accounts\templates\registration\welcome.html:17
+#: .\templates\registration\welcome.html:17
 msgid "Thank you for your patience."
 msgstr "از شکیبایی شما سپاسگزاریم"
 
-#: .\accounts\templates\registration\welcome.html:18
+#: .\templates\registration\welcome.html:18
 msgid "return home"
 msgstr "بازگشت به خانه"

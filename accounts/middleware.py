@@ -5,7 +5,6 @@ class NoCacheMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
 
-        # فقط روی HTML و پاسخ‌های معمول اعمال بشه (نه فایل‌های استاتیک مثلاً)
         content_type = response.get('Content-Type', '')
         if 'text/html' in content_type:
             response['Cache-Control'] = 'no-cache, no-store, must-revalidate'

@@ -95,6 +95,11 @@
             color: #6b5f12;
         }
 
+        #div_id_explanation textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
     </style>
 {% endblock %}
 
@@ -125,6 +130,9 @@
             <div class="position-relative">
                 <i class="bi bi-clock flatpickr-time-icon-inside"></i>
                 {{ form.suggested_reservation_time | as_crispy_field }}
+            </div>
+            <div class="position-relative">
+                {{ form.explanation | as_crispy_field }}
             </div>
             <button type="submit" class="reserve-btn">{% trans 'reserve' %}</button>
         </form>

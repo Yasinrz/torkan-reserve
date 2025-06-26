@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-01 21:21+0330\n"
-"PO-Revision-Date: 2025-06-01 21:24+0330\n"
+"PO-Revision-Date: 2025-06-17 14:25+0330\n"
 "Last-Translator: Anonymous User <anonymous@user.tld>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: .\templates\_base.html:9
 msgid "Gold smelting workshop"
-msgstr "کارگاه ذوب طلا"
+msgstr "صنایع ذوب فلزات نجیب ترکان"
 
 #: .\templates\_base.html:294
 msgid "18-karat gold"

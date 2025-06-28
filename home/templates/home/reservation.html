@@ -4,14 +4,28 @@
 {% load i18n %}
 {% load static %}
 {% block head %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/fa.js"></script>
-    <!-- FullCalendar CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.css" rel="stylesheet">
+    <!-- Flatpickr (Local) -->
+    <link rel="preload" as="style" href="{% static 'css/flatpickr.min.css' %}"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="{% static 'css/flatpickr.min.css' %}">
+    </noscript>
+    <script src="{% static 'js/flatpickr.min.js' %}" defer></script>
+    <script src="{% static 'js/flatpickr.fa.js' %}" defer></script>
+    <!-- FullCalendar CSS & JS -->
     <link href="{% static 'admin/css/django_jalali.min.css' %}" media="all" rel="stylesheet">
-    <script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
-    <script src="{% static 'js/datepicker-config.js' %}"></script>
+    <script src="{% static 'admin/js/django_jalali.min.js' %}" defer></script>
+    <script src="{% static 'js/datepicker-config.js' %}" defer></script>
+    <!-- Calendar and Time picker customization Css -->
+    <link rel="preload" as="style" href="{% static 'css/time-picker-calendar.css' %}"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="{% static 'css/time-picker-calendar.css' %}">
+    </noscript>
+    <script src="{% static 'js/flatpickr-custom-arrows.js' %}" defer></script>
+    <!-- icon Style -->
+    <link rel="stylesheet" href="{% static 'css/icon.css' %}">
+    <!-- Messages alert symbol -->
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
         <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
@@ -23,86 +37,6 @@
             <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
         </symbol>
     </svg>
-    <style>
-
-        .big-timepicker {
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .flatpickr-time .custom-arrow-container {
-            position: absolute;
-            right: 0;
-            top: 0;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 5px 0;
-            box-sizing: border-box;
-            width: 20px;
-        }
-
-        .flatpickr-time .custom-arrow {
-            width: 0;
-            height: 0;
-            border-left: 6px solid transparent;
-            border-right: 6px solid transparent;
-            margin: 0 auto;
-        }
-
-        .flatpickr-time .custom-arrow-up {
-            border-bottom: 8px solid #807105;
-        }
-
-        .flatpickr-time .custom-arrow-down {
-            border-top: 8px solid #807105;
-        }
-
-        .flatpickr-time .numInputWrapper {
-            position: relative;
-            padding-right: 25px;
-        }
-
-        .flatpickr-time input {
-            border-right: 2px solid #807105;
-            border-left: 2px solid #807105;
-            font-size: 2rem;
-        }
-
-        .flatpickr-time input {
-            -webkit-appearance: none !important;
-            -moz-appearance: textfield !important;
-            appearance: none !important;
-            border: none;
-            background: transparent;
-            box-shadow: none;
-            text-align: center;
-            font-size: 18px;
-            width: 100%;
-            padding: 8px 5px;
-        }
-
-        .calendar-icon-inside {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            color: #6b5f12;
-        }
-
-        .flatpickr-time-icon-inside {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            color: #6b5f12;
-        }
-
-        #div_id_explanation textarea {
-            height: 100px;
-            resize: vertical;
-        }
-
-    </style>
 {% endblock %}
 
 
@@ -126,11 +60,20 @@
             {% endif %}
 
             <div class="position-relative">
-                <i class="bi bi-calendar-event calendar-icon-inside"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi-calendar2-event" viewBox="0 0 16 16">
+                    <path d="M11 7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z"/>
+                    <path d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5z"/>
+                </svg>
                 {{ form.suggested_reservation_date | as_crispy_field }}
             </div>
             <div class="position-relative">
-                <i class="bi bi-clock flatpickr-time-icon-inside"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi-clock"
+                     viewBox="0 0 16 16">
+                    <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
+                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/>
+                </svg>
                 {{ form.suggested_reservation_time | as_crispy_field }}
             </div>
             <div class="position-relative">
@@ -139,46 +82,4 @@
             <button type="submit" class="reserve-btn">{% trans 'reserve' %}</button>
         </form>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            flatpickr(".big-timepicker", {
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: "H:i",
-                time_24hr: true,
-                locale: "fa",
-                onReady: function (selectedDates, dateStr, instance) {
-                    setTimeout(function () {
-                        const inputs = instance.timeContainer.querySelectorAll('.numInputWrapper');
-                        inputs.forEach(wrapper => {
-                            wrapper.querySelectorAll('.arrowUp, .arrowDown').forEach(el => el.remove());
-                            const arrowContainer = document.createElement('div');
-                            arrowContainer.className = 'custom-arrow-container';
-                            const arrowUp = document.createElement('div');
-                            arrowUp.className = 'custom-arrow custom-arrow-up';
-                            arrowUp.onclick = function () {
-                                const input = wrapper.querySelector('input');
-                                input.stepUp();
-                                input.dispatchEvent(new Event('change'));
-                            };
-                            const arrowDown = document.createElement('div');
-                            arrowDown.className = 'custom-arrow custom-arrow-down';
-                            arrowDown.onclick = function () {
-                                const input = wrapper.querySelector('input');
-                                input.stepDown();
-                                input.dispatchEvent(new Event('change'));
-                            };
-                            arrowContainer.appendChild(arrowUp);
-                            arrowContainer.appendChild(arrowDown);
-                            // add container to wrapper
-                            wrapper.appendChild(arrowContainer);
-                            // set final style
-                            wrapper.style.position = 'relative';
-                            wrapper.querySelector('input').style.paddingRight = '25px';
-                        });
-                    }, 300);
-                }
-            });
-        });
-    </script>
 {% endblock %}

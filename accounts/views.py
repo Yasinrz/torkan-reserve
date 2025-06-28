@@ -67,5 +67,5 @@ def welcome(request):
     return render(request, 'registration/welcome.html')
 
 
-def custom_permission_denied(request, exception):
+def custom_permission_denied_view(request, exception):
     return render(request, '403.html',status=403)

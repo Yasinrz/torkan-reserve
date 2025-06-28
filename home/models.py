@@ -1,8 +1,11 @@
 from django.db import models
-from datetime import date, timedelta
+from django.utils.timezone import now
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-import jdatetime
+
+
+def default_reservation_date():
+    return now().date()
 
 
 class Operation(models.Model):
@@ -85,7 +88,7 @@ class RequestReservation(models.Model):
     ]
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name=_('User'), )
     datetime_created = models.DateTimeField(auto_now_add=True, verbose_name=_('Date created'))
-    suggested_reservation_date = models.DateField(default=date.today(), verbose_name=_('reservation date'))
+    suggested_reservation_date = models.DateField(default=default_reservation_date, verbose_name=_('reservation date'))
     suggested_reservation_time = models.TimeField(default='08:00', null=True, blank=True,
                                                   verbose_name=_('suggested reservation time'))
     explanation = models.TextField(null=True, blank=True, verbose_name=_('Explanation'))
@@ -108,7 +111,8 @@ class Time(models.Model):
     request_reservation = models.OneToOneField(RequestReservation, on_delete=models.CASCADE,
                                                verbose_name=_('Request reservation'))
 
-    fix_reserved_date = models.DateField(default=date.today, null=True, blank=True, verbose_name=_('fixed date'))
+    fix_reserved_date = models.DateField(default= default_reservation_date, null=True, blank=True,
+                                         verbose_name=_('fixed date'))
     operation = models.ForeignKey(Operation, on_delete=models.CASCADE, verbose_name=_('Operation type'), null=True,
                                   blank=True)
     volume = models.IntegerField(verbose_name=_('Material volume'), null=True, blank=True)

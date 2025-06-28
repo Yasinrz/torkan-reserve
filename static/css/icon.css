@@ -1,0 +1,8 @@
+.bi-calendar2-event,
+.bi-clock {
+    position: absolute;
+    top: 65%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #555;
+}

@@ -1,0 +1,76 @@
+.big-timepicker {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .flatpickr-time .custom-arrow-container {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 5px 0;
+            box-sizing: border-box;
+            width: 20px;
+        }
+
+        .flatpickr-time .custom-arrow {
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            margin: 0 auto;
+        }
+
+        .flatpickr-time .custom-arrow-up {
+            border-bottom: 8px solid #807105;
+        }
+
+        .flatpickr-time .custom-arrow-down {
+            border-top: 8px solid #807105;
+        }
+
+        .flatpickr-time .numInputWrapper {
+            position: relative;
+            padding-right: 25px;
+        }
+
+        .flatpickr-time input {
+            border-right: 2px solid #807105;
+            border-left: 2px solid #807105;
+            font-size: 2rem;
+        }
+
+        .flatpickr-time input {
+            -webkit-appearance: none !important;
+            -moz-appearance: textfield !important;
+            appearance: none !important;
+            border: none;
+            background: transparent;
+            box-shadow: none;
+            text-align: center;
+            font-size: 18px;
+            width: 100%;
+            padding: 8px 5px;
+        }
+
+        .calendar-icon-inside {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            color: #6b5f12;
+        }
+
+        .flatpickr-time-icon-inside {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            color: #6b5f12;
+        }
+
+        #div_id_explanation textarea {
+            height: 100px;
+            resize: vertical;
+        }

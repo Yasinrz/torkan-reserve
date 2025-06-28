@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.urls import path ,include
 
 
-handler403 = 'accounts.views.custom_permission_denied'
+handler403 = 'accounts.views.custom_permission_denied_view'
 # handler404 = 'accounts.views.custom_permission_denied'
 
 

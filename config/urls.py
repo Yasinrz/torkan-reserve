@@ -20,7 +20,7 @@ from django.urls import path ,include
 
 
 handler403 = 'accounts.views.custom_permission_denied'
-handler404 = 'accounts.views.custom_permission_denied'
+# handler404 = 'accounts.views.custom_permission_denied'
 
 
 urlpatterns = [

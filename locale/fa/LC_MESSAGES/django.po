@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-01 21:21+0330\n"
-"PO-Revision-Date: 2025-06-17 14:25+0330\n"
+"POT-Creation-Date: 2025-06-27 22:29+0330\n"
+"PO-Revision-Date: 2025-06-27 22:34+0330\n"
 "Last-Translator: Anonymous User <anonymous@user.tld>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -19,48 +19,80 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Translated-Using: django-rosetta 0.10.2\n"
 
+#: .\templates\403.html:7
+msgid "It seems you have come to the wrong page."
+msgstr "به نظر می‌رسد شما به صفحه‌ای اشتباه منتقل شده‌اید."
+
+#: .\templates\403.html:8
+msgid "To exit this page, refresh or press the key below to return home."
+msgstr ""
+"برای خارج شدن از این صفحه، صفحه را بازبینی کنید یا دکمه زیر را برای برگشت به"
+" خانه بزنید."
+
+#: .\templates\403.html:9
+msgid "home"
+msgstr "خانه"
+
 #: .\templates\_base.html:9
 msgid "Gold smelting workshop"
 msgstr "صنایع ذوب فلزات نجیب ترکان"
 
-#: .\templates\_base.html:294
+#: .\templates\_base.html:40
 msgid "18-karat gold"
 msgstr "طلا 18 عیار"
 
-#: .\templates\_base.html:295
+#: .\templates\_base.html:41
 msgid "Melted"
 msgstr "آبشده"
 
-#: .\templates\_base.html:296
+#: .\templates\_base.html:42
 msgid "Coin"
 msgstr "سکه"
 
-#: .\templates\_base.html:296
+#: .\templates\_base.html:42
 msgid "Gram coin"
 msgstr "سکه گرمی"
 
-#: .\templates\_base.html:308
+#: .\templates\_base.html:54
 msgid "Home"
 msgstr "خانه"
 
-#: .\templates\_base.html:309
+#: .\templates\_base.html:55
 msgid "Articles"
 msgstr "مقاله‌ها"
 
-#: .\templates\_base.html:310
+#: .\templates\_base.html:56
 msgid "Contact us"
 msgstr "ارتباط با ما"
 
-#: .\templates\_base.html:328
+#: .\templates\_base.html:57
+msgid "Torkan Separation of precious metals"
+msgstr "قالکاری ترکان"
+
+#: .\templates\_base.html:86
 msgid "About us"
 msgstr "درباره ما"
 
-#: .\templates\_base.html:329
+#: .\templates\_base.html:87
 msgid ""
 "Melting and separating various precious metals with more than 20 years of "
 "experience."
 msgstr "ذوب و جداسازی انوع فلزات گرانبها با بیش از 20 سال سابقه."
 
-#: .\templates\_base.html:332
+#: .\templates\_base.html:92
+msgid "Address"
+msgstr "آدرس"
+
+#: .\templates\_base.html:93
+msgid ""
+"Khorzoug Industrial Zone, Azadegan Boulevard, Ragbad Street, End of Ragbad "
+"12"
+msgstr "منطقه صنعتی خورزوق،بلوار آزادگان،خیابان رگباد انتهای رگباد 12"
+
+#: .\templates\_base.html:105
 msgid "Ways to contact us"
 msgstr "راه‌های ارتباط با ما"
+
+#: .\templates\_base.html:108
+msgid "Telegram, Whats App and ..."
+msgstr "تلگرام، واتساپ و ..."

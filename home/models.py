@@ -95,7 +95,7 @@ class RequestReservation(models.Model):
     status = models.CharField(choices=STATUS_CHOICES, max_length=10, default='pending', verbose_name=_('Status'))
 
     def __str__(self):
-        return f"{self.id}) {self.user}"
+        return f"{self.id}) {self.user if self.user else '---'}"
 
     class Meta:
         verbose_name = _("Reservation requests")

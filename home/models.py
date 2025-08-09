@@ -108,7 +108,7 @@ class Time(models.Model):
         ("kilo", "کیلو گرم"),
     ]
 
-    request_reservation = models.OneToOneField(RequestReservation, on_delete=models.CASCADE,
+    request_reservation = models.OneToOneField(RequestReservation, on_delete=models.CASCADE,blank=True,null=True,
                                                verbose_name=_('Request reservation'))
 
     fix_reserved_date = models.DateField(default= default_reservation_date, null=True, blank=True,

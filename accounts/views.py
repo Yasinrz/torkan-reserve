@@ -1,7 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
+from home.models import Time ,RequestReservation
 from .forms import VerificationCodeForm, PhoneNumberForm
+from .models import SupportTicket, CustomerProfile ,Invoice
 from random import randint
 from .utils import send_code
 from accounts.models import User
@@ -69,3 +71,27 @@ def welcome(request):
 
 def custom_permission_denied_view(request, exception):
     return render(request, '403.html',status=403)
+
+
+@login_required
+def custom_panel(request):
+
+    user = request.user
+    profile = CustomerProfile.objects.filter(user=user).first()
+    tickets = SupportTicket.objects.filter(sender=user).order_by('-created_at')
+    reserves = Time.objects.filter(request_reservation__user=user).order_by('-fix_reserved_date')
+    suggestions = RequestReservation.objects.filter(user=user).order_by('-suggested_reservation_date')
+    invoices = Invoice.objects.filter(customer__user=user).order_by('created_date')
+
+    context = {
+        'profile': profile,
+        'tickets': tickets,
+        'reserves': reserves,
+        'suggestions': suggestions,
+        'invoices': invoices,
+    }
+
+    return render(request, 'registration/custom_panel.html',context)
+    
+
+    

@@ -1,13 +1,18 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect ,get_object_or_404
+from django.http import JsonResponse
+from django.core.paginator import Paginator
 from home.models import Time ,RequestReservation
-from .forms import VerificationCodeForm, PhoneNumberForm
-from .models import SupportTicket, CustomerProfile ,Invoice
+from .forms import VerificationCodeForm, PhoneNumberForm ,SupportTicketForm ,EmployeeTicketForm
+from .models import SupportTicket, CustomerProfile ,Invoice ,StaffProfile ,WorkHourReport , Payslip ,EmployeeTicket
 from random import randint
 from .utils import send_code
 from accounts.models import User
 from django.views.decorators.cache import never_cache
+
+
 
 
 def phone_number_view(request):
@@ -94,4 +99,63 @@ def custom_panel(request):
     return render(request, 'registration/custom_panel.html',context)
     
 
-    
+
+def ticket_success(request):
+    return render (request , 'registration/ticket_success.html')
+
+
+ 
+def custom_create_ticket(request):
+    success = False
+    if request.method == 'POST':
+        form = SupportTicketForm(request.POST)
+        if form.is_valid():
+            ticket = form.save(commit=False)
+            ticket.sender = request.user
+            ticket.save()
+            success = True  # پیام موفقیت
+            form = SupportTicketForm()  # فرم جدید بعد از موفقیت
+        # اگر فرم معتبر نیست، فرم با خطاها رندر می‌شود
+    else:
+        form = SupportTicketForm()
+    return render(request, 'registration/customer_ticket.html', {'form': form, 'success': success})
+
+
+
+# @login_required
+def staff_create_ticket(request):
+    success = False
+    ticket_type = None
+    if request.method == 'POST':
+        
+        if 'select_ticket_type' in request.POST:
+            ticket_type = request.POST.get('ticket_type')
+            form = EmployeeTicketForm(initial={'employee': request.user, 'ticket_type': ticket_type}, ticket_type=ticket_type)
+        else:
+            form = EmployeeTicketForm(request.POST, ticket_type=request.POST.get('ticket_type'))
+            if form.is_valid():
+                ticket = form.save(commit=False)
+                ticket.employee = request.user  
+                ticket.save()
+                return redirect('ticket_success')
+    else:
+        form = EmployeeTicketForm(initial={'employee': request.user})
+    return render(request, 'registration/employee_ticket.html', {'form': form, 'ticket_type': ticket_type})   
+
+
+# @login_required
+def employee_panel(request):
+    user = request.user
+    profile = get_object_or_404(StaffProfile, user=user)
+    workhours = WorkHourReport.objects.filter(employee=profile).order_by('month')
+    payslips = Payslip.objects.filter(employee=profile).order_by('-date_created')
+    tickets = EmployeeTicket.objects.filter(employee=user).select_related('employee').order_by('-created_at')
+
+    context = {
+        'profile': profile,
+        'workhours': workhours,
+        'payslips': payslips,
+        'tickets': tickets
+    }
+
+    return render(request, 'registration/employee_panel.html', context)

@@ -1,39 +1,85 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User , CustomerProfile , SupportTicket ,TicketReply ,Invoice
+from .models import User , CustomerProfile , SupportTicket ,TicketReply ,Invoice ,StaffProfile ,WorkHourReport ,Payslip , EmployeeTicket,EmployeeTicketReply
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from jalali_date.admin import ModelAdminJalaliMixin
 from django.utils.html import format_html
-from jalali_date import datetime2jalali
+from jalali_date import datetime2jalali ,datetime2jalali
 from django.utils.translation import gettext_lazy as _
 from home.models import Time
+from jalali_date import date2jalali
+
+
+
+
+class WorkHourInline(admin.TabularInline):
+    model = WorkHourReport
+    extra = 0
+
+
+class PayslipInline(admin.TabularInline):
+    model = Payslip
+    extra = 0
+
 
 
 @admin.register(User)
-class UserAdmin(ModelAdminJalaliMixin, BaseUserAdmin):
-    add_form = CustomUserCreationForm
-    form = CustomUserChangeForm
+class UserAdmin(BaseUserAdmin):
+    
+    list_display = ('phone_number', 'name', 'is_staff', 'is_active')
+    list_filter = ('is_staff', 'is_active')
+    search_fields = ('phone_number', 'name')
+    ordering = ('phone_number',)
     fieldsets = (
         (None, {'fields': ('phone_number', 'password')}),
-        (None, {'fields': ('name',)}),
-        (None, {'fields': ('is_superuser',)}),
+        ('اطلاعات شخصی', {'fields': ('name',)}),
+        ('دسترسی‌ها', {'fields': ('is_staff', 'is_active', 'is_superuser', 'groups', 'user_permissions')}),
+        ('تاریخ‌ها', {'fields': ('date_joined',)}),
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('phone_number', 'name', 'password1', 'password2', 'is_superuser',),
-        }),
+            'fields': ('phone_number', 'name', 'password1', 'password2', 'is_staff', 'is_active')}
+        ),
     )
-    list_display = ('phone_number', 'name', 'is_superuser', 'date_joined_jalali',)
-    search_fields = ('phone_number', 'name')
-    ordering = ('date_joined',)
-    readonly_fields = ['is_superuser']
 
     @admin.display(description=_('datetime joined'))
     def date_joined_jalali(self, obj):
         return datetime2jalali(obj.date_joined).strftime('%Y/%m/%d - %H:%M')
+    
 
 
+@admin.register(WorkHourReport)
+class WorkHourReportAdmin(admin.ModelAdmin):
+    list_display = ('employee', 'year', 'month', 'duty_hours', 'overtime')
+    list_filter = ('year', 'month')
+    search_fields = ('employee__phone_number', 'employee__name')
+
+@admin.register(Payslip)
+class PayslipAdmin(admin.ModelAdmin):
+    list_display = ('employee', 'year', 'month', 'payslip_jalali_date')
+    list_filter = ('year', 'month')
+    search_fields = ('employee__phone_number', 'employee__name')
+
+    @admin.display(description=_('تاریخ ایجاد'))
+    def payslip_jalali_date(self, obj):
+        return date2jalali(obj.date_created).strftime('%Y/%m/%d')
+
+@admin.register(StaffProfile)
+class StaffProfileAdmin(admin.ModelAdmin):
+    inlines = [PayslipInline,WorkHourInline]
+
+    list_display = ('user', 'birth_date', 'staff_joined_jalali_date')
+    search_fields = ('employee__name',)
+
+    @admin.display(description=_('تاریخ پیوستن'))
+    def staff_joined_jalali_date(self,obj):
+        return date2jalali(obj.date_joined).strftime('%Y/%m/%d')
+
+
+
+
+#مشتری ها 
 
 class TicketReplyInline(admin.TabularInline):
     model = TicketReply
@@ -42,11 +88,16 @@ class TicketReplyInline(admin.TabularInline):
     exclude = ['responder']
 
 
+
 class SupportTicketAdmin(admin.ModelAdmin):
-    list_display = ['title', 'sender', 'created_at' ,'colored_status']
+    list_display = ['title', 'sender', 'support_jalali_date' ,'colored_status']
     inlines = [TicketReplyInline]
     list_filter = ['status']
     readonly_fields = ['status']
+
+    @admin.display(description=_('تاریخ ایجاد'))
+    def support_jalali_date(self, obj):
+        return date2jalali(obj.created_at).strftime('%Y/%m/%d')
 
 
     def colored_status(self,obj):
@@ -82,13 +133,24 @@ class SupportTicketAdmin(admin.ModelAdmin):
 admin.site.register(SupportTicket, SupportTicketAdmin)
 
 class TicketReplyAdmin(admin.ModelAdmin):
-    list_display = ['ticket','responder','created_at'] 
+    list_display = ['ticket','responder','reply_admin_jalali_date'] 
     list_filter = ['created_at']
+
+    def save_model(self, request, obj, form, change):
+        if not obj.responder_id:
+            obj.responder = request.user  # مقداردهی responder به کاربر جاری
+        super().save_model(request, obj, form, change)
+
+    @admin.display(description=_('تاریخ ایجاد'))
+    def reply_admin_jalali_date(self,obj):
+        return date2jalali(obj.created_at).strftime('%Y/%m/%d')
+
 admin.site.register(TicketReply,TicketReplyAdmin)
 
 
+
 class InvoiceAdmin(admin.ModelAdmin):
-    list_display = ['customer','created_date'] 
+    list_display = ['customer','invoice_jalali_date'] 
     list_filter = ['created_date']
 
     def invoice_preview(self, obj):
@@ -100,6 +162,11 @@ class InvoiceAdmin(admin.ModelAdmin):
     
     invoice_preview.allow_tags = True
     invoice_preview.short_description = 'پیش‌نمایش فاکتور'
+
+    @admin.display(description=_('تاریخ ایجاد'))
+    def invoice_jalali_date(self, obj):
+        return date2jalali(obj.created_date).strftime('%Y/%m/%d')
+
 
 admin.site.register(Invoice,InvoiceAdmin)    
 
@@ -117,8 +184,13 @@ class CustomerProfileAdmin(admin.ModelAdmin):
     list_display = ['user',]
     readonly_fields = ['show_reserve_history','show_tikets']
     inlines = [InvoiceInline]
-    
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.filter(user__is_staff=False)
+            
+
+    
     def show_reserve_history(self,obj):
         times = Time.objects.filter(request_reservation__user=obj.user).order_by('-fix_reserved_date')
         if not times.exists():
@@ -138,3 +210,100 @@ class CustomerProfileAdmin(admin.ModelAdmin):
         ])
     show_tikets.short_description = "تاریخچه تیکت ها"
     show_tikets.allow_tags = True
+
+
+
+# Employee Tickets
+
+@admin.register(EmployeeTicket)
+class EmployeeTicketAdmin(admin.ModelAdmin):
+    list_display = (
+        "id", "employee", "ticket_type", "status",
+        "leave_start", "leave_end", "facility_amount",
+        "advance_amount", "create_employee_ticket_jalali_date"
+    )
+    list_filter = ("ticket_type", "status", "created_at")
+    search_fields = ("employee__username", "employee__first_name", "employee__last_name")
+
+    fieldsets = (
+        ("اطلاعات عمومی", {
+            "fields": ("employee", "ticket_type", "status", "description")
+        }),
+        ("مرخصی", {
+            "fields": ("leave_start", "leave_end", "leave_type"),
+            "classes": ("collapse",)  # جمع‌شونده
+        }),
+        ("تسهیلات", {
+            "fields": ("facility_amount", "facility_duration_months"),
+            "classes": ("collapse",)
+        }),
+        ("مساعده", {
+            "fields": ("advance_amount",),
+            "classes": ("collapse",)
+        }),
+        ("زمان‌ها", {
+            "fields": ("create_employee_ticket_jalali_date", "updated_at"),
+        }),
+    )
+
+    readonly_fields = ("create_employee_ticket_jalali_date", "updated_at")
+
+    @admin.display(description=_('تاریخ ایجاد'))
+    def create_employee_ticket_jalali_date(self,obj):
+        return date2jalali(obj.created_at).strftime('%Y/%m/%d')
+
+
+
+    def get_fieldsets(self, request, obj=None):
+        """
+        بر اساس نوع تیکت، فقط فیلدهای مرتبط را باز نگه می‌دارد.
+        """
+        fieldsets = super().get_fieldsets(request, obj)
+        if obj:
+            for title, options in fieldsets:
+                if title not in ["اطلاعات عمومی", "زمان‌ها"]:
+                    if title != self._get_ticket_type_title(obj.ticket_type):
+                        options["classes"] = ("collapse",)
+                    else:
+                        options.pop("classes", None)
+        return fieldsets
+
+    def _get_ticket_type_title(self, ticket_type):
+        """
+        برگرداندن عنوان فارسی گروه فیلد بر اساس نوع تیکت
+        """
+        return {
+            EmployeeTicket.TicketType.LEAVE: "مرخصی",
+            EmployeeTicket.TicketType.FACILITY: "تسهیلات",
+            EmployeeTicket.TicketType.ADVANCE: "مساعده",
+            EmployeeTicket.TicketType.OTHER: "",  # فقط توضیحات عمومی
+        }.get(ticket_type, "")
+    
+
+
+@admin.register(EmployeeTicketReply)
+class EmployeeTicketReplyAdmin(admin.ModelAdmin):
+    list_display = ("id", "ticket", "author", "replay_employee_jalali_date", "is_read")
+    list_filter = ("is_read", "created_at", "author")
+    search_fields = ("author__username", "author__first_name", "author__last_name", "ticket__employee__username")
+    readonly_fields = ("created_at","author")
+    exclude = ['author']
+    
+
+    fieldsets = (
+        ("اطلاعات پاسخ", {
+            "fields": ("ticket","message", "is_read")
+        }),
+        ("زمان‌ها", {
+            "fields": ("created_at",),
+        }),
+    )
+
+    @admin.display(description=_('تاریخ ایجاد'))
+    def replay_employee_jalali_date(self, obj):
+        return date2jalali(obj.created_at).strftime('%Y/%m/%d')
+
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            obj.author = request.user  
+        super().save_model(request, obj, form, change)

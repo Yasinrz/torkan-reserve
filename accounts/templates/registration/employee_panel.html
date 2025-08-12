@@ -1,0 +1,197 @@
+{% load c_jformat %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل کارمند - کارگاه طلاسازی</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(to bottom, #f5f5f5, #e5e5e5);
+        }
+        .gold-gradient {
+            background: linear-gradient(45deg, #FFD700, #DAA520);
+        }
+        .card-shadow {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .gold-button {
+            background: linear-gradient(45deg, #FFD700, #DAA520);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .gold-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .gold-icon {
+            color: #DAA520;
+        }
+        .table-header {
+            background: linear-gradient(45deg, #DAA520, #FFD700);
+            color: white;
+        }
+        .table-row:hover {
+            background-color: #f9fafb;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .no-data {
+            background: #fee2e2;
+            border: 1px solid #ef4444;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            color: #b91c1c;
+            text-align: center;
+        }
+        .no-data i {
+            margin-right: 0.5rem;
+        }
+        .card {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .list-item {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .list-item:last-child {
+            border-bottom: none;
+        }
+        a {
+            color: #DAA520;
+            transition: color 0.3s ease-in-out;
+        }
+        a:hover {
+            color: #FFD700;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4">
+    <div class="container mx-auto max-w-4xl">
+        <!-- Header -->
+        <div class="gold-gradient text-white rounded-t-lg p-8 text-center relative overflow-hidden card-shadow">
+            <div class="absolute inset-0 bg-black opacity-10"></div>
+            <h1 class="text-2xl md:text-3xl font-bold relative z-10">
+                <i class="fas fa-user-circle gold-icon mr-2"></i> پنل کارمند: {{ profile.user.name }}
+            </h1>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            <!-- Profile Information -->
+            <div class="card card-shadow">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-info-circle gold-icon mr-2"></i> اطلاعات پروفایل
+                </h2>
+                <ul class="text-gray-600">
+                    <li class="list-item">
+                        <i class="fas fa-user mr-2 gold-icon"></i> نام کارمند: {{ profile.user.name}}
+                    </li>
+                    <li class="list-item">
+                        <i class="fas fa-phone mr-2 gold-icon"></i> تلفن همراه: {{ profile.user.phone_number|default:"ثبت نشده" }}
+                    </li>
+                    <li class="list-item">
+                        <i class="fas fa-birthday-cake mr-2 gold-icon"></i> تاریخ تولد: {{ profile.user.birth_date|to_jalali|default:"ثبت نشده" }}
+                    </li>
+                    <li class="list-item">
+                        <i class="fas fa-calendar-alt mr-2 gold-icon"></i> تاریخ پیوستن: {{ profile.user.date_joined|to_jalali|default:"ثبت نشده" }}
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Work Hours -->
+            <div class="card card-shadow">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-clock gold-icon mr-2"></i> گزارش ساعات کاری
+                </h2>
+                {% if workhours %}
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right">
+                        <thead class="table-header">
+                            <tr>
+                                <th class="p-3">ماه</th>
+                                <th class="p-3">ساعت موظفی</th>
+                                <th class="p-3">ساعت اضافه کاری</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for wh in workhours %}
+                            <tr class="table-row">
+                                <td class="p-3">{{ wh.get_month_display }}</td>
+                                <td class="p-3">{{ wh.duty_hours }}</td>
+                                <td class="p-3">{{ wh.overtime }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="no-data">
+                    <i class="fas fa-exclamation-circle"></i> هیچ گزارشی یافت نشد.
+                </p>
+                {% endif %}
+            </div>
+
+            <!-- Payslips -->
+            <div class="card card-shadow">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-file-invoice gold-icon mr-2"></i> فیش حقوقی
+                </h2>
+                {% if payslips %}
+                <ul class="text-gray-600">
+                    {% for payslip in payslips %}
+                    <li class="list-item">
+                        <i class="fas fa-calendar mr-2 gold-icon"></i> سال: {{ payslip.year }} - 
+                        <i class="fas fa-calendar mr-2 gold-icon"></i> ماه: {{ payslip.get_month_display }} - 
+                        <a href="{{ payslip.payslip_image.url }}" target="_blank">
+                            دانلود: {{ payslip.payslip_image|cut:"payslips/" }}
+                        </a>
+                    </li>
+                    
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="no-data">
+                    <i class="fas fa-exclamation-circle"></i> فیش حقوقی موجود نیست.
+                </p>
+                {% endif %}
+            </div>
+
+            <!-- Tickets -->
+            <div class="card card-shadow">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-ticket-alt gold-icon mr-2"></i> تیکت‌ها
+                </h2>
+                {% if tickets %}
+                <ul class="text-gray-600">
+                    {% for ticket in tickets %}
+                    <li class="list-item">
+                        <i class="fas fa-ticket-alt mr-2 gold-icon"></i> 
+                        {{ ticket.created_at|to_jalali }} - 
+                        نوع: {{ ticket.get_ticket_type_display }} - 
+                        وضعیت: {{ ticket.get_status_display }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="no-data">
+                    <i class="fas fa-exclamation-circle"></i> تیکتی یافت نشد.
+                </p>
+                {% endif %}
+                <a href="{% url 'staff_ticket' %}" class="gold-button text-white font-semibold py-2 px-4 rounded-lg inline-block mt-4">
+                    <i class="fas fa-ticket-alt mr-2"></i> ثبت تیکت جدید
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-8 text-center text-gray-600">
+            <p class="text-sm">کارگاه طلاسازی | طراحی شده برای تجربه‌ای لوکس و بی‌نظیر</p>
+        </div>
+    </div>
+</body>
+</html>

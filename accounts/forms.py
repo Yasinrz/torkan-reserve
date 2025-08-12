@@ -1,6 +1,6 @@
 import jdatetime
 from django.contrib.auth.forms import UserChangeForm
-from .models import User
+from .models import User , SupportTicket ,EmployeeTicket
 from home.models import Time
 from django import forms
 from django.contrib.auth import get_user_model
@@ -102,3 +102,123 @@ class VerificationCodeForm(forms.Form):
     verification_code = forms.CharField(max_length=4, required=False ,label='کد اعتبار سنجی' )
 
 
+class SupportTicketForm(forms.ModelForm):
+     class Meta:
+        model = SupportTicket
+        fields = ('title', 'message' )
+        lables ={
+            'title': 'موضوع تیکت',
+            'message': 'متن پیام',
+        }
+
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'class': 'form-input',
+                'placeholder': 'عنوان تیکت'
+            }),
+            'message': forms.Textarea(attrs={
+                'class': 'form-textarea',
+                'rows': 4,
+                'placeholder': 'پیام خود را بنویسید...'
+            }),
+        }
+        
+
+
+class EmployeeTicketForm(forms.ModelForm):
+    class Meta:
+        model = EmployeeTicket
+        fields = [
+            "employee",
+            "ticket_type",
+            "leave_start",
+            "leave_end",
+            "leave_type",
+            "facility_amount",
+            "facility_duration_months",
+            "advance_amount",
+            "description",
+            "status",
+        ]
+        labels = {
+            "employee": "کارمند",
+            "ticket_type": "نوع تیکت",
+            "leave_start": "تاریخ شروع مرخصی",
+            "leave_end": "تاریخ پایان مرخصی",
+            "leave_type": "نوع مرخصی",
+            "facility_amount": "مبلغ تسهیلات",
+            "facility_duration_months": "مدت بازپرداخت (ماه)",
+            "advance_amount": "مبلغ مساعده",
+            "description": "توضیحات",
+            "status": "وضعیت",
+        }
+        widgets = {
+            "ticket_type": forms.Select(attrs={"class": "form-select"}),
+            "leave_start": forms.DateInput(attrs={"type": "date", "class": "form-input"}),
+            "employee": forms.HiddenInput(),
+            "ticket_type": forms.Select(attrs={"class": "form-select"}),
+            "leave_start": forms.DateInput(attrs={"type": "date", "class": "form-input"}),
+            "leave_end": forms.DateInput(attrs={"type": "date", "class": "form-input"}),
+            "leave_type": forms.Select(attrs={"class": "form-select"}),
+            "facility_amount": forms.NumberInput(attrs={"class": "form-input", "step": "0.01"}),
+            "facility_duration_months": forms.NumberInput(attrs={"class": "form-input"}),
+            "advance_amount": forms.NumberInput(attrs={"class": "form-input", "step": "0.01"}),
+            "description": forms.Textarea(attrs={"class": "form-textarea", "rows": 4}),
+            "status": forms.HiddenInput(),
+        }
+
+    def __init__(self, *args, **kwargs):
+        ticket_type = kwargs.pop('ticket_type', None)  # دریافت ticket_type از ویو
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+
+        # تنظیم فیلدهای نمایش داده‌شده بر اساس ticket_type
+        if ticket_type == 'leave':
+            self.fields = {key: self.fields[key] for key in ['employee', 'ticket_type', 'leave_start', 'leave_end', 'leave_type', 'description', 'status']}
+        elif ticket_type == 'facility':
+            self.fields = {key: self.fields[key] for key in ['employee', 'ticket_type', 'facility_amount', 'facility_duration_months', 'description', 'status']}
+        elif ticket_type == 'advance':
+            self.fields = {key: self.fields[key] for key in ['employee', 'ticket_type', 'advance_amount', 'description', 'status']}
+        elif ticket_type == 'other':
+            self.fields = {key: self.fields[key] for key in ['employee', 'ticket_type', 'description', 'status']}
+
+        # تنظیم layout برای Crispy Forms
+        self.helper.layout = Layout(
+            Field('employee', css_class='hidden'),
+            Field('ticket_type', css_class='mb-4'),
+            Div(
+                Field('leave_start', css_class='mb-4'),
+                Field('leave_end', css_class='mb-4'),
+                Field('leave_type', css_class='mb-4'),
+                css_class='leave-fields' if ticket_type == 'leave' else 'hidden',
+            ),
+            Div(
+                Field('facility_amount', css_class='mb-4'),
+                Field('facility_duration_months', css_class='mb-4'),
+                css_class='facility-fields' if ticket_type == 'facility' else 'hidden',
+            ),
+            Div(
+                Field('advance_amount', css_class='mb-4'),
+                css_class='advance-fields' if ticket_type == 'advance' else 'hidden',
+            ),
+            Field('description', css_class='mb-4'),
+            Field('status', css_class='hidden'),
+        )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        ticket_type = cleaned_data.get("ticket_type")
+
+        # اعتبارسنجی فیلدهای مرتبط با نوع تیکت
+        if ticket_type == EmployeeTicket.TicketType.LEAVE:
+            if not cleaned_data.get("leave_start") or not cleaned_data.get("leave_end") or not cleaned_data.get("leave_type"):
+                raise forms.ValidationError("برای تیکت مرخصی باید تاریخ شروع، پایان و نوع مرخصی را وارد کنید.")
+        elif ticket_type == EmployeeTicket.TicketType.FACILITY:
+            if not cleaned_data.get("facility_amount"):
+                raise forms.ValidationError("برای تیکت تسهیلات باید مبلغ تسهیلات را وارد کنید.")
+        elif ticket_type == EmployeeTicket.TicketType.ADVANCE:
+            if not cleaned_data.get("advance_amount"):
+                raise forms.ValidationError("برای تیکت مساعده باید مبلغ مساعده را وارد کنید.")
+
+        return cleaned_data

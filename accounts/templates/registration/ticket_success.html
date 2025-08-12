@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تیکت با موفقیت ارسال شد - کارگاه طلاسازی</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(to bottom, #f5f5f5, #e5e5e5);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        .container {
+            max-width: 32rem;
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .gold-gradient {
+            background: linear-gradient(45deg, #FFD700, #DAA520);
+        }
+        .header {
+            color: white;
+            border-radius: 0.5rem 0.5rem 0 0;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-overlay {
+            position: absolute;
+            inset: 0;
+            background: black;
+            opacity: 0.1;
+        }
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            position: relative;
+            z-index: 10;
+        }
+        @media (min-width: 768px) {
+            .header h1 {
+                font-size: 1.875rem;
+            }
+        }
+        .gold-icon {
+            color: #DAA520;
+        }
+        .success-message {
+            background: #d1fae5;
+            border: 1px solid #10b981;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1.5rem;
+            color: #065f46;
+            text-align: center;
+        }
+        .success-message i {
+            margin-right: 0.5rem;
+        }
+        .back-button {
+            background: linear-gradient(45deg, #FFD700, #DAA520);
+            color: white;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            width: fit-content;  /* یا مثلا width: 200px; */
+            margin: 1.5rem auto 0 auto;  /* بالا 1.5rem، بقیه وسط */
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            display: block;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: #4B5563;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header gold-gradient">
+            <div class="header-overlay"></div>
+            <h1>
+                <i class="fas fa-ticket-alt gold-icon mr-2"></i> تیکت کارمند
+            </h1>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message">
+            <i class="fas fa-check-circle"></i> تیکت با موفقیت ارسال شد!
+        </div>
+
+        <!-- Back Button -->
+        <a href="{% url 'employee_panel' %}" class="back-button">
+            <i class="fas fa-arrow-right mr-2"></i> بازگشت به پنل کاربری
+        </a>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>کارگاه طلاسازی | طراحی شده برای تجربه‌ای لوکس و بی‌نظیر</p>
+        </div>
+    </div>
+</body>
+</html>

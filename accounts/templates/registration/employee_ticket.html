@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ارسال تیکت پرسنل - کارگاه طلاسازی</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<!-- Persian Datepicker CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css">
+
+<style>
+  body{font-family:'Vazirmatn',sans-serif;background:linear-gradient(to bottom,#f5f5f5,#e5e5e5);min-height:100vh;display:flex;justify-content:center;align-items:center;padding:1rem}
+  .container{max-width:32rem;background:white;border-radius:.5rem;padding:1.5rem;box-shadow:0 8px 16px rgba(0,0,0,.1),0 2px 4px rgba(0,0,0,.05)}
+  .gold-gradient{background:linear-gradient(45deg,#FFD700,#DAA520)}
+  .header{color:white;border-radius:.5rem .5rem 0 0;padding:2rem;text-align:center;position:relative;overflow:hidden}
+  .header-overlay{position:absolute;inset:0;background:black;opacity:.1}
+  .form-section{margin-top:1.5rem;padding:1rem}
+  .form-input,.form-textarea,.form-select{border:1px solid #DAA520;border-radius:.5rem;padding:.5rem;width:100%;transition:border-color .3s ease-in-out}
+  .form-input:focus,.form-textarea:focus,.form-select:focus{border-color:#FFD700;outline:none;box-shadow:0 0 5px rgba(218,165,32,.3)}
+  label{color:#4B5563;font-weight:600;margin-bottom:.5rem;display:block}
+  .gold-button{background:linear-gradient(45deg,#FFD700,#DAA520);color:white;font-weight:600;padding:.5rem 1rem;border-radius:.5rem;width:100%;margin-top:1.5rem;transition:transform .2s ease-in-out,box-shadow .2s ease-in-out;border:none}
+  .gold-button:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,.2)}
+  .success-message{background:#d1fae5;border:1px solid #10b981;border-radius:.5rem;padding:1rem;margin-bottom:1rem;color:#065f46;text-align:center}
+  .error-list{background:#fee2e2;border:1px solid #ef4444;border-radius:.5rem;padding:1rem;margin-bottom:1rem}
+  .error-list li{color:#b91c1c;margin-bottom:.5rem}
+  .hidden{display:none}
+  .mb-4{margin-bottom:1rem}
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="header gold-gradient">
+      <div class="header-overlay"></div>
+      <h1><i class="fas fa-ticket-alt gold-icon mr-2"></i> ارسال تیکت پرسنل</h1>
+    </div>
+
+    <div class="form-section">
+      {% if success %}
+        <div class="success-message"><i class="fas fa-check-circle"></i> تیکت با موفقیت ارسال شد!</div>
+      {% endif %}
+
+      <form id="ticketForm" method="post" action="">
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="mb-4 field-wrapper {% if field.name == 'employee' or field.name == 'status' %}hidden{% endif %}" data-field-name="{{ field.name }}">
+            {% if field.field.widget.input_type != "hidden" %}
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {% endif %}
+            {{ field }}
+            {% if field.errors %}
+              <ul class="error-list">
+                {% for error in field.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        {% endfor %}
+
+        <button type="submit" class="gold-button">
+          <i class="fas fa-paper-plane mr-2"></i> ارسال
+        </button>
+      </form>
+    </div>
+
+    <div class="footer" style="margin-top:1.5rem;text-align:center;color:#4B5563;font-size:.875rem">
+      <p class="text-sm">کارگاه طلاسازی | طراحی شده برای تجربه‌ای لوکس و بی‌نظیر</p>
+    </div>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/persian-date@1.2.0/dist/persian-date.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  const ticketTypeSelect = document.querySelector("#id_ticket_type");
+  const wrappers = Array.from(document.querySelectorAll(".field-wrapper"));
+
+  // نگاشت فیلدها بر اساس مقدار واقعی value در select
+  const map = {
+      leave: ["leave_start", "leave_end", "leave_type", "description"],
+      facility: ["facility_amount", "facility_duration_months", "description"],
+      advance: ["advance_amount", "description"],
+      other: ["description"]
+  };
+
+  function setVisibility(selected) {
+      const sel = selected || 'other';
+
+      wrappers.forEach(w => {
+          const name = w.dataset.fieldName;
+          if (name === 'employee' || name === 'status') {
+              w.classList.add('hidden'); 
+              return;
+          }
+          if (name === 'ticket_type') {
+              w.classList.remove('hidden'); 
+              return;
+          }
+          if (map[sel] && map[sel].includes(name)) {
+              w.classList.remove('hidden');
+          } else {
+              w.classList.add('hidden');
+          }
+      });
+  }
+
+  if (!ticketTypeSelect) {
+      console.error("فیلد ticket_type در فرم پیدا نشد");
+      return;
+  }
+
+  ticketTypeSelect.addEventListener('change', function () {
+      setVisibility(this.value);
+  });
+
+  // مقدار اولیه را اعمال کن
+  setVisibility(ticketTypeSelect.value);
+
+  // پیکربندی persianDatepicker روی inputهای type date
+  $("input[type='date']").each(function() {
+    $(this).persianDatepicker({
+      format: 'YYYY/MM/DD',
+      autoClose: true,
+      initialValue: false,
+    });
+  });
+
+});
+</script>
+</body>
+</html>

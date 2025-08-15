@@ -171,8 +171,6 @@ nav h1 {
 footer {
     background: linear-gradient(90deg, rgba(255, 215, 0, 0.7), rgba(230, 184, 0, 0.7));
     color: #1a1a1a;
-    padding: 40px 20px;
-    text-align: center;
     border-top-left-radius: 50px;
     border-top-right-radius: 50px;
 }
@@ -180,11 +178,11 @@ footer {
 @media (max-width: 991.98px) {
     .navbar-collapse {
         order: 4;
-}
-
+    }
+    
     nav h1 {
         display: none;
-}
+    }
     .navbar-brand {
         order: 2;
         margin: 0 auto;

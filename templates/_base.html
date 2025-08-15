@@ -7,17 +7,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% trans 'Gold smelting workshop' %}{% endblock %}</title>
+    <link rel="icon" href="{% static 'images/logo.png' %}" type="image/png">
     <!-- Load Back-ground image -->
     <link rel="preload" as="image" href="{% static 'images/back.webp' %}" type="image/webp">
     <!-- Bootstrap CSS & JS -->
-    <link rel="preload" as="style" href="{% static 'css/bootstrap.min.css' %}" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"></noscript>
+    <link as="style" href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" crossorigin="anonymous">
     <script src="{% static 'js/bootstrap.bundle.min.js' %}" defer></script>
     <!-- Load Vazir font -->
     <link rel="preload" href="{% static 'fonts/Vazir.woff2' %}" as="font" type="font/woff2" crossorigin="anonymous">
     <!-- Base Css -->
-    <link rel="preload" as="style" href="{% static 'css/base.css' %}" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{% static 'css/base.css' %}"></noscript>
+    <link as="style" href="{% static 'css/base.css' %}" rel="stylesheet" crossorigin="anonymous">
     <!-- Customize heading -->
     {% block head %}
 

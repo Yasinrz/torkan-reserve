@@ -17,6 +17,8 @@
     <link rel="preload" href="{% static 'fonts/Vazir.woff2' %}" as="font" type="font/woff2" crossorigin="anonymous">
     <!-- Base Css -->
     <link as="style" href="{% static 'css/base.css' %}" rel="stylesheet" crossorigin="anonymous">
+    <!-- Datetime js function -->
+    <script type="module" src="{% static 'js/datetime.js' %}"></script>
     <!-- Customize heading -->
     {% block head %}
 
@@ -64,6 +66,12 @@
 <!-- Main content -->
 <main style="flex: 1;">
     <div class="container-fluid">
+        <div class="p-2 mb-2 fs-6 glass-element d-inline-flex border border-black" id="datetime"> </div>
+    </div>
+    {% block content %}
+        
+    {% endblock %}
+    </div>
 </main>
 
 <footer class="text-center mt-2">

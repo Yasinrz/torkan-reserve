@@ -14,7 +14,7 @@
 body {
     color: #333;
     background: url('../images/back.webp') center/cover no-repeat fixed;
-    min-height: 100vh;
+    padding-top: 135px;
 }
 
 .glass-navbar {

@@ -14,7 +14,7 @@
 body {
     color: #333;
     background: url('../images/back.webp') center/cover no-repeat fixed;
-    padding-top: 135px;
+    padding-top: 125px;
 }
 
 .glass-element {
@@ -44,7 +44,7 @@ nav .text-black:hover {
 #nav-btn {
     background-color: rgba(219, 208, 1, 0.833) !important;
     transition: all 0.3s ease;
-    margin-left: 10px;
+    
 }
 #nav-btn:hover {
     transform: translateY(-2px);
@@ -201,7 +201,25 @@ footer {
 }
 
 @media (max-width: 576px) {
+    body {
+        padding-top: 100px;
+    }
+    .glass-element {
+        border-radius: 40px;
+    }
     #nav-btn {
         font-size: 0.75rem;
+    }
+    .navbar-brand {
+        max-height: 70px;
+        max-width: 70px;
+    }
+    
+    .navbar-toggler-icon {
+        width: 1rem;
+        height: 1rem;
+    }
+    #datetime {
+        font-size: 0.65rem;
     }
 }

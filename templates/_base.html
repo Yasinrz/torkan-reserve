@@ -28,7 +28,7 @@
 <body class="m-0 d-flex flex-column min-vh-100">
 <header>
     {% comment %} {% include "gold_price.html" %} {% endcomment %}
-    <nav class="glass-element navbar navbar-expand-lg fixed-top border border-dark mx-2 mt-3">
+    <nav class="glass-element navbar navbar-expand-lg fixed-top border border-dark mx-1 mt-2">
     <div class="container-fluid d-flex">
         <img src="{% static 'images/logo.png' %}" alt="لوگو" class="navbar-brand">
         <button class="navbar-toggler order-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -57,7 +57,7 @@
               </li>
             </ul>
         </div>    
-        <a href="{% url 'custom_panel' %}" class="btn px-3 py-3 fw-black border border-dark rounded-pill order-3" id="nav-btn">پنل مشتریان</a>
+        <a href="{% url 'custom_panel' %}" class="btn px-sm-3 py-sm-3 p-2 fw-black border border-dark rounded-pill order-3" id="nav-btn">پنل مشتریان</a>
     </div>
     </nav>
 
@@ -66,12 +66,11 @@
 <!-- Main content -->
 <main style="flex: 1;">
     <div class="container-fluid">
-        <div class="p-2 mb-2 fs-6 glass-element d-inline-flex border border-black" id="datetime"> </div>
+        <div class="p-2 mb-2 fs-sm-6 glass-element d-inline-flex border border-black" id="datetime"> </div>
     </div>
     {% block content %}
         
     {% endblock %}
-    </div>
 </main>
 
 <footer class="text-center mt-2">

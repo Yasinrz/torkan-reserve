@@ -1,0 +1,23 @@
+{% load i18n %}
+{% load humanize %}
+<div class="price-line">
+  <p> test </p>
+    {% for key, price_data in prices.items %}
+        <span class="
+      {% if price_data.change > 0 %} up
+      {% elif price_data.change < 0 %} down
+      {% else %} nochange
+      {% endif %}
+    ">
+      {% if key == '18ayar' %}🪙 {% trans '18-karat gold' %}{% elif key == 'abshodeh' %}⚖️
+          {% trans 'Melted' %}{% elif key == 'sekkeh' %}🥇
+          {% trans 'Coin' %}{% elif key == 'gerami' %}🏅 {% trans 'Gram coin' %}{% endif %}
+            : {{ price_data.value|intcomma }} ریال
+      (
+            {% if price_data.change > 0 %}📈{% elif price_data.change < 0 %}📉{% endif %}
+            {{ price_data.change|floatformat:0 }}
+      )
+    </span>
+        {% if not forloop.last %} | {% endif %}
+    {% endfor %}
+</div>

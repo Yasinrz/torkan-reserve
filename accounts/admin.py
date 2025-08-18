@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User , CustomerProfile , SupportTicket ,TicketReply ,Invoice ,StaffProfile ,WorkHourReport ,Payslip , EmployeeTicket,EmployeeTicketReply
+from .models import User , CustomerProfile , SupportTicket ,TicketReply ,Invoice ,StaffProfile ,WorkHourReport ,Payslip , EmployeeTicket,EmployeeTicketReply,EmployeeTicketProxy ,SupportTicketProxy,Suggestion
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from jalali_date.admin import ModelAdminJalaliMixin
 from django.utils.html import format_html
@@ -87,21 +87,39 @@ class TicketReplyInline(admin.TabularInline):
     readonly_fields = ['responder', 'created_at']
     exclude = ['responder']
 
+    def get_formset(self, request, obj=None, **kwargs):
+        FormSet = super().get_formset(request, obj, **kwargs)
+        original_save_new = FormSet.save_new
+
+        def save_new_with_responder(self2, form, commit=True):
+            instance = original_save_new(self2, form, False)
+            if not instance.responder_id:
+                instance.responder = request.user
+            if commit:
+                instance.save()
+                instance.ticket.status = 'answered'
+                instance.ticket.save()
+            return instance
+
+        FormSet.save_new = save_new_with_responder
+        return FormSet
 
 
-class SupportTicketAdmin(admin.ModelAdmin):
-    list_display = ['title', 'sender', 'support_jalali_date' ,'colored_status']
-    inlines = [TicketReplyInline]
+@admin.register(SupportTicketProxy)
+class SupportTicketProxyAdmin(admin.ModelAdmin):
+    list_display = ['sender','title', 'created_jalali', 'colored_status']
+    readonly_fields = ['created_jalali', 'status']
+    search_fields = ['sender__name','status']
     list_filter = ['status']
-    readonly_fields = ['status']
+    inlines = [TicketReplyInline]
 
-    @admin.display(description=_('تاریخ ایجاد'))
-    def support_jalali_date(self, obj):
+    @admin.display(description="تاریخ ایجاد")
+    def created_jalali(self, obj):
         return date2jalali(obj.created_at).strftime('%Y/%m/%d')
 
-
-    def colored_status(self,obj):
-        if obj.status=='answered':
+    @admin.display(description="وضعیت پاسخ")
+    def colored_status(self, obj):
+        if obj.status == 'answered':
             background = "#32CD32"
             text = 'پاسخ داده شده'
         else:
@@ -112,40 +130,61 @@ class SupportTicketAdmin(admin.ModelAdmin):
             background,
             text
         )
+
+
+
     
-    colored_status.short_description = 'وضعیت'
+
     
 
-    def save_formset(self, request, form, formset, change):
-        instances = formset.save(commit=False)
-        for instance in instances:
-            if not instance.pk:
-                instance.responder = request.user 
-                instance.save()
-                instance.ticket.status = 'answered'  
-                instance.ticket.save()
-            else:
-                instance.save()
-        formset.save_m2m()
+
+
+# class SupportTicketAdmin(admin.ModelAdmin):
+#     list_display = ['title', 'sender', 'support_jalali_date' ,'colored_status']
+#     inlines = [TicketReplyInline]
+#     list_filter = ['status']
+#     readonly_fields = ['status']
+
+#     @admin.display(description=_('تاریخ ایجاد'))
+#     def support_jalali_date(self, obj):
+#         return date2jalali(obj.created_at).strftime('%Y/%m/%d')
+
+
+#     def colored_status(self,obj):
+#         if obj.status=='answered':
+#             background = "#32CD32"
+#             text = 'پاسخ داده شده'
+#         else:
+#             background = "#FF0000"
+#             text = 'پاسخ داده نشده'
+#         return format_html(
+#             '<div style="background-color: {}; padding:4px 8px; border-radius:5px; text-align:center;">{}</div>',
+#             background,
+#             text
+#         )
+    
+#     colored_status.short_description = 'وضعیت'
+    
 
 
 
-admin.site.register(SupportTicket, SupportTicketAdmin)
 
-class TicketReplyAdmin(admin.ModelAdmin):
-    list_display = ['ticket','responder','reply_admin_jalali_date'] 
-    list_filter = ['created_at']
+# admin.site.register(SupportTicket, SupportTicketAdmin)
 
-    def save_model(self, request, obj, form, change):
-        if not obj.responder_id:
-            obj.responder = request.user  # مقداردهی responder به کاربر جاری
-        super().save_model(request, obj, form, change)
+# class TicketReplyAdmin(admin.ModelAdmin):
+#     list_display = ['ticket','responder','reply_admin_jalali_date'] 
+#     list_filter = ['created_at']
 
-    @admin.display(description=_('تاریخ ایجاد'))
-    def reply_admin_jalali_date(self,obj):
-        return date2jalali(obj.created_at).strftime('%Y/%m/%d')
+#     def save_model(self, request, obj, form, change):
+#         if not obj.responder_id:
+#             obj.responder = request.user  # مقداردهی responder به کاربر جاری
+#         super().save_model(request, obj, form, change)
 
-admin.site.register(TicketReply,TicketReplyAdmin)
+#     @admin.display(description=_('تاریخ ایجاد'))
+#     def reply_admin_jalali_date(self,obj):
+#         return date2jalali(obj.created_at).strftime('%Y/%m/%d')
+
+# admin.site.register(TicketReply,TicketReplyAdmin)
 
 
 
@@ -215,95 +254,231 @@ class CustomerProfileAdmin(admin.ModelAdmin):
 
 # Employee Tickets
 
-@admin.register(EmployeeTicket)
-class EmployeeTicketAdmin(admin.ModelAdmin):
-    list_display = (
-        "id", "employee", "ticket_type", "status",
-        "leave_start", "leave_end", "facility_amount",
-        "advance_amount", "create_employee_ticket_jalali_date"
-    )
-    list_filter = ("ticket_type", "status", "created_at")
-    search_fields = ("employee__username", "employee__first_name", "employee__last_name")
+# @admin.register(EmployeeTicket)
+# class EmployeeTicketAdmin(admin.ModelAdmin):
+#     list_display = (
+#         "id", "employee", "ticket_type",
+#         "leave_start", "leave_end", "facility_amount",
+#         "advance_amount", "create_employee_ticket_jalali_date"
+#     )
+#     list_filter = ("ticket_type", "created_at")
+#     search_fields = ("employee__username", "employee__first_name", "employee__last_name")
 
-    fieldsets = (
-        ("اطلاعات عمومی", {
-            "fields": ("employee", "ticket_type", "status", "description")
-        }),
-        ("مرخصی", {
-            "fields": ("leave_start", "leave_end", "leave_type"),
-            "classes": ("collapse",)  # جمع‌شونده
-        }),
-        ("تسهیلات", {
-            "fields": ("facility_amount", "facility_duration_months"),
-            "classes": ("collapse",)
-        }),
-        ("مساعده", {
-            "fields": ("advance_amount",),
-            "classes": ("collapse",)
-        }),
-        ("زمان‌ها", {
-            "fields": ("create_employee_ticket_jalali_date", "updated_at"),
-        }),
-    )
+#     fieldsets = (
+#         ("اطلاعات عمومی", {
+#             "fields": ("employee", "ticket_type", "description")
+#         }),
+#         ("مرخصی", {
+#             "fields": ("leave_start", "leave_end", "leave_type"),
+#             "classes": ("collapse",)  # جمع‌شونده
+#         }),
+#         ("تسهیلات", {
+#             "fields": ("facility_amount", "facility_duration_months"),
+#             "classes": ("collapse",)
+#         }),
+#         ("مساعده", {
+#             "fields": ("advance_amount",),
+#             "classes": ("collapse",)
+#         }),
+#         ("زمان‌ها", {
+#             "fields": ("create_employee_ticket_jalali_date", "updated_at"),
+#         }),
+#     )
 
-    readonly_fields = ("create_employee_ticket_jalali_date", "updated_at")
+#     readonly_fields = ("create_employee_ticket_jalali_date", "updated_at")
 
-    @admin.display(description=_('تاریخ ایجاد'))
-    def create_employee_ticket_jalali_date(self,obj):
-        return date2jalali(obj.created_at).strftime('%Y/%m/%d')
+#     @admin.display(description=_('تاریخ ایجاد'))
+#     def create_employee_ticket_jalali_date(self,obj):
+#         return date2jalali(obj.created_at).strftime('%Y/%m/%d')
+    
+#     def last_reply_status(self, obj):
+#         last_reply = obj.replies.order_by('-created_at').first()
+#         if last_reply:
+#             # برگرداندن متن وضعیت آخرین ریپلای با رنگ
+#             if last_reply.status == 'agreed':
+#                 bg = '#32CD32'
+#                 text = 'موافقت شده'
+#             elif last_reply.status == 'in_progress':
+#                 bg = '#007bff'
+#                 text = 'در حال بررسی'
+#             else:
+#                 bg = '#FF0000'
+#                 text = 'رد شده'
+#             return format_html(
+#                 '<div style="background-color:{}; padding:4px 8px; border-radius:5px; text-align:center;">{}</div>',
+#                 bg, text
+#             )
+#         return "-"
+
+#     last_reply_status.short_description = "وضعیت آخرین پاسخ"    
 
 
+    
 
-    def get_fieldsets(self, request, obj=None):
-        """
-        بر اساس نوع تیکت، فقط فیلدهای مرتبط را باز نگه می‌دارد.
-        """
-        fieldsets = super().get_fieldsets(request, obj)
-        if obj:
-            for title, options in fieldsets:
-                if title not in ["اطلاعات عمومی", "زمان‌ها"]:
-                    if title != self._get_ticket_type_title(obj.ticket_type):
-                        options["classes"] = ("collapse",)
-                    else:
-                        options.pop("classes", None)
-        return fieldsets
+# @admin.register(EmployeeTicketReply)
+# class EmployeeTicketReplyAdmin(admin.ModelAdmin):
+#     list_display = (
+#         "id",
+#         "ticket",
+#         "author",
+#         "replay_employee_jalali_date",
+#         "status_colored_ticket",
+#         "read_status_colored"
+#     )
+#     list_filter = ("is_read", "created_at", "author", "status_ticket")
+#     search_fields = ("author__username", "author__first_name", "author__last_name", "ticket__employee__username")
+#     readonly_fields = ("created_at", "author", "is_read" ,"status")
+#     exclude = ['author']
 
-    def _get_ticket_type_title(self, ticket_type):
-        """
-        برگرداندن عنوان فارسی گروه فیلد بر اساس نوع تیکت
-        """
-        return {
-            EmployeeTicket.TicketType.LEAVE: "مرخصی",
-            EmployeeTicket.TicketType.FACILITY: "تسهیلات",
-            EmployeeTicket.TicketType.ADVANCE: "مساعده",
-            EmployeeTicket.TicketType.OTHER: "",  # فقط توضیحات عمومی
-        }.get(ticket_type, "")
+#     fieldsets = (
+#         ("اطلاعات پاسخ", {
+#             "fields": ("ticket", "message", "is_read" ,"status_ticket")
+#         }),
+#         ("زمان‌ها", {
+#             "fields": ("created_at",),
+#         }),
+#     )
+
+#     @admin.display(description=_('تاریخ ایجاد'))
+#     def replay_employee_jalali_date(self, obj):
+#         return date2jalali(obj.created_at).strftime('%Y/%m/%d')
+
+#     def status_colored_ticket(self, obj):
+#         if obj.status_ticket == 'agreed':
+#             bg = '#32CD32'
+#             text = 'موافقت شده'
+#         elif obj.status_ticket == 'in_progress':
+#             bg = '#007bff'
+#             text = 'در حال بررسی'
+#         else:
+#             bg = '#FF0000'
+#             text = 'رد شده'
+#         return format_html(
+#             '<div style="background-color:{}; padding:4px 8px; border-radius:5px; text-align:center;">{}</div>',
+#             bg, text
+#         )
+#     status_colored_ticket.short_description = "وضعیت درخواست"
+
+#     def save_model(self, request, obj, form, change):
+#         if not obj.pk:
+#             obj.author = request.user
+#         super().save_model(request, obj, form, change)
+
+#     def read_status_colored(self, obj):
+#         if obj.status:
+#             background = "#32CD32"
+#             text = 'پاسخ داده شده'
+#         else:
+#             background = "#FFB700"
+#             text = 'در انتظار پاسخ'
+#         return format_html(
+#             '<div style="background-color: {}; padding:4px 8px; border-radius:5px; text-align:center;">{}</div>',
+#             background, text
+#         )
+#     read_status_colored.short_description = 'وضعیت پاسخ'
+
     
 
 
-@admin.register(EmployeeTicketReply)
-class EmployeeTicketReplyAdmin(admin.ModelAdmin):
-    list_display = ("id", "ticket", "author", "replay_employee_jalali_date", "is_read")
-    list_filter = ("is_read", "created_at", "author")
-    search_fields = ("author__username", "author__first_name", "author__last_name", "ticket__employee__username")
-    readonly_fields = ("created_at","author")
-    exclude = ['author']
-    
+class EmployeeTicketReplyInline(admin.TabularInline):
+    model = EmployeeTicketReply
+    extra = 0
+    readonly_fields = ('author', 'created_at')
+    fields = ('author', 'message', 'status_ticket', 'created_at')
+    show_change_link = True
 
-    fieldsets = (
-        ("اطلاعات پاسخ", {
-            "fields": ("ticket","message", "is_read")
-        }),
-        ("زمان‌ها", {
-            "fields": ("created_at",),
-        }),
-    )
-
-    @admin.display(description=_('تاریخ ایجاد'))
-    def replay_employee_jalali_date(self, obj):
-        return date2jalali(obj.created_at).strftime('%Y/%m/%d')
+    def save_new_instance(self, obj, request):
+        if not obj.pk:
+            obj.author = request.user
+            obj.save()
+            obj.ticket.status = 'answered'
+            obj.ticket.save()
 
     def save_model(self, request, obj, form, change):
-        if not obj.pk:
-            obj.author = request.user  
+        if not change:
+            obj.author = request.user
         super().save_model(request, obj, form, change)
+        if not change:
+            obj.ticket.status = 'answered'
+            obj.ticket.save()
+
+    def get_formset(self, request, obj=None, **kwargs):
+        formset = super().get_formset(request, obj, **kwargs)
+        original_save_new = formset.save_new
+
+        def save_new_with_author(self, form, commit=True):
+            instance = original_save_new(self, form, False)  # save=False
+            if not instance.author_id:
+                instance.author = request.user
+            if commit:
+                instance.save()
+            return instance
+
+        formset.save_new = save_new_with_author
+        return formset
+
+
+@admin.register(EmployeeTicketProxy)
+class EmployeeTicketProxyAdmin(admin.ModelAdmin):
+    list_display = (
+        'employee__name', 'ticket_type', 'created_jalali',
+        'status_colored', 'status_colored_ticket', 'description'
+    )
+    search_fields = ('employee__username', 'employee__first_name', 'employee__last_name')
+    list_filter = ('ticket_type',)
+    inlines = [EmployeeTicketReplyInline]
+
+    @admin.display(description="تاریخ ایجاد")
+    def created_jalali(self, obj):
+        return date2jalali(obj.created_at).strftime('%Y/%m/%d')
+
+    @admin.display(description="وضعیت پاسخ")
+    def status_colored(self, obj):
+        last_reply = obj.replies.order_by('-created_at').first()
+        if last_reply and last_reply.author.is_staff:
+            bg = "#32CD32"
+            text = "پاسخ داده شده"
+        else:
+            bg = "#FFB700"
+            text = "پاسخ داده نشده"
+        return format_html(
+            '<div style="background-color:{}; padding:4px 8px; border-radius:5px; text-align:center;">{}</div>',
+            bg, text
+        )
+
+    @admin.display(description="وضعیت درخواست")
+    def status_colored_ticket(self, obj):
+        last_reply = obj.replies.order_by('-created_at').first()
+        if not last_reply:
+            bg, text = '#007bff', 'در حال بررسی'
+        else:
+            if last_reply.status_ticket == 'agreed':
+                bg, text = '#32CD32', 'موافقت شده'
+            elif last_reply.status_ticket == 'in_progress':
+                bg, text = '#007bff', 'در حال بررسی'
+            else:
+                bg, text = '#FF0000', 'رد شده'
+        return format_html(
+            '<div style="background-color:{}; padding:4px 8px; border-radius:5px; text-align:center;">{}</div>',
+            bg, text
+        )
+
+    def save_model(self, request, obj, form, change):
+        
+        obj._admin_override = True
+        super().save_model(request, obj, form, change)
+    
+    
+
+@admin.register(Suggestion)
+class SuggestionAdmin(admin.ModelAdmin):
+    list_display = ("title", "user", "user_type", "created_at", "is_reviewed")
+    list_filter = ("user_type", "is_reviewed")
+    search_fields = ("title", "text", "user__name")
+
+    def get_object(self, request, object_id, from_field=None):
+        obj = super().get_object(request, object_id, from_field)
+        if obj and not obj.is_reviewed:
+            obj.is_reviewed = True
+            obj.save(update_fields=["is_reviewed"])
+        return obj

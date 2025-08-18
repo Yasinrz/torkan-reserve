@@ -10,5 +10,8 @@ urlpatterns = [
     path('custom_ticket/',views.custom_create_ticket, name='custom_ticket'),
     path('staff_create_ticket/',views.staff_create_ticket,name='staff_ticket'),
     path('employee_panel/',views.employee_panel, name='employee_panel'),
+    path('answer_custom/', views.answer_custom, name='answer_custom'),
+    path('answer_employee/', views.answer_employee , name='answer_employee'),
+    path('suggestion/', views.suggestion , name='suggestion')
 
 ]

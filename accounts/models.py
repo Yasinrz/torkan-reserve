@@ -113,7 +113,7 @@ class TicketReply(models.Model):
 
 
 class CustomerProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="کاربر", editable=False, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="کاربر", editable=False)
     
     def __str__(self):
         return f"پروفایل {self.user.name}"

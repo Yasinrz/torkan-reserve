@@ -164,14 +164,6 @@ footer {
 }
 
 @media (max-width: 991.98px) {
-    .navbar-collapse {
-        order: 4;
-    }
-    
-    .navbar-brand {
-        order: 2;
-        margin: 0 auto;
-    }
     .logo img {
         height: 40px;
     }

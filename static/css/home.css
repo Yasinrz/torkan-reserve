@@ -1,0 +1,17 @@
+#main-image {
+    object-fit: cover;
+    max-height: 250px;
+    min-height: 100px;
+}
+
+@media (max-width: 445px) {
+    .card h1 {
+        font-size: 1.2rem !important;
+    }
+    #p-exp {
+        font-size: 0.8rem !important;
+    }
+    .reserve-btn {
+        font-size: 0.8rem !important;
+    }
+}

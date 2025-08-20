@@ -29,7 +29,7 @@
 <header>
     {% comment %} {% include "gold_price.html" %} {% endcomment %}
     <nav class="glass-element navbar fixed-top border border-dark mx-1 mt-2">
-      <div class="container-fluid d-flex flex-nowrap">
+      <div class="container-fluid d-flex">
         <img src="{% static 'images/logo.png' %}" alt="لوگو" class="navbar-brand order-2">
         <button class="navbar-toggler border-dark border-3 order-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,11 +37,6 @@
       </button>
       <div class="collapse navbar-collapse order-4" id="navbarNav">
           <ul class="navbar-nav mr-auto gap-4">
-            <li class="nav-item ms-5">
-              <h1 >
-                  صنایع ذوب فلزات نجیب ترکان
-              </h1>
-            </li>
             <li class="nav-item ms-4">
                 <a class="text-black text-decoration-none fw-bold" href="{% url 'home' %}">صفحه اصلی</a>
             </li>

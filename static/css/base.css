@@ -23,6 +23,10 @@ body {
     backdrop-filter: blur(10px);
     border-radius: 50px;
 }
+.white-glass {
+    background: rgba(255, 255, 255, 0.75);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
 nav h1 {
     font-size: 1rem;
     font-weight: bold;
@@ -112,16 +116,7 @@ nav .text-black:hover {
     color: #333;
 }
 
-.hero-content {
-    background: rgba(255, 255, 255, 0.75);
-    padding: 24px;
-    border-radius: 10px;
-    max-width: 500px;
-    margin: auto;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-.hero-content h2 {
+/* .hero-content h2 {
     font-size: 1rem;
 }
 
@@ -137,16 +132,11 @@ nav .text-black:hover {
 .hero-content p {
     font-size: 1rem;
     margin-bottom: 20px;
-}
+} */
 
 .reserve-btn {
     background: linear-gradient(45deg, #ffd700, #e6b800);
     color: #1a1a1a;
-    border: none;
-    padding: 15px 30px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    border-radius: 10px;
     box-shadow: 0 4px 15px rgba(255, 215, 0, 0.6);
     transition: all 0.3s ease;
 }
@@ -172,7 +162,7 @@ footer {
         font-size: 0.65rem;
     }
 
-    .hero-content {
+    /* .hero-content {
         max-width: 90%;
         padding: 12px;
     }
@@ -188,7 +178,7 @@ footer {
     .reserve-btn {
         padding: 15px 20px;
         font-size: 1rem;
-    }
+    } */
 
 }
 

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -6,6 +7,7 @@
     <title>ارسال تیکت پشتیبانی - کارگاه طلاسازی</title>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    {% comment %} <script src="{% static 'notifications/js/notifications.js' %}"></script> {% endcomment %}
     <style>
         body {
             font-family: 'Vazirmatn', sans-serif;
@@ -82,13 +84,28 @@
             font-weight: 600;
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
-            width: 100%;
-            margin-top: 1.5rem;
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
         }
         .gold-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .form-buttons {
+            display: flex;
+            flex-direction: column; /* عمودی */
+            gap: 1rem; /* فاصله بین دکمه‌ها */
+            margin-top: 1.5rem;
+            align-items: center; /* وسط چین افقی */
+        }
+        .form-buttons .submit-button {
+            width: 100%; /* دکمه ارسال عرض کامل */
+        }
+        .form-buttons .back-button {
+            width: auto; /* دکمه بازگشت اندازه محتوا */
         }
         .success-message {
             background: #d1fae5;
@@ -117,7 +134,6 @@
             content: '\f057';
             font-family: 'Font Awesome 6 Free';
             font-weight: 900;
-            color: #b91c1c;
             margin-right: 0.5rem;
         }
         .footer {
@@ -134,7 +150,7 @@
         <div class="header gold-gradient">
             <div class="header-overlay"></div>
             <h1>
-                <i class="fas fa-ticket-alt gold-icon mr-2"></i> ارسال تیکت پشتیبانی
+                <i class="fas fa-ticket-alt gold-icon"></i> ارسال تیکت پشتیبانی
             </h1>
         </div>
 
@@ -151,9 +167,13 @@
             <form id="ticketForm" method="post" action="{% url 'custom_ticket' %}">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit" class="gold-button">
-                    <i class="fas fa-paper-plane mr-2"></i> ارسال
-                </button>
+                
+                <div class="form-buttons">
+                    <button type="submit" class="gold-button submit-button">
+                        <i class="fas fa-paper-plane"></i> ارسال
+                    </button>
+                    <a href="{% url 'custom_panel' %}" class="gold-button back-button">بازگشت به پنل</a>
+                </div>
             </form>
 
             <!-- Error Messages -->
@@ -176,5 +196,6 @@
             <p>کارگاه طلاسازی | طراحی شده برای تجربه‌ای لوکس و بی‌نظیر</p>
         </div>
     </div>
+    {% comment %} <div id="notification-container"></div> {% endcomment %}
 </body>
 </html>

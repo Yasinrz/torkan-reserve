@@ -147,7 +147,7 @@ class EmployeeTicketForm(forms.ModelForm):
             "leave_type": "نوع مرخصی",
             "facility_amount": "مبلغ تسهیلات (ریال)",
             "facility_duration_months": "مدت بازپرداخت (ماه)",
-            "advance_amount": "مبلغ مسائده (ریال)",
+            "advance_amount": "مبلغ مساعده (ریال)",
             "description": "توضیحات",
         }
         widgets = {
@@ -155,9 +155,9 @@ class EmployeeTicketForm(forms.ModelForm):
             "leave_start": forms.DateInput(attrs={"type": "date", "class": "form-input"}),
             "leave_end": forms.DateInput(attrs={"type": "date", "class": "form-input"}),
             "leave_type": forms.Select(attrs={"class": "form-select"}),
-            "facility_amount": forms.NumberInput(attrs={"class": "form-input", "step": "0.01"}),
+            "facility_amount": forms.TextInput(attrs={"class": "form-input"}),  # تغییر به TextInput
             "facility_duration_months": forms.NumberInput(attrs={"class": "form-input"}),
-            "advance_amount": forms.NumberInput(attrs={"class": "form-input", "step": "0.01"}),
+            "advance_amount": forms.TextInput(attrs={"class": "form-input"}),  # تغییر به TextInput
             "description": forms.Textarea(attrs={"class": "form-textarea", "rows": 4}),
             "employee": forms.HiddenInput(),
         }
@@ -166,27 +166,34 @@ class EmployeeTicketForm(forms.ModelForm):
         ticket_type = kwargs.pop('ticket_type', None)
         super().__init__(*args, **kwargs)
 
-        # مقدار پیش‌فرض ticket_type
         if not self.instance.pk:
             self.fields['ticket_type'].initial = ticket_type or 'other'
         else:
             self.fields['ticket_type'].initial = self.instance.ticket_type or 'other'
 
-    def clean(self):
-        cleaned_data = super().clean()
-        ticket_type = cleaned_data.get("ticket_type")
+    def clean_facility_amount(self):
+        value = self.cleaned_data.get("facility_amount")
+        if value in (None, ""):
+            return None  # یا میتونی 0 بزاری به جای None
+        if isinstance(value, str):
+            value = value.replace(",", "")
+        try:
+            return float(value)
+        except (ValueError, TypeError):
+            raise forms.ValidationError("مبلغ تسهیلات معتبر نیست")
 
-        if ticket_type == EmployeeTicket.TicketType.LEAVE:
-            if not cleaned_data.get("leave_start") or not cleaned_data.get("leave_end") or not cleaned_data.get("leave_type"):
-                raise forms.ValidationError("برای تیکت مرخصی باید تاریخ شروع، پایان و نوع مرخصی را وارد کنید.")
-        elif ticket_type == EmployeeTicket.TicketType.FACILITY:
-            if not cleaned_data.get("facility_amount"):
-                raise forms.ValidationError("برای تیکت تسهیلات باید مبلغ تسهیلات را وارد کنید.")
-        elif ticket_type == EmployeeTicket.TicketType.ADVANCE:
-            if not cleaned_data.get("advance_amount"):
-                raise forms.ValidationError("برای تیکت مساعده باید مبلغ مساعده را وارد کنید.")
+    def clean_advance_amount(self):
+        value = self.cleaned_data.get("advance_amount")
+        if value in (None, ""):
+            return None  # یا 0
+        if isinstance(value, str):
+            value = value.replace(",", "")
+        try:
+            return float(value)
+        except (ValueError, TypeError):
+            raise forms.ValidationError("مبلغ مساعده معتبر نیست")
 
-        return cleaned_data
+
     
 
 class SuggestionForm(forms.ModelForm):

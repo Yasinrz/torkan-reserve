@@ -24,6 +24,8 @@
   .success-message{background:#d1fae5;border:1px solid #10b981;border-radius:.5rem;padding:1rem;margin-bottom:1rem;color:#065f46;text-align:center}
   .error-list{background:#fee2e2;border:1px solid #ef4444;border-radius:.5rem;padding:1rem;margin-bottom:1rem}
   .error-list li{color:#b91c1c;margin-bottom:.5rem}
+  .field-error{color:#b91c1c;font-size:.875rem;margin-top:.25rem;display:none}
+  .field-error.show{display:block}
   .hidden{display:none}
   .mb-4{margin-bottom:1rem}
 </style>
@@ -48,6 +50,7 @@
               <label for="{{ field.id_for_label }}">{{ field.label }}</label>
             {% endif %}
             {{ field }}
+            <span class="field-error" id="error-{{ field.id_for_label }}"></span>
             {% if field.errors %}
               <ul class="error-list">
                 {% for error in field.errors %}
@@ -124,6 +127,62 @@ document.addEventListener("DOMContentLoaded", function(){
       format: 'YYYY/MM/DD',
       autoClose: true,
       initialValue: false,
+    });
+  });
+
+  // ⭐ تابع فرمت سه‌رقمی برای فیلدهای مبلغ
+  function setupPriceInput(selector) {
+    const input = document.querySelector(selector);
+    if (!input) return;
+
+    // تغییر نوع فیلد به text
+    input.setAttribute("type", "text");
+
+    // ایجاد فیلد مخفی برای ارسال مقدار خام
+    const hiddenInput = document.createElement("input");
+    hiddenInput.type = "hidden";
+    hiddenInput.name = input.name;
+    input.name = input.name + "_display"; // تغییر نام فیلد اصلی
+    input.parentNode.insertBefore(hiddenInput, input.nextSibling);
+
+    input.addEventListener("input", function (e) {
+      let value = e.target.value.replace(/,/g, "");
+      const errorElement = document.getElementById(`error-${e.target.id}`);
+
+      if (!isNaN(value) && value !== "") {
+        const formattedValue = Number(value).toLocaleString("fa-IR");
+        e.target.value = formattedValue;
+        hiddenInput.value = value; // مقدار بدون کاما برای ارسال
+        errorElement.classList.remove("show");
+        errorElement.textContent = "";
+      } else {
+        e.target.value = "";
+        hiddenInput.value = "";
+        errorElement.textContent = "لطفاً فقط عدد وارد کنید";
+        errorElement.classList.add("show");
+      }
+    });
+
+    // جلوگیری از ورود کاراکتر غیر عددی
+    input.addEventListener("keypress", function(e) {
+      if (!/[0-9]/.test(e.key)) {
+        e.preventDefault();
+      }
+    });
+  }
+
+  // اعمال روی همه فیلدهای مبلغ
+  setupPriceInput("#id_facility_amount");
+  setupPriceInput("#id_advance_amount");
+
+  // قبل از ارسال فرم، اطمینان از اینکه مقادیر خام ارسال می‌شوند
+  document.getElementById("ticketForm").addEventListener("submit", function() {
+    ["#id_facility_amount", "#id_advance_amount"].forEach(selector => {
+      const input = document.querySelector(selector);
+      const hiddenInput = document.querySelector(`input[name='${input.name.replace('_display', '')}']`);
+      if (input && hiddenInput) {
+        hiddenInput.value = input.value.replace(/,/g, "");
+      }
     });
   });
 });

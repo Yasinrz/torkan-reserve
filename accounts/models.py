@@ -62,7 +62,8 @@ class SupportTicket(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="کاربر ارسال‌کننده")
     title = models.CharField(max_length=100, verbose_name="عنوان")
     message = models.TextField(verbose_name="پیام")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
+    created_at = models.DateField(auto_now_add=True, verbose_name="تاریخ ایجاد")
+    time_created = models.TimeField(auto_now_add=True, verbose_name='زمان ایجاد' )
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
 
 
@@ -247,15 +248,16 @@ class EmployeeTicket(models.Model):
     leave_type = models.CharField(max_length=20, choices=LeaveType.choices, null=True, blank=True, verbose_name="نوع مرخصی")
 
 
-    facility_amount = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True, verbose_name="مبلغ تسهیلات")
+    facility_amount = models.DecimalField(max_digits=12, decimal_places=0, null=True, blank=True, verbose_name="مبلغ تسهیلات")
     facility_duration_months = models.PositiveIntegerField(null=True, blank=True, verbose_name="مدت بازپرداخت (ماه)")
 
-    advance_amount = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True, verbose_name="مبلغ مساعده")
+    advance_amount = models.DecimalField(max_digits=12, decimal_places=0, null=True, blank=True, verbose_name="مبلغ مساعده")
 
     description = models.TextField(null=True, blank=True, verbose_name="توضیحات")
-
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
-    updated_at = models.DateTimeField(auto_now=True, verbose_name="آخرین بروزرسانی")
+    
+    created_at = models.DateField(auto_now_add=True, verbose_name="تاریخ ایجاد")
+    time_created = models.TimeField(auto_now_add=True, verbose_name='زمان ایجاد')
+    updated_at = models.DateField(auto_now=True, verbose_name="آخرین بروزرسانی")
 
     class Meta:
         ordering = ['created_at']
@@ -313,10 +315,15 @@ class EmployeeTicketReply(models.Model):
         verbose_name="متن پاسخ",
         help_text="متن پاسخ."
     )
-    created_at = models.DateTimeField(
+    created_at = models.DateField(
         auto_now_add=True,
         verbose_name="تاریخ ایجاد",
         help_text="تاریخ و زمان ایجاد پاسخ."
+    )
+    file = models.FileField(
+        upload_to='file/',
+        null=True, blank=True,
+        verbose_name="ضمیمه"
     )
     status_ticket = models.CharField(
         max_length=20,
@@ -363,7 +370,7 @@ class Suggestion(models.Model):
         ('customer','مشتری'),
         ('staff','کارمند'),
     ]
-
+    
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="suggestions")
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES,verbose_name='نوع کاربر')
     title = models.CharField(max_length=200, verbose_name="عنوان")

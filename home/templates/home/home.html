@@ -15,28 +15,30 @@
 
 {% block content %}
     <div class="container-fluid">
-      <div class="row row-cols-1 row-cols-md-2 g-3">
-        <div class="col">
+      <div class="row g-2">
+        <div class="col-12">
           <div class="card white-glass p-2">
             <img src="{% static "images/introduction.png" %}" class="card-img-bottom img-fluid rounded-3" id="main-image" alt="introduction">
             <div class="card-img-overlay">
               <h1 class="card-title text-center fs-4 glass-element rounded-1 p-2">صنایع ذوب فلزات نجیب ترکان</h1>
             </div>
             <div class="card-body white-glass">
-              <p class="card-text fs-6" id="p-exp">استخراج و ذوب فلزات ارزشمند مانند طلا از مواد ضایعاتی </p>
+              <p class="card-text fs-6" id="p-exp">
+                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+              </p>
             </div>
           </div>
         </div>
-        <div class="col">
+        <div class="col-12 col-lg-5">
           <div class="card glass-element rounded-1 p-2">
             <h5 class="card-header text-center fs-3">رزرو نوبت</h5>
             <div class="card-body glass-element rounded-1 d-flex flex-column align-items-center">
-              <p class="card-text" id="p-exp">{% trans 'Book your appointment now to melt precious metals in our workshop.' %}</p>
+              <p class="card-text text-center" id="p-exp">{% trans 'Book your appointment now to melt precious metals in our workshop.' %}</p>
               <a href="{% url 'login' %}" class="btn reserve-btn border border-dark rounded rounded-pill py-3 px-4">{% trans 'reservation' %}</a>
             </div>
           </div>
         </div>
-        <div class="col">
+        <div class="col-12 col-lg-7">
           {% include 'calendar.html' %}
         </div>
       </div>

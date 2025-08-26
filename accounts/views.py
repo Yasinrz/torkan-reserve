@@ -28,6 +28,7 @@ def phone_number_view(request):
             request.session['name'] = name
 
             send_code(phone_number, token)
+            print(token)
             return redirect('code_view')
     else:
         form = PhoneNumberForm()
@@ -48,18 +49,26 @@ def verify(request):
             if entered_code == stored_code:
                 # پیدا کردن یا ساختن کاربر
                 user, created = User.objects.get_or_create(phone_number=phone_number)
-                user.name = name
-                user.save()
+                
+                if created:
+                    user.name = name
+                    user.save()
 
                 # احراز هویت و لاگین کردن کاربر
                 user = authenticate(request, phone_number=phone_number, verification_code=entered_code)
                 if user is not None:
                     login(request, user)
+                    
                     # پاک کردن داده‌های سشن
                     request.session.pop('verification_code', None)
                     request.session.pop('phone_number', None)
                     request.session.pop('name', None)
-                    return redirect('calendar')
+
+                    # ریدایرکت هوشمند بر اساس نوع کاربر
+                    if user.is_staff:
+                        return redirect('employee_panel')
+                    else:
+                        return redirect('custom_panel')
                 else:
                     form.add_error('verification_code', 'خطا در احراز هویت')
             else:
@@ -68,6 +77,10 @@ def verify(request):
         form = VerificationCodeForm()
 
     return render(request, 'registration/verify.html', {'form': form})
+
+
+
+
 
 
 def welcome(request):
@@ -122,7 +135,7 @@ def custom_create_ticket(request):
 
 
 
-# @login_required
+@login_required
 def staff_create_ticket(request):
     success = False
     ticket_type = None
@@ -143,7 +156,7 @@ def staff_create_ticket(request):
     return render(request, 'registration/employee_ticket.html', {'form': form, 'ticket_type': ticket_type})   
 
 
-# @login_required
+@login_required
 def employee_panel(request):
     user = request.user
     profile = get_object_or_404(StaffProfile, user=user)
@@ -158,6 +171,14 @@ def employee_panel(request):
         'tickets': tickets
     }
 
+    # for ws in workhours:
+    #     print(ws.month, type(ws.month))
+    # for ps in payslips:
+    #     print(ps.date_created, type(ps.date_created))
+    # for t in tickets:
+    #     print(t.created_at, type(t.created_at))
+
+
     return render(request, 'registration/employee_panel.html', context)
 
 
@@ -167,7 +188,7 @@ def answer_custom(request):
 
     tickets = (
         SupportTicket.objects
-        .filter(sender__id=1)
+        .filter(sender=user)
         .prefetch_related('replies')
         .order_by('-created_at'))
         

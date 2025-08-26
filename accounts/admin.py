@@ -26,7 +26,7 @@ class PayslipInline(admin.TabularInline):
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
     
-    list_display = ('phone_number', 'name', 'is_staff', 'is_active')
+    list_display = ('id','phone_number', 'name', 'is_staff', 'is_active')
     list_filter = ('is_staff', 'is_active')
     search_fields = ('phone_number', 'name')
     ordering = ('phone_number',)
@@ -67,7 +67,7 @@ class PayslipAdmin(admin.ModelAdmin):
 
 @admin.register(StaffProfile)
 class StaffProfileAdmin(admin.ModelAdmin):
-    inlines = [PayslipInline,WorkHourInline]
+    inlines = [WorkHourInline,PayslipInline]
 
     list_display = ('user', 'birth_date', 'staff_joined_jalali_date')
     search_fields = ('employee__name',)
@@ -107,7 +107,7 @@ class TicketReplyInline(admin.TabularInline):
 
 @admin.register(SupportTicketProxy)
 class SupportTicketProxyAdmin(admin.ModelAdmin):
-    list_display = ['sender','title', 'created_jalali', 'colored_status']
+    list_display = ['sender','title', 'created_jalali', 'time_created','colored_status']
     readonly_fields = ['created_jalali', 'status']
     search_fields = ['sender__name','status']
     list_filter = ['status']
@@ -384,7 +384,7 @@ class EmployeeTicketReplyInline(admin.TabularInline):
     model = EmployeeTicketReply
     extra = 0
     readonly_fields = ('author', 'created_at')
-    fields = ('author', 'message', 'status_ticket', 'created_at')
+    fields = ('author', 'message', 'file','status_ticket', 'created_at')
     show_change_link = True
 
     def save_new_instance(self, obj, request):
@@ -421,7 +421,7 @@ class EmployeeTicketReplyInline(admin.TabularInline):
 @admin.register(EmployeeTicketProxy)
 class EmployeeTicketProxyAdmin(admin.ModelAdmin):
     list_display = (
-        'employee__name', 'ticket_type', 'created_jalali',
+        'employee__name', 'ticket_type', 'created_jalali','time_created',
         'status_colored', 'status_colored_ticket', 'description'
     )
     search_fields = ('employee__username', 'employee__first_name', 'employee__last_name')

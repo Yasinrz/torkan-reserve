@@ -1,0 +1,67 @@
+.notif-bell {
+    position: relative;
+    margin-left: 20px;
+    cursor: pointer;
+}
+.bell-icon {
+    font-size: 22px;
+    position: relative;
+}
+.badge {
+    background: red;
+    color: white;
+    font-size: 12px;
+    border-radius: 50%;
+    padding: 2px 6px;
+    position: absolute;
+    top: -8px;
+    right: -10px;
+}
+.notif-dropdown {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    width: 320px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    overflow: hidden;
+    animation: fadeIn 0.3s ease-in-out;
+    z-index: 9999;
+}
+.notif-dropdown.hidden { display: none; }
+.notif-header {
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+}
+.notif-item {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+.notif-item:hover {
+    background: #f9f9f9;
+}
+.notif-title {
+    font-weight: 600;
+    color: #333;
+}
+.notif-time {
+    font-size: 12px;
+    color: gray;
+}
+.notif-footer {
+    text-align: center;
+    padding: 8px;
+    background: #f1f1f1;
+}
+.notif-footer a {
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: none;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px);}
+    to   { opacity: 1; transform: translateY(0);}
+}

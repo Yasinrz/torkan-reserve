@@ -91,15 +91,15 @@ def custom_permission_denied_view(request, exception):
     return render(request, '403.html',status=403)
 
 
-@login_required
+# @login_required
 def custom_panel(request):
-
-    user = request.user
-    profile = CustomerProfile.objects.filter(user=user).first()
-    tickets = SupportTicket.objects.filter(sender=user).order_by('-created_at')
-    reserves = Time.objects.filter(request_reservation__user=user).order_by('-fix_reserved_date')
-    suggestions = RequestReservation.objects.filter(user=user).order_by('-suggested_reservation_date')
-    invoices = Invoice.objects.filter(customer__user=user).order_by('created_date')
+    test_user_id = 3
+    # user = request.user
+    profile = CustomerProfile.objects.filter(user__id=test_user_id).first()
+    tickets = SupportTicket.objects.filter(sender__id=test_user_id).order_by('-created_at')
+    reserves = Time.objects.filter(request_reservation__user__id=test_user_id).order_by('-fix_reserved_date')
+    suggestions = RequestReservation.objects.filter(user__id=test_user_id).order_by('-suggested_reservation_date')
+    invoices = Invoice.objects.filter(customer__user__id=test_user_id).order_by('created_date')
 
     context = {
         'profile': profile,
@@ -120,11 +120,13 @@ def ticket_success(request):
  
 def custom_create_ticket(request):
     success = False
+    test_user_id = 2
+    test_user = User.objects.get(id=test_user_id)
     if request.method == 'POST':
         form = SupportTicketForm(request.POST)
         if form.is_valid():
             ticket = form.save(commit=False)
-            ticket.sender = request.user
+            ticket.sender = test_user
             ticket.save()
             success = True  
             form = SupportTicketForm() 
@@ -163,12 +165,11 @@ def employee_panel(request):
     workhours = WorkHourReport.objects.filter(employee=profile).order_by('month')
     payslips = Payslip.objects.filter(employee=profile).order_by('-date_created')
     tickets = EmployeeTicket.objects.filter(employee=user).select_related('employee').order_by('-created_at')
-
     context = {
         'profile': profile,
         'workhours': workhours,
         'payslips': payslips,
-        'tickets': tickets
+        'tickets': tickets,
     }
 
     # for ws in workhours:
@@ -202,7 +203,7 @@ def answer_employee(request):
     
     tickets = (
         EmployeeTicket.objects
-        .filter(employee__id=2)
+        .filter(employee__id=1)
         .prefetch_related('replies') 
         .order_by('-created_at')      
     )

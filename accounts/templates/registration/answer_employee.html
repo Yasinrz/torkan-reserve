@@ -188,6 +188,7 @@
                     {% endif %}
                     <p><strong>توضیحات:</strong> {{ ticket.description|default:"-" }}</p>
                     <p><strong>تاریخ ایجاد:</strong> {{ ticket.created_at|to_jalali }}</p>
+                    <p><strong>زمان ایجاد:</strong> {{ ticket.time_created }}</p>
                 </div>
 
                 <!-- Replies Section -->
@@ -203,6 +204,9 @@
                             <span class="reply-date">{{ reply.created_at|to_jalali }}</span>
                         </div>
                         <p class="reply-message">{{ reply.message }}</p>
+                        <a href="{{ file.file_image.url }}" target="_blank">
+                            دانلود ضمیمه : {{ reply.file_image|cut:"file/" }}
+                        </a>
                         <div>
                             <span class="reply-status status-{{ reply.status_ticket }}">
                                 <i class="fas {% if reply.status_ticket == 'agreed' %}fa-check-circle{% elif reply.status_ticket == 'in_progress' %}fa-hourglass-half{% else %}fa-times-circle{% endif %} mr-1"></i>

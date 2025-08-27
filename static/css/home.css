@@ -1,7 +1,5 @@
 #main-image {
     object-fit: cover;
-    max-height: 450px;
-    min-height: 100px;
 }
 
 @media (max-width: 400px) {

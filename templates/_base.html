@@ -34,18 +34,18 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse order-4" id="navbarNav">
-          <ul class="navbar-nav mr-auto gap-4">
-            <li class="nav-item ms-4">
-                <a class="text-black text-decoration-none fw-bold" href="{% url 'home' %}">صفحه اصلی</a>
-            </li>
-            <li class="nav-item ms-4">
-                <a class="text-black text-decoration-none fw-bold" href="#">{% trans 'Articles' %}</a>
-            </li>
-            <li class="nav-item ms-4">
-                <a class="text-black text-decoration-none fw-bold" href="{% url 'contact_us' %}">{% trans 'Contact us' %}</a>
+          <ul class="navbar-nav text-end gap-4 p-0">
+            <li class="nav-item">
+                <a class="text-black text-decoration-none fw-bold" href="{% url 'home' %}">🟡 صفحه اصلی</a>
             </li>
             <li class="nav-item">
-                <a class="text-black text-decoration-none fw-bold" href="{% url 'contact_us' %}">فرصت های شغلی</a>
+                <a class="text-black text-decoration-none fw-bold" href="#">🟡 {% trans 'Articles' %}</a>
+            </li>
+            <li class="nav-item">
+                <a class="text-black text-decoration-none fw-bold" href="{% url 'contact_us' %}">🟡 {% trans 'Contact us' %}</a>
+            </li>
+            <li class="nav-item mb-4">
+                <a class="text-black text-decoration-none fw-bold" href="{% url 'contact_us' %}">🟡 فرصت های شغلی</a>
             </li>
           </ul>
       </div>    

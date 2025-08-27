@@ -5,8 +5,8 @@ from django.shortcuts import render, redirect ,get_object_or_404
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 from home.models import Time ,RequestReservation
-from .forms import VerificationCodeForm, PhoneNumberForm ,SupportTicketForm ,EmployeeTicketForm
-from .models import SupportTicket, CustomerProfile ,Invoice ,StaffProfile ,WorkHourReport , Payslip ,EmployeeTicket
+from .forms import VerificationCodeForm, PhoneNumberForm ,SupportTicketForm ,EmployeeTicketForm , SuggestionForm
+from .models import SupportTicket, CustomerProfile ,Invoice ,StaffProfile ,WorkHourReport , Payslip ,EmployeeTicket,TicketReply,EmployeeTicketReply
 from random import randint
 from .utils import send_code
 from accounts.models import User
@@ -113,9 +113,9 @@ def custom_create_ticket(request):
             ticket = form.save(commit=False)
             ticket.sender = request.user
             ticket.save()
-            success = True  # پیام موفقیت
-            form = SupportTicketForm()  # فرم جدید بعد از موفقیت
-        # اگر فرم معتبر نیست، فرم با خطاها رندر می‌شود
+            success = True  
+            form = SupportTicketForm() 
+        
     else:
         form = SupportTicketForm()
     return render(request, 'registration/customer_ticket.html', {'form': form, 'success': success})
@@ -159,3 +159,51 @@ def employee_panel(request):
     }
 
     return render(request, 'registration/employee_panel.html', context)
+
+
+def answer_custom(request):
+    
+    user = request.user
+
+    tickets = (
+        SupportTicket.objects
+        .filter(sender__id=1)
+        .prefetch_related('replies')
+        .order_by('-created_at'))
+        
+    # print(answers)
+
+    return render(request,'registration/answer_custom.html',{'tickets':tickets})
+
+
+
+def answer_employee(request):
+    
+    tickets = (
+        EmployeeTicket.objects
+        .filter(employee__id=2)
+        .prefetch_related('replies') 
+        .order_by('-created_at')      
+    )
+
+    return render(request, 'registration/answer_employee.html', {'tickets': tickets})
+
+
+
+def suggestion(request):
+    success = False
+    if request.method == 'POST':
+        form = SuggestionForm(request.POST)
+        if form.is_valid():
+            suggestion = form.save(commit=False)
+            suggestion.user = request.user
+            suggestion.user_type = 'staff' if request.user.is_staff else 'customer'
+            suggestion.save()
+            success = True
+            form = SuggestionForm()  # فرم جدید برای نمایش
+    else:
+        form = SuggestionForm()
+
+    back_url = 'employee_panel' if request.user.is_staff else 'custom_panel'    
+    return render(request, 'registration/suggestion.html', {'form': form, 'success': success,'back_url': back_url})
+

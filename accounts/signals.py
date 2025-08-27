@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth import get_user_model
-from .models import CustomerProfile ,StaffProfile
+from .models import CustomerProfile ,StaffProfile ,EmployeeTicketReply , EmployeeTicket
 
 User = get_user_model()
 
@@ -23,3 +23,23 @@ def create_staff_profile(sender, instance, created, **kwargs):
         
         elif not instance.is_staff and hasattr(instance, 'staffprofile'):
             instance.staffprofile.delete()
+
+
+@receiver(post_save, sender=EmployeeTicketReply)
+def update_ticket_status(sender, instance, created, **kwargs):
+    if created and instance.author.is_staff:
+        instance.ticket.status = 'answered'
+        instance.ticket.save()
+
+
+# @receiver(post_save, sender=EmployeeTicket)
+# def create_default_reply(sender, instance, created, **kwargs):
+#     if created :
+#         EmployeeTicketReply.objects.create(
+#             ticket = instance,
+#             author=instance.employee,
+#             status='in_progress',
+#             message='تیکت ایجاد شد و در حال بررسی است.'
+#         )
+        
+    

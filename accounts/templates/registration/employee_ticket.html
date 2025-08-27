@@ -1,3 +1,4 @@
+{% load c_jformat %}
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -6,8 +7,6 @@
 <title>ارسال تیکت پرسنل - کارگاه طلاسازی</title>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-
-<!-- Persian Datepicker CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css">
 
 <style>
@@ -79,17 +78,15 @@ document.addEventListener("DOMContentLoaded", function(){
   const ticketTypeSelect = document.querySelector("#id_ticket_type");
   const wrappers = Array.from(document.querySelectorAll(".field-wrapper"));
 
-  // نگاشت فیلدها بر اساس مقدار واقعی value در select
   const map = {
-      leave: ["leave_start", "leave_end", "leave_type", "description"],
-      facility: ["facility_amount", "facility_duration_months", "description"],
-      advance: ["advance_amount", "description"],
+      leave: ["leave_start", "leave_end", "leave_type"],
+      facility: ["facility_amount", "facility_duration_months"],
+      advance: ["advance_amount"],
       other: ["description"]
   };
 
   function setVisibility(selected) {
-      const sel = selected || 'other';
-
+      const sel = selected || ticketTypeSelect.value || 'other';
       wrappers.forEach(w => {
           const name = w.dataset.fieldName;
           if (name === 'employee' || name === 'status') {
@@ -113,14 +110,15 @@ document.addEventListener("DOMContentLoaded", function(){
       return;
   }
 
+  // مقدار اولیه فرم فوراً اعمال شود
+  setVisibility(ticketTypeSelect.value);
+
+  // نمایش فیلدها با تغییر select
   ticketTypeSelect.addEventListener('change', function () {
       setVisibility(this.value);
   });
 
-  // مقدار اولیه را اعمال کن
-  setVisibility(ticketTypeSelect.value);
-
-  // پیکربندی persianDatepicker روی inputهای type date
+  // persianDatepicker روی inputهای type date
   $("input[type='date']").each(function() {
     $(this).persianDatepicker({
       format: 'YYYY/MM/DD',
@@ -128,7 +126,6 @@ document.addEventListener("DOMContentLoaded", function(){
       initialValue: false,
     });
   });
-
 });
 </script>
 </body>

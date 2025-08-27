@@ -9,4 +9,16 @@
     .reserve-btn {
         font-size: 0.8rem !important;
     }
+    #gold-bar {
+        height: 1.5rem !important;
+    }
+    #head-main {
+        font-size: 1rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    #p-exp {
+        font-size: 0.75rem !important;
+    }
 }

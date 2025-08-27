@@ -204,4 +204,8 @@ footer {
     #datetime {
         font-size: 0.65rem;
     }
+
+    .nav-item a {
+        font-size: 0.7rem !important;
+    }
 }

@@ -9,7 +9,7 @@
 
 .calendar-left {
   background-color: #2ECC71;
-  min-height: 200px;
+  height: 100%;
 }
 
 .calendar-header,

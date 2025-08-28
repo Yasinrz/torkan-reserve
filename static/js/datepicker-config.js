@@ -1,4 +1,4 @@
-export function toJalali(gregorianDate) {
+function toJalali(gregorianDate) {
         var t, n, e = gregorianDate,
             i = parseInt(e.getFullYear()),
             o = parseInt(e.getMonth()) + 1,

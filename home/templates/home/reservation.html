@@ -36,45 +36,71 @@
 
 
 {% block content %}
-    <div class="hero-content">
-        <form method="POST">
-            {% csrf_token %}
-            <p>{% trans 'Please enter your suggested time to book an appointment.' %}</p>
-            <p><strong>{% trans 'Note that the time you select is not guaranteed.' %}</strong></p>
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-danger d-flex align-items-center" role="alert">
-                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
-                            <use xlink:href="#exclamation-triangle-fill"/>
-                        </svg>
-                        <div style="margin-right: 0.5rem;">
-                            {{ message }}
+<div class="container-fluid rounded-1 my-5 text-center px-md-5">
+    <div class="card bg-transparent border-0 mx-lg-5 px-md-5">
+        <div class="card-header border border-dark border-1 glass-element py-3 mx-lg-5">
+            <h5 class="fw-bolder">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFoElEQVR4nO1ZfWxTVRSv+BETYwwh5p3brmu3dt3aDbcxxka33svwI2L0D2OQSIwfM2owBhGj4hjJEhLiiGDUAMLYdMBkKFtAMMDUIXR/ADGSoBmJkcwPmIkKiAo4V3LMudt7vQ9K174+9pFwkpOb3nvfued33/l6pw7HdbpOo093Zgk/AH+FxvEkK2UCJk4AE0jjeJKVMg0fKHk8yboqaVpkNjDxMTDRD0xcUg+1l3kMQJyiszSN1zgypVAodAsAb7l2CovkDKKZdLAMABj/YMyUZzoI3pSJ2RiCNCY+ZEwUOByOSRqIATkHYsDy7ejngEnWJAAe1BjfbAYxS6QteNjmdeVbTWvAV2jAL9KYKQC4iiwNxBbFlNqtAOjXBTidNfmZKpr2+cCDCoBT6QugiGCEt7k3qmuIjhtiUWdtrId9PdgDF2M9DO3mgYNOw4SYk1+iM22JzyRosIe1XgulY5exqsNgFFrSAjHm0YeZWYKKwpMTHAA7PKEBDEbhgiUA6vxo2H4sgQ/ocxaiEI9NSAAa45voQRqtAPhtTxZuW5GPbcvz8dfd7tEHQDR58j13OC6jVA7+eacby4vDxuEloWr8fnv26ANIRKkc/NgD069wwgdnVaQNwO3m8lkaRw3AN605htIuF8fsYSWIu971pwXgjaeL0ekScrTgA+JFDfhxGpMBoJQfXe/Dn3YM2TkpqSu8cH4JLn2m2PhdWlSFix8vwfdeLZT7/juYvl+kDgDEBenEIEyxVxVGdj1j2NZzvREJgpQiBRuen4qn97mwf7cb/bmRhLE9Ul6Jby0qwuceKcOKkjDm+yOY4+UYLg1j7cPTcFNDAZ77wmUNQCp5YN4cs60fas5JeGu7VuVJgFYSWJ4vgqteLsJ/DzjtB1A2tcrYQ7eY7NX/sdeF3Wt8uPKlIiwqqE4byH3VFXhql9teAC/MKzX20A33bPAlBXHyU7cJNDAhf29YGsTerV5pche/YvjtRx5sqg8in1Fp2tu4sMheAL/sdGNJYZUJxNFNic2IFJtdGVfIk81xY30wqSPT2vt1QekXWVkcu9f67AWgO7IKYtH80oTKrF5caOyh0HpgXfK3FVP4TJdLZnbbfUDn/et8xt6aiplXrJ/tcpmcuHlZMCXFz3a58ESHOYM7HOImj0fcaiuAzpV5xt4nHppuzFMN1NeZjVuW5xvrZEapxP9jW7yGs7c2FBjyNMZ/HGoCiPttA0CxXN9L8Z/8gOK4Xgrk++NRhxx2JOW/a/NiKBB/ZsGj0+T8Z2/HLwqA77ANQF1tPNveFTRHmcu5t91jPDcYZTLaUHTRExatq2GWkhsBorXj7R5FFu+zDcCa10MJlWXOoWijzv3TPZSQiPe+k2cq9qiOUi8g4K+Wc4Yz78sy1jQQpy21VRIB+PNzF/LymYZwCnn02unmqJRQCzq1NDjckiNBqoDVDHykJdd0zt9fxlstGojzKTe2hluKVwVAfH6/EzsaA/jJmwH5PaCuUZ2jy6KQqK5trA+aFCf25UTwULNZeWJKcAYAJnrTaC3yzSMBSMbbGwMYKZ8pbT3RepMCIllGX7ckbqoaiM6kAKg/r96K7FVCdYjKZysgRuKOxgAumDtNmlWidTpXLS00TTyVFIB8CyCa0y269A8Zikx2AmyqD6pn/DVlSvj2VP/gaLICgr6k9BI4U+5e60O3W7EGxl8bUXnzm5glgIltGvCT1GjN5A38vidLmkLAF5FJbaRijvaoUUwDfjSjf21kczcKLVZvc/dqJZsygaKiEtfXBfFYm1eGSSqpqbSmOXJ88+XwvinusNOy8ioIarTGouwItfvSAUDJ6O6wuc6HlJgfAqjxOMYHld2sMbGEnHEkxSnjAohlGZnNtSJNu/c2Coca49upAwJMnNNAnAHGfwDgWxkTz6YUba6TY+zof2Mov+fFPTmXAAAAAElFTkSuQmCC" alt="event-accepted">
+                {% trans 'Please enter your suggested time to book an appointment.' %}
+            </h5>
+        </div>
+        <div class="card-body white-glass border border-dark border-1 rounded-bottom mx-lg-5">
+            <div class="row g-2">
+                <div class="col-12 col-md-6 rounded-1 border border-dark border-1 p-4">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                                        <use xlink:href="#exclamation-triangle-fill"/>
+                                    </svg>
+                                    <div style="margin-right: 0.5rem;">
+                                        {{ message }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+            
+                        <div class="position-relative">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi-calendar2-event" viewBox="0 0 16 16">
+                                <path d="M11 7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z"/>
+                                <path d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5z"/>
+                            </svg>
+                            {{ form.suggested_reservation_date | as_crispy_field }}
                         </div>
+                        <div class="position-relative">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi-clock"
+                                 viewBox="0 0 16 16">
+                                <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/>
+                            </svg>
+                            {{ form.suggested_reservation_time | as_crispy_field }}
+                        </div>
+                        <div class="position-relative">
+                            {{ form.explanation | as_crispy_field }}
+                        </div>
+                        <button type="submit" class="btn reserve-btn border border-dark rounded rounded-pill py-3 px-4">{% trans 'reserve' %}</button>
+                    </form>
+                </div>
+                <div class="col-12 col-md-6 text-end rounded-1 border border-dark border-1 p-4">
+                    <div>
+                        <p> 
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAACk0lEQVR4nL2UTUhUURTHxcBFUJTJ3HOe897oTIHOTKmNkTbjvSoFldAHErWxXe5qUy1qE7SJ2imBFkm1aVmYgSiIH+8NjpC7ahNEUApFJEg5o+/hifP0jTY5MrPpwIH73r339+655/9/JSX/OUp9PnlQiNYOAHlaCBXld0VT/P6mcgB1X6D6DqhIgPotQKZ5DKjmAeQ9w0jsLQiGGDcA1TeB6gOiulJR0YLeXCTSqCPKbgD5kdcgqkQBwNhOAHk5HA6XEZWUOpZ20bFwyDbhh2Mh2SYsLY1rbztPNE4LkJm8UC4TUZ73nmlS0x0TZ96/qKLD0TgxLDdvdNWlDb1lIRBQe/4BCpR3BahZD2abMMebzEchvrctgekJpKMNzXS2/chgDu7CDgA1J1Bddcs0ccbbtB2Q89mdGqqrja8ujkJtFufzJYJuB6EtsH5nVCjw62vdnZ9+EhzeAGrquAC1zCd1THxTDNCxkKoCkkZ7QyuUKt/tAgHUSdYZj71uepkaCLpALysrJaUGqrPzK1NIhi5poi9EtiXa1hoiVJQXx+IxwzZxdTPQNpGSj4M03hdyk0+cmdSy859fGe6HPr00yElql7yqS9kBLFrbwl/blZeb/bdrqSEap+UpjTV6KnuPbCd2AIu2GGB7cxM9uBZ1x5SEQBbI3mQ7sQOKAY493E8/R/zkWDC7he1Ugu10vas+zaLNB+HyFscq/3pnW9qZPF5WCV2XC+wAFu2XQX1Dc0N+6r8VpsZDx6i7M7YJhs+3hHnB3mQ7sQO4gwFDUrCqxe1mfSROvTfD62W6KnhK78Jl2wK9yIxjzfRA9fBIT2hlpOcA8Y+Cdbd2Mpi1p/BcQaDcIGvfLtsUrawzOyk6yEQj3+I/p8w+GNTTSy0AAAAASUVORK5CYII=" alt="clock">
+                            ساعت :
+                        </p>
+                        {% include 'time.html' %}
                     </div>
-                {% endfor %}
-            {% endif %}
+                    <hr></hr>
+                    <p class="fw-bolder" style="font-size: 1rem;">⭕️ {% trans 'Note that the time you select is not guaranteed.' %}</p>
+                    <hr></hr>
+                    <p style="font-size:1.2rem"> 🟠 جهت تعیین زمان دقیق نوبت شما و هماهنگی بیشتر همکاران ما از طریق پیامک یا تماس به شما اطلاع رسانی می کنند.</p>
+                </div>
+            </div>
 
-            <div class="position-relative">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                     class="bi-calendar2-event" viewBox="0 0 16 16">
-                    <path d="M11 7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
-                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z"/>
-                    <path d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5z"/>
-                </svg>
-                {{ form.suggested_reservation_date | as_crispy_field }}
-            </div>
-            <div class="position-relative">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi-clock"
-                     viewBox="0 0 16 16">
-                    <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
-                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/>
-                </svg>
-                {{ form.suggested_reservation_time | as_crispy_field }}
-            </div>
-            <div class="position-relative">
-                {{ form.explanation | as_crispy_field }}
-            </div>
-            <button type="submit" class="reserve-btn">{% trans 'reserve' %}</button>
-        </form>
+        </div>
     </div>
+</div>
 {% endblock %}

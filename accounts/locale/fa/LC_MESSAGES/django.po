@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-27 22:29+0330\n"
-"PO-Revision-Date: 2025-06-13 01:54+0330\n"
+"PO-Revision-Date: 2025-08-28 19:09+0330\n"
 "Last-Translator: Anonymous User <anonymous@user.tld>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -89,7 +89,9 @@ msgstr "نوبت شما به صورت موقت ثبت گردید"
 
 #: .\accounts\templates\registration\welcome.html:14
 msgid "We will contact you soon to arrange a definitive reservation."
-msgstr " به زودی جهت تنظیم رزرو نوبت قطعی با شما تماس خواهیم گرفت ."
+msgstr ""
+" به زودی جهت زمان قطعی نوبت از طریق تماس یا پیامک به شما اطلاع رسانی خواهد "
+"شد."
 
 #: .\accounts\templates\registration\welcome.html:15
 msgid "Thank you for your patience."

@@ -5,24 +5,19 @@
 {% load static %}
 {% block head %}
     <!-- Flatpickr (Local) -->
-    <link rel="preload" as="style" href="{% static 'css/flatpickr.min.css' %}"
-          onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-        <link rel="stylesheet" href="{% static 'css/flatpickr.min.css' %}">
-    </noscript>
+    <link rel="stylesheet" href="{% static 'css/flatpickr.min.css' %}">
     <script src="{% static 'js/flatpickr.min.js' %}" defer></script>
     <script src="{% static 'js/flatpickr.fa.js' %}" defer></script>
     <!-- FullCalendar CSS & JS -->
-    <link href="{% static 'admin/css/django_jalali.min.css' %}" media="all" rel="stylesheet">
+    <link href="{% static 'admin/css/django_jalali.min.css' %}" rel="stylesheet">
     <script src="{% static 'admin/js/django_jalali.min.js' %}" defer></script>
     <script src="{% static 'js/datepicker-config.js' %}" defer></script>
     <!-- Calendar and Time picker customization Css -->
-    <link rel="preload" as="style" href="{% static 'css/time-picker-calendar.css' %}"
-          onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-        <link rel="stylesheet" href="{% static 'css/time-picker-calendar.css' %}">
-    </noscript>
+    <link rel="stylesheet" href="{% static 'css/time-picker-calendar.css' %}">
     <script src="{% static 'js/flatpickr-custom-arrows.js' %}" defer></script>
+    <!-- Time Css & JS -->
+    <link rel="stylesheet" href="{% static 'css/time.css' %}">
+    <script src="{% static 'js/time.js' %}" defer></script>
     <!-- icon Style -->
     <link rel="stylesheet" href="{% static 'css/icon.css' %}">
     <!-- Messages alert symbol -->

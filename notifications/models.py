@@ -10,3 +10,8 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"{self.receiver.name} - {self.message}"
+
+
+    class Meta:
+        verbose_name = "اعلان"
+        verbose_name_plural = "اعلان ها"

@@ -6,19 +6,19 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
+        /* آیکون نوتیف */
         #notif-icon {
             position: relative;
             margin-right: 20px;
             cursor: pointer;
             font-size: 24px;
             color: #ffffff;
-            transition: transform 0.2s ease, color 0.2s ease;
+            /* مهم: هیچ transform روی والد نذار تا dropdown ثابت نجه */
+            transition: color 0.2s ease;
         }
-        #notif-icon:hover {
-            transform: scale(1.1);
-            color: #ffd700;
-        }
+        #notif-icon:hover { color: #ffd700; }
 
+        /* شمارنده */
         #notif-count {
             background: linear-gradient(45deg, #ff3b30, #ff6b6b);
             color: white;
@@ -33,20 +33,23 @@
             box-shadow: 0 2px 6px rgba(0,0,0,0.3);
         }
 
+        /* Dropdown: همیشه داخل صفحه بمونه */
         #notif-dropdown {
             display: none;
-            position: absolute;
-            right: 0;
-            top: 32px;
+            position: fixed;             /* نسبت به ویوپورت */
+            top: 60px;                   /* کمی زیر نوار بالا */
+            right: 20px;                 /* فاصله از راست */
             background: #1c2526;
             border-radius: 12px;
-            width: 360px;
+            width: min(90vw, 360px);     /* ریسپانسیو */
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             z-index: 10000;
-            animation: slideIn 0.3s ease;
+            animation: slideIn 0.25s ease;
             font-family: 'Poppins', sans-serif;
             color: #ffffff;
+            overflow-wrap: break-word;
         }
+        #notif-dropdown.open { display: block; }  /* کلاس برای نمایش */
 
         #notif-header {
             display: flex;
@@ -55,13 +58,11 @@
             padding: 12px 16px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-
         #notif-header h3 {
             margin: 0;
             font-size: 16px;
             font-weight: 500;
         }
-
         #mark-all-read {
             background: none;
             border: none;
@@ -70,9 +71,7 @@
             cursor: pointer;
             transition: color 0.2s ease;
         }
-        #mark-all-read:hover {
-            color: #ffffff;
-        }
+        #mark-all-read:hover { color: #ffffff; }
 
         #notif-list {
             list-style: none;
@@ -81,7 +80,6 @@
             max-height: 400px;
             overflow-y: auto;
         }
-
         #notif-list li {
             padding: 12px 16px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
@@ -92,52 +90,37 @@
             align-items: center;
             gap: 12px;
         }
-
-        #notif-list li:hover {
-            background: rgba(255,255,255,0.1);
-            transform: translateX(5px);
-        }
-
-        #notif-list li.unread {
-            background: rgba(255,215,0,0.1);
-            font-weight: 500;
-        }
+        #notif-list li:hover { background: rgba(255,255,255,0.08); }
+        #notif-list li.unread { background: rgba(255,215,0,0.08); font-weight: 500; }
 
         #notif-list li a {
             color: #ffffff;
             text-decoration: none;
             display: block;
             flex: 1;
+            white-space: normal;
+            word-break: break-word;
         }
 
-        .notif-icon {
-            font-size: 16px;
-            color: #ffd700;
-        }
+        .notif-icon { font-size: 16px; color: #ffd700; }
+        .notif-time { font-size: 12px; color: rgba(255,255,255,0.6); white-space: nowrap; }
 
-        .notif-time {
-            font-size: 12px;
-            color: rgba(255,255,255,0.6);
-        }
-
-        #notif-list::-webkit-scrollbar {
-            width: 8px;
-        }
-        #notif-list::-webkit-scrollbar-thumb {
-            background: #ffd700;
-            border-radius: 4px;
-        }
-        #notif-list::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.1);
-        }
+        #notif-list::-webkit-scrollbar { width: 8px; }
+        #notif-list::-webkit-scrollbar-thumb { background: #ffd700; border-radius: 4px; }
+        #notif-list::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-15px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(-10px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; height: 0; padding: 0; margin: 0; }
+
+        /* احتیاطی: اسکرول افقی کل صفحه غیرفعال */
+        html, body { overflow-x: hidden; }
+
+        @media (max-width: 600px) {
+            #notif-header h3 { font-size: 14px; }
+            #notif-list li { font-size: 13px; padding: 10px; }
+            .notif-time { font-size: 11px; }
         }
     </style>
 
@@ -171,14 +154,22 @@
         let notifications = JSON.parse(localStorage.getItem('notifications')) || [];
         let unreadCount = notifications.length;
 
-        // Toggle dropdown (بدون ریست unreadCount)
+        // باز/بسته کردن با کلاس (بدون دست‌کاری مستقیم style.display)
         icon.addEventListener("click", function (e) {
             e.stopPropagation();
-            dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
-            renderNotifications();  // هر بار باز شدن، لیست رو بروز کن
+            dropdown.classList.toggle("open");
+            renderNotifications();
+        });
+        // بستن با کلیک بیرون
+        document.addEventListener("click", function (e) {
+            if (!icon.contains(e.target)) dropdown.classList.remove("open");
+        });
+        // بستن با ESC
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") dropdown.classList.remove("open");
         });
 
-        // Handle WebSocket messages
+        // دریافت نوتیف از WS
         socket.onmessage = function (e) {
             const data = JSON.parse(e.data);
             addNotification(data.message, data.ticket_url, data.notif_type || "default");
@@ -186,8 +177,7 @@
 
         function generateId() {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                const r = Math.random() * 16 | 0;
-                const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
                 return v.toString(16);
             });
         }
@@ -195,8 +185,7 @@
         function addNotification(message, url, notifType) {
             const notification = {
                 id: generateId(),
-                message: message,
-                ticket_url: url,
+                message, ticket_url: url,
                 notif_type: notifType || "default",
                 time: new Date().toISOString()
             };
@@ -215,8 +204,6 @@
                 notifications.forEach((notif) => {
                     const li = document.createElement("li");
                     li.classList.add("unread");
-                    li.style.padding = "12px 16px";
-                    li.style.borderBottom = "1px solid rgba(255,255,255,0.1)";
 
                     let iconEmoji = "🔔";
                     if (notif.notif_type === "employee_ticket") iconEmoji = "👨‍💼";
@@ -224,13 +211,12 @@
                     else if (notif.notif_type === "suggestion") iconEmoji = "💡";
 
                     const notifTime = new Date(notif.time);
-                    const timeDiff = Math.floor((new Date() - notifTime) / (1000 * 60));
-                    const timeStr = timeDiff < 1 ? "همین حالا" : timeDiff + " دقیقه پیش";
+                    const mins = Math.floor((new Date() - notifTime) / (1000 * 60));
+                    const timeStr = mins < 1 ? "همین حالا" : mins + " دقیقه پیش";
 
                     li.innerHTML = `
                         <span class="notif-icon">${iconEmoji}</span>
-                        <a href="${notif.ticket_url}" style="text-decoration:none; color:#ffffff; display:block;"
-                           data-id="${notif.id}">
+                        <a href="${notif.ticket_url}" data-id="${notif.id}">
                             ${notif.message}
                         </a>
                         <span class="notif-time">${timeStr}</span>
@@ -239,7 +225,6 @@
                     li.querySelector("a").addEventListener("click", function (e) {
                         e.preventDefault();
                         const idToRemove = this.getAttribute("data-id");
-
                         notifications = notifications.filter(n => n.id !== idToRemove);
                         localStorage.setItem('notifications', JSON.stringify(notifications));
 
@@ -249,11 +234,9 @@
                             unreadCount = notifications.length;
                             notifCount.innerText = unreadCount;
                             notifCount.style.display = unreadCount > 0 ? "inline-block" : "none";
-
                             if (notifications.length === 0) {
                                 notifList.innerHTML = '<li style="text-align:center; color:#888;">🔕 نوتیفیکیشنی وجود ندارد</li>';
                             }
-
                             window.location.href = this.href;
                         }, 300);
                     });
@@ -266,7 +249,6 @@
             notifCount.style.display = unreadCount > 0 ? "inline-block" : "none";
         }
 
-        // Mark all as read
         markAllRead.addEventListener("click", function () {
             notifications = [];
             unreadCount = 0;
@@ -274,19 +256,9 @@
             renderNotifications();
         });
 
-        // Fade out animation
-        const style = document.createElement("style");
-        style.innerHTML = `
-            @keyframes fadeOut {
-                from { opacity: 1; }
-                to { opacity: 0; height: 0; padding: 0; margin: 0; }
-            }
-        `;
-        document.head.appendChild(style);
-
-        renderNotifications();  // اولیه لود
+        renderNotifications();
     });
-</script>
+    </script>
 
 {% endblock %}
 

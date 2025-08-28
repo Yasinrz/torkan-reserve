@@ -64,7 +64,7 @@ class SupportTicket(models.Model):
     message = models.TextField(verbose_name="پیام")
     created_at = models.DateField(auto_now_add=True, verbose_name="تاریخ ایجاد")
     time_created = models.TimeField(auto_now_add=True, verbose_name='زمان ایجاد' )
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending',verbose_name='وضعیت')
 
 
     def __str__(self):

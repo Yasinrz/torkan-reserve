@@ -68,7 +68,7 @@ def verify(request):
                     if user.is_staff:
                         return redirect('employee_panel')
                     else:
-                        return redirect('custom_panel')
+                        return redirect('calendar')
                 else:
                     form.add_error('verification_code', 'خطا در احراز هویت')
             else:
@@ -91,15 +91,15 @@ def custom_permission_denied_view(request, exception):
     return render(request, '403.html',status=403)
 
 
-# @login_required
+@login_required
 def custom_panel(request):
-    test_user_id = 3
-    # user = request.user
-    profile = CustomerProfile.objects.filter(user__id=test_user_id).first()
-    tickets = SupportTicket.objects.filter(sender__id=test_user_id).order_by('-created_at')
-    reserves = Time.objects.filter(request_reservation__user__id=test_user_id).order_by('-fix_reserved_date')
-    suggestions = RequestReservation.objects.filter(user__id=test_user_id).order_by('-suggested_reservation_date')
-    invoices = Invoice.objects.filter(customer__user__id=test_user_id).order_by('created_date')
+    
+    user = request.user
+    profile = CustomerProfile.objects.filter(user=user).first()
+    tickets = SupportTicket.objects.filter(sender=user).order_by('-created_at')
+    reserves = Time.objects.filter(request_reservation__user=user).order_by('-fix_reserved_date')
+    suggestions = RequestReservation.objects.filter(user=user).order_by('-suggested_reservation_date')
+    invoices = Invoice.objects.filter(customer__user=user).order_by('created_date')
 
     context = {
         'profile': profile,
@@ -120,13 +120,11 @@ def ticket_success(request):
  
 def custom_create_ticket(request):
     success = False
-    test_user_id = 2
-    test_user = User.objects.get(id=test_user_id)
     if request.method == 'POST':
         form = SupportTicketForm(request.POST)
         if form.is_valid():
             ticket = form.save(commit=False)
-            ticket.sender = test_user
+            ticket.sender = request.user
             ticket.save()
             success = True  
             form = SupportTicketForm() 
@@ -172,17 +170,9 @@ def employee_panel(request):
         'tickets': tickets,
     }
 
-    # for ws in workhours:
-    #     print(ws.month, type(ws.month))
-    # for ps in payslips:
-    #     print(ps.date_created, type(ps.date_created))
-    # for t in tickets:
-    #     print(t.created_at, type(t.created_at))
-
-
     return render(request, 'registration/employee_panel.html', context)
 
-
+@login_required
 def answer_custom(request):
     
     user = request.user
@@ -198,12 +188,12 @@ def answer_custom(request):
     return render(request,'registration/answer_custom.html',{'tickets':tickets})
 
 
-
+@login_required
 def answer_employee(request):
-    
+    user = request.user
     tickets = (
         EmployeeTicket.objects
-        .filter(employee__id=1)
+        .filter(employee=user)
         .prefetch_related('replies') 
         .order_by('-created_at')      
     )
@@ -211,7 +201,7 @@ def answer_employee(request):
     return render(request, 'registration/answer_employee.html', {'tickets': tickets})
 
 
-
+@login_required
 def suggestion(request):
     success = False
     if request.method == 'POST':

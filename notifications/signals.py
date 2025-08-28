@@ -6,6 +6,8 @@ from asgiref.sync import async_to_sync
 from .models import Notification
 from accounts.models import User,SupportTicket,EmployeeTicket,Suggestion
 from home.models import RequestReservation
+import jdatetime
+
 
 @receiver(post_save, sender=SupportTicket)
 def create_ticket_notification(sender, instance, created, **kwargs):
@@ -64,10 +66,15 @@ def create_request_reseve(sender , instance, created, **kwargs):
     admins = User.objects.filter(is_superuser=True)
     channel_layer = get_channel_layer()
 
+    # تبدیل تاریخ به شمسی
+    shamsi_date = jdatetime.datetime.fromgregorian(
+        datetime=instance.suggested_reservation_date
+    ).strftime("%Y/%m/%d")
+
     for admin_user in admins:
         notif = Notification.objects.create(
             receiver=admin_user,
-            message = f"کاربر {instance.request_reservation.user.name} درخواست رزرو نوبت در تاریخ {instance.suggested_reservation_date} دارد.",
+            message = f"کاربر {instance.user.name} درخواست رزرو نوبت در تاریخ {shamsi_date} دارد.",
         )
 
         async_to_sync(channel_layer.group_send)(
@@ -75,7 +82,7 @@ def create_request_reseve(sender , instance, created, **kwargs):
             {
                 "type": "send_notification",
                 "message": notif.message,
-                "ticket_url": f"/admin/accounts/employeeticketproxy/{instance.id}/change/",
+                "ticket_url": f"/admin/home/requestreservation/{instance.id}/change/",
                 "notif_type": "employee_ticket"
             }
         )

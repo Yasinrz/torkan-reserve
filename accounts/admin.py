@@ -8,6 +8,7 @@ from jalali_date import datetime2jalali ,datetime2jalali
 from django.utils.translation import gettext_lazy as _
 from home.models import Time
 from jalali_date import date2jalali
+import jdatetime
 
 
 
@@ -108,7 +109,7 @@ class TicketReplyInline(admin.TabularInline):
 @admin.register(SupportTicketProxy)
 class SupportTicketProxyAdmin(admin.ModelAdmin):
     list_display = ['sender','title', 'created_jalali', 'time_created','colored_status']
-    readonly_fields = ['created_jalali', 'status']
+    readonly_fields = ['created_jalali', 'status','title','sender','message']
     search_fields = ['sender__name','status']
     list_filter = ['status']
     inlines = [TicketReplyInline]
@@ -207,6 +208,13 @@ class InvoiceAdmin(admin.ModelAdmin):
         return date2jalali(obj.created_date).strftime('%Y/%m/%d')
 
 
+    def formfield_for_foreignkey(self,db_field,request,**kwargs):
+        if db_field.name == 'customer':
+            kwargs["queryset"] = User.objects.filter(is_staff=False)
+        return super().formfield_for_foreignkey(db_field,request,**kwargs)    
+    
+
+
 admin.site.register(Invoice,InvoiceAdmin)    
 
 class InvoiceInline(admin.TabularInline):
@@ -230,23 +238,31 @@ class CustomerProfileAdmin(admin.ModelAdmin):
             
 
     
-    def show_reserve_history(self,obj):
+    def show_reserve_history(self, obj):
         times = Time.objects.filter(request_reservation__user=obj.user).order_by('-fix_reserved_date')
         if not times.exists():
-            return "not reserve"
+            return "رزروی ثبت نشده"
+        
         return "<br>".join(
-            [f"{t.fix_reserved_date.strftime('%Y-%m-%d %H:%M')}" for t in times]
+            [
+                jdatetime.datetime.fromgregorian(datetime=t.fix_reserved_date).strftime("%Y/%m/%d %H:%M")
+                for t in times
+            ]
         )
     show_reserve_history.short_description = "تاریخچه رزروها"
     show_reserve_history.allow_tags = True
+
 
     def show_tikets(self,obj):
         tikets = SupportTicket.objects.filter(sender=obj.user).order_by('-created_at')
         if not tikets.exists():
             return "تیکتی وجود ندارد"
-        return "<br>".join([
-            f"{t.created_at.strftime('%Y-%m-%d %H:%M')} - {t.title}" for t in tikets
-        ])
+        return "<br>".join(
+            [
+                jdatetime.datetime.fromgregorian(datetime=t.created_at).strftime("%Y/%m/%d %H:%M")
+                for t in tikets
+            ]
+        )
     show_tikets.short_description = "تاریخچه تیکت ها"
     show_tikets.allow_tags = True
 
@@ -473,8 +489,9 @@ class EmployeeTicketProxyAdmin(admin.ModelAdmin):
 @admin.register(Suggestion)
 class SuggestionAdmin(admin.ModelAdmin):
     list_display = ("title", "user", "user_type", "created_at", "is_reviewed")
-    list_filter = ("user_type", "is_reviewed")
+    list_filter = ("user_type", "is_reviewed",)
     search_fields = ("title", "text", "user__name")
+    readonly_fields=('user','user_type','title','text',)
 
     def get_object(self, request, object_id, from_field=None):
         obj = super().get_object(request, object_id, from_field)

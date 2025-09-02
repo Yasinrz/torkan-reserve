@@ -189,30 +189,27 @@ class SupportTicketProxyAdmin(admin.ModelAdmin):
 
 
 
-class InvoiceAdmin(admin.ModelAdmin):
-    list_display = ['customer','invoice_jalali_date'] 
-    list_filter = ['created_date']
 
+class InvoiceAdmin(admin.ModelAdmin):
+    list_display = ['customer', 'invoice_jalali_date', 'invoice_preview'] 
+    list_filter = ['created_date']
+    
+    @admin.display(description=_('پیش‌نمایش فاکتور'))
     def invoice_preview(self, obj):
         if obj.invoice and obj.invoice.url.lower().endswith(('.png', '.jpg', '.jpeg')):
-            return f'<img src="{obj.invoice.url}" width="200" />'
+            return format_html('<img src="{}" width="200" />', obj.invoice.url)
         elif obj.invoice and obj.invoice.url.lower().endswith('.pdf'):
-            return f'<a href="{obj.invoice.url}" target="_blank">مشاهده PDF</a>'
+            return format_html('<a href="{}" target="_blank">مشاهده PDF</a>', obj.invoice.url)
         return "فایلی بارگذاری نشده"
-    
-    invoice_preview.allow_tags = True
-    invoice_preview.short_description = 'پیش‌نمایش فاکتور'
 
     @admin.display(description=_('تاریخ ایجاد'))
     def invoice_jalali_date(self, obj):
         return date2jalali(obj.created_date).strftime('%Y/%m/%d')
 
-
-    def formfield_for_foreignkey(self,db_field,request,**kwargs):
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'customer':
-            kwargs["queryset"] = User.objects.filter(is_staff=False)
-        return super().formfield_for_foreignkey(db_field,request,**kwargs)    
-    
+            kwargs["queryset"] = CustomerProfile.objects.filter(user__is_staff=False)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 admin.site.register(Invoice,InvoiceAdmin)    

@@ -121,7 +121,8 @@ class CustomerProfile(models.Model):
 
     class Meta:
         verbose_name = "پروفایل مشتری"
-        verbose_name_plural = " پروفایل‌ مشتری ها"
+        verbose_name_plural = "پروفایل مشتری‌ها"
+
 
 class Invoice(models.Model):
     customer = models.ForeignKey(CustomerProfile, on_delete=models.CASCADE, verbose_name="کاربر")

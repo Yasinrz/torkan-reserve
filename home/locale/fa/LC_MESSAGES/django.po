@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-27 22:29+0330\n"
-"PO-Revision-Date: 2025-06-17 14:26+0330\n"
+"PO-Revision-Date: 2025-08-19 12:26+0330\n"
 "Last-Translator: Anonymous User <anonymous@user.tld>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -193,7 +193,7 @@ msgstr "صنایع ذوب فلزات نجیب ترکان"
 
 #: .\home\templates\home\home.html:8
 msgid "Book your appointment now to melt precious metals in our workshop."
-msgstr "جهت ذوب فلزات گرانبها خود همین حالا نوبت خود را رزرو کنید."
+msgstr "جهت ذوب و جداسازی فلزات گرانبها خود همین حالا نوبت خود را رزرو کنید."
 
 #: .\home\templates\home\home.html:9
 msgid "reservation"

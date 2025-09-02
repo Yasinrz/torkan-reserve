@@ -1,0 +1,71 @@
+<div class="container-fluid calendar-container mw-100 w-100 overflow-hidden">
+  <div class="row g-1">
+    <!-- main part of calendar -->
+    <div class="col-12 col-lg-8">
+      <div class="calendar-base rounded-2 bg-white overflow-hidden">
+        
+        <!-- Year and Month Information Section -->
+        <div class="calendar-header p-1">
+          <div class="year-wrapper d-flex flex-column align-items-center"></div>
+        </div>
+        
+        <!-- Month Navigation -->
+        <div class="month-navigation py-2 px-1">
+          <div class="months d-flex flex-wrap gap-2 justify-content-center user-select-none">
+            <span class="month-hover month-letter month-letter-1" data-num="1">فروردین</span>
+            <span class="month-hover month-letter month-letter-2" data-num="2">اردیبهشت</span>
+            <span class="month-hover month-letter month-letter-3" data-num="3">خرداد</span>
+            <span class="month-hover month-letter month-letter-4" data-num="4">تیر</span>
+            <span class="month-hover month-letter month-letter-5" data-num="5">مرداد</span>
+            <span class="month-hover month-letter month-letter-6" data-num="6">شهریور</span>
+            <span class="month-hover month-letter month-letter-7" data-num="7">مهر</span>
+            <span class="month-hover month-letter month-letter-8" data-num="8">آبان</span>
+            <span class="month-hover month-letter month-letter-9" data-num="9">آذر</span>
+            <span class="month-hover month-letter month-letter-10" data-num="10">دی</span>
+            <span class="month-hover month-letter month-letter-11" data-num="11">بهمن</span>
+            <span class="month-hover month-letter month-letter-12" data-num="12">اسفند</span>
+          </div>
+        </div>
+
+        <hr class="month-line" />
+
+        <!-- Days of Week Header -->
+        <div class="py-0">
+          <ul class="weeks white-glass p-2 rounded-3 d-grid w-100 user-select-none">
+            <li>شنبه</li>
+            <li>یکشنبه</li>
+            <li>دوشنبه</li>
+            <li>سه شنبه</li>
+            <li>چهارشنبه</li>
+            <li>پنجشنبه</li>
+            <li>جمعه</li>
+          </ul>
+        </div>
+
+        <!-- Calendar Dates Grid -->
+        <div class="calendar-grid user-select-none">
+          <div class="num-dates justify-content-center mw-100 w-100 overflow-hidden d-flex flex-wrap mt-1"></div>
+        </div>
+        <div class="col-12 my-2">
+          {% include 'time.html'%}
+        </div>
+      </div>
+    </div>
+
+    <!-- left part of calendar -->
+    <div class="col-12 col-lg-4">
+      <div class="calendar-left mw-100 w-100 p-2 text-white rounded-2 overflow-hidden">
+        <!-- Today's Date Display -->
+        <div class="today-info text-center py-2">
+          <div class="num-date fs-4"></div>
+          <div class="day fs-5"></div>
+        </div>
+        
+        <!-- Events List Section -->
+        <div class="events-section">
+          <!-- Event lists will be dynamically generated here -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

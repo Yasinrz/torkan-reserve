@@ -99,7 +99,7 @@ body {
 .dropdown-item {
     padding: 0.85rem 1rem;
     color: var(--text-color);
-    border-bottom: 1px solid var(--border-color);
+    border-bottom-color: var(--border-color);
 }
 
 .dropdown-item:hover {
@@ -108,25 +108,14 @@ body {
 
 /* Navbar Toggler Animation */
 .navbar-toggler {
-    position: relative;
     width: 40px;
     height: 40px;
-    border: none !important;
-    background: transparent !important;
-    padding: 0;
     transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .hamburger-container {
-    width: 24px;
+    width: 80%;
     height: 18px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
 }
 
 .hamburger-line {
@@ -136,7 +125,6 @@ body {
     border-radius: 2px;
     transition: all 0.3s ease;
     transform-origin: center;
-    display: block;
 }
 
 /* When toggler is active (menu is open) */
@@ -328,6 +316,10 @@ footer {
 
     .nav-item a {
         font-size: 0.7rem !important;
+    }
+
+    .hamburger-container {
+        width: 60%;
     }
 
     .theme-toggle {

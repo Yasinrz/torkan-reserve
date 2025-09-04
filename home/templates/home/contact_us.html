@@ -3,11 +3,10 @@
 {% load humanize %}
 {% block content %}
 
-    <div class="hero-content">
-        <h2>{% trans 'از طریق شماره های زیر میتوانید با ما در ارتباط باشید .' %}</h2>
+    <div class="container-fluid rounded-1 my-5 text-center px-md-5">
+        <h2>از طریق شماره های زیر میتوانید با ما در ارتباط باشید .</h2>
         <h3>{% trans '09133393234' %}</h3>
         <h2>{% trans 'واحد حسابداری ' %}</h2>
         <h3>{% trans '09351189747' %}</h3>
-        <a type="submit" href="{% url 'home' %}" class="reserve-btn">{% trans 'خانه' %}</a>
     </div>
 {% endblock %}

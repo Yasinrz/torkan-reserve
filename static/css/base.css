@@ -154,37 +154,36 @@ body {
 .theme-toggle {
     background: none;
     border: 2px solid var(--border-color);
-    border-radius: 50%;
     width: 40px;
     height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
     transition: all 0.3s ease;
-    margin-right: 10px;
 }
 
 .theme-toggle:hover {
+    background: rgba(212, 175, 55, 0.2);
     transform: scale(1.1);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
 }
 
 .theme-toggle svg {
     width: 20px;
     height: 20px;
-    fill: var(--text-color);
+    fill: #d4af37;
     transition: all 0.3s ease;
 }
 
 #nav-btn {
-    background-color: rgba(219, 208, 1, 0.833) !important;
+    border: 2px solid #d4af37;
+    color: #d4af37;
+    background: var(--nav-btn-bg);
     transition: all 0.3s ease;
 }
 
 #nav-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #d4af37, #f9d423);
+    color: var(--text-color);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.8), 0 4px 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px) scale(1.05);
 }
 
 .form-control {

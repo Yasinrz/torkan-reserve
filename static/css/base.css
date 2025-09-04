@@ -187,6 +187,10 @@ body {
     transform: translateY(-3px) scale(1.05);
 }
 
+.card-header {
+    color: var(--text-color);
+}
+
 .form-control {
     padding: 0.75rem 1rem;
     border: 1px solid var(--border-color);

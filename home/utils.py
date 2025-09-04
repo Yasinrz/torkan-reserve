@@ -11,7 +11,7 @@ def send_reservation_sms(phone_number, name, date):
 
     params = {
         "receptor": phone_number,
-        "template": "finalr",
+        "template": "reserve",
         "token10": name,
         "token": date,
     }
@@ -85,7 +85,7 @@ def send_temporary(phone, name, date):
 
     params = {
         "receptor": phone,
-        "template": "temporary",
+        "template": "request",
         "token10": name,
         "token": date,
     }
@@ -105,10 +105,10 @@ def send_sms_to_admin(phone_admin, date_request ,phone_user , name):
 
     params = {
         "receptor":phone_admin,
-        "template": "smsadmin",
+        "template": "request-to-admin",
         "token10": name,
-        "token": phone_user,
-        "token2": date_request,
+        "token": date_request,
+        "token2": phone_user,
     }
 
     try:

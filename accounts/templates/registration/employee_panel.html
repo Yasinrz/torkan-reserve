@@ -173,7 +173,6 @@
                         <i class="fas fa-ticket-alt mr-2 gold-icon"></i> 
                         {{ ticket.created_at|to_jalali }} - 
                         نوع: {{ ticket.get_ticket_type_display }} - 
-                        وضعیت: {{ ticket.get_status_display }}
                     </li>
                     {% endfor %}
                 </ul>
@@ -184,6 +183,8 @@
                 {% endif %}
                 <a href="{% url 'staff_ticket' %}" class="gold-button text-white font-semibold py-2 px-4 rounded-lg inline-block mt-4">
                     <i class="fas fa-ticket-alt mr-2"></i> ثبت تیکت جدید
+                    <a href="{% url 'answer_employee' %}" class="gold-button text-white font-semibold py-2 px-4 rounded-lg inline-block mt-4">
+                    <i class="fas fa-ticket-alt mr-2"></i> مشاهده تیکت ها
                 </a>
             </div>
         </div>

@@ -8,6 +8,7 @@ from jalali_date import datetime2jalali ,datetime2jalali
 from django.utils.translation import gettext_lazy as _
 from home.models import Time
 from jalali_date import date2jalali
+import jdatetime
 
 
 
@@ -26,7 +27,7 @@ class PayslipInline(admin.TabularInline):
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
     
-    list_display = ('phone_number', 'name', 'is_staff', 'is_active')
+    list_display = ('id','phone_number', 'name', 'is_staff', 'is_active')
     list_filter = ('is_staff', 'is_active')
     search_fields = ('phone_number', 'name')
     ordering = ('phone_number',)
@@ -67,7 +68,7 @@ class PayslipAdmin(admin.ModelAdmin):
 
 @admin.register(StaffProfile)
 class StaffProfileAdmin(admin.ModelAdmin):
-    inlines = [PayslipInline,WorkHourInline]
+    inlines = [WorkHourInline,PayslipInline]
 
     list_display = ('user', 'birth_date', 'staff_joined_jalali_date')
     search_fields = ('employee__name',)
@@ -107,8 +108,8 @@ class TicketReplyInline(admin.TabularInline):
 
 @admin.register(SupportTicketProxy)
 class SupportTicketProxyAdmin(admin.ModelAdmin):
-    list_display = ['sender','title', 'created_jalali', 'colored_status']
-    readonly_fields = ['created_jalali', 'status']
+    list_display = ['sender','title', 'created_jalali', 'time_created','colored_status']
+    readonly_fields = ['created_jalali', 'status','title','sender','message']
     search_fields = ['sender__name','status']
     list_filter = ['status']
     inlines = [TicketReplyInline]
@@ -188,23 +189,27 @@ class SupportTicketProxyAdmin(admin.ModelAdmin):
 
 
 
-class InvoiceAdmin(admin.ModelAdmin):
-    list_display = ['customer','invoice_jalali_date'] 
-    list_filter = ['created_date']
 
+class InvoiceAdmin(admin.ModelAdmin):
+    list_display = ['customer', 'invoice_jalali_date', 'invoice_preview'] 
+    list_filter = ['created_date']
+    
+    @admin.display(description=_('پیش‌نمایش فاکتور'))
     def invoice_preview(self, obj):
         if obj.invoice and obj.invoice.url.lower().endswith(('.png', '.jpg', '.jpeg')):
-            return f'<img src="{obj.invoice.url}" width="200" />'
+            return format_html('<img src="{}" width="200" />', obj.invoice.url)
         elif obj.invoice and obj.invoice.url.lower().endswith('.pdf'):
-            return f'<a href="{obj.invoice.url}" target="_blank">مشاهده PDF</a>'
+            return format_html('<a href="{}" target="_blank">مشاهده PDF</a>', obj.invoice.url)
         return "فایلی بارگذاری نشده"
-    
-    invoice_preview.allow_tags = True
-    invoice_preview.short_description = 'پیش‌نمایش فاکتور'
 
     @admin.display(description=_('تاریخ ایجاد'))
     def invoice_jalali_date(self, obj):
         return date2jalali(obj.created_date).strftime('%Y/%m/%d')
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'customer':
+            kwargs["queryset"] = CustomerProfile.objects.filter(user__is_staff=False)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 admin.site.register(Invoice,InvoiceAdmin)    
@@ -230,23 +235,31 @@ class CustomerProfileAdmin(admin.ModelAdmin):
             
 
     
-    def show_reserve_history(self,obj):
+    def show_reserve_history(self, obj):
         times = Time.objects.filter(request_reservation__user=obj.user).order_by('-fix_reserved_date')
         if not times.exists():
-            return "not reserve"
+            return "رزروی ثبت نشده"
+        
         return "<br>".join(
-            [f"{t.fix_reserved_date.strftime('%Y-%m-%d %H:%M')}" for t in times]
+            [
+                jdatetime.datetime.fromgregorian(datetime=t.fix_reserved_date).strftime("%Y/%m/%d %H:%M")
+                for t in times
+            ]
         )
     show_reserve_history.short_description = "تاریخچه رزروها"
     show_reserve_history.allow_tags = True
+
 
     def show_tikets(self,obj):
         tikets = SupportTicket.objects.filter(sender=obj.user).order_by('-created_at')
         if not tikets.exists():
             return "تیکتی وجود ندارد"
-        return "<br>".join([
-            f"{t.created_at.strftime('%Y-%m-%d %H:%M')} - {t.title}" for t in tikets
-        ])
+        return "<br>".join(
+            [
+                jdatetime.datetime.fromgregorian(datetime=t.created_at).strftime("%Y/%m/%d %H:%M")
+                for t in tikets
+            ]
+        )
     show_tikets.short_description = "تاریخچه تیکت ها"
     show_tikets.allow_tags = True
 
@@ -384,7 +397,7 @@ class EmployeeTicketReplyInline(admin.TabularInline):
     model = EmployeeTicketReply
     extra = 0
     readonly_fields = ('author', 'created_at')
-    fields = ('author', 'message', 'status_ticket', 'created_at')
+    fields = ('author', 'message', 'file','status_ticket', 'created_at')
     show_change_link = True
 
     def save_new_instance(self, obj, request):
@@ -421,7 +434,7 @@ class EmployeeTicketReplyInline(admin.TabularInline):
 @admin.register(EmployeeTicketProxy)
 class EmployeeTicketProxyAdmin(admin.ModelAdmin):
     list_display = (
-        'employee__name', 'ticket_type', 'created_jalali',
+        'employee__name', 'ticket_type', 'created_jalali','time_created',
         'status_colored', 'status_colored_ticket', 'description'
     )
     search_fields = ('employee__username', 'employee__first_name', 'employee__last_name')
@@ -473,8 +486,9 @@ class EmployeeTicketProxyAdmin(admin.ModelAdmin):
 @admin.register(Suggestion)
 class SuggestionAdmin(admin.ModelAdmin):
     list_display = ("title", "user", "user_type", "created_at", "is_reviewed")
-    list_filter = ("user_type", "is_reviewed")
+    list_filter = ("user_type", "is_reviewed",)
     search_fields = ("title", "text", "user__name")
+    readonly_fields=('user','user_type','title','text',)
 
     def get_object(self, request, object_id, from_field=None):
         obj = super().get_object(request, object_id, from_field)

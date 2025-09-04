@@ -53,7 +53,7 @@ body {
 }
 
 .glass-element {
-    background: var(--nav-bg);
+    background: var(--glass-bg);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     /* border-radius: 50px; */

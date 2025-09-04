@@ -239,16 +239,6 @@ body {
     color: #0cc8d7;
 }
 
-.hero-section {
-    min-height: calc(100vh - 60px);
-    padding-top: 75px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    color: var(--text-color);
-}
-
 .reserve-btn {
     background: linear-gradient(135deg, #d4af37, #f9d423, #d4af37);
     color: var(--reserve-btn-txt-color);

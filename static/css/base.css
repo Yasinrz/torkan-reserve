@@ -42,10 +42,11 @@
 * {
     font-family: 'Vazir', sans-serif;
     font-size: 16px;
+    color: var(--text-color);
 }
 
 body {
-    color: var(--text-color);
+    /* color: var(--text-color); */
     background: var(--bg-image) center/cover no-repeat fixed;
     padding-top: 125px;
     transition: all 0.3s ease;

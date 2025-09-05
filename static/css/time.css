@@ -1,7 +1,7 @@
 /* Clock widget styles - Elegant digital display */
 .clock-time {
         width: 100%;
-        font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+        font-family: monospace;
         font-weight: 500;
         color: #ffd700;
         text-shadow:

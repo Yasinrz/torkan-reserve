@@ -1,3 +1,11 @@
+:root {
+        --digit-color: #000000;
+}
+
+[data-theme="dark"] {
+        --digit-color: #ffffff;
+}
+
 /* Clock widget styles - Elegant digital display */
 .clock-time {
         width: 100%;
@@ -17,11 +25,11 @@
 }
 
 .clock-time .digit {
-        color: #000000;
+        color: var(--digit-color);
 }
 
 .clock-time .colon {
-        color: #000000;
+        color: var(--digit-color);
         text-shadow:
                 0 0 5px rgba(255, 215, 0, 0.8),
                 0 0 10px rgba(255, 215, 0, 0.6),

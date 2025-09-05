@@ -13,6 +13,7 @@
         filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.5));
         padding: 8px 0;
         line-height: 1;
+        border: 2px solid #ffd9006b;
 }
 
 .clock-time .digit {

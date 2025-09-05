@@ -23,8 +23,8 @@
         <div class="col-12 p-2">
           <div class="row g-0 white-glass rounded-1">
             <div class="col-lg-6">
-              <div class="card h-100 rounded-0 border border-0 p-2 rounded rounded-2">
-                <img src="{% static "images/introduction.png" %}" class="card-img w-100 h-100 mh-100 img-fluid" id="main-image" alt="introduction">
+              <div class="card h-100 rounded-1 p-0 border-0">
+                <img src="{% static "images/introduction.png" %}" class="card-img w-100 h-100 mh-100 img-fluid bg-dark" id="main-image" alt="introduction">
                 <div class="card-img-overlay">
                   <h1 class="card-title text-center fw-bolder fs-4 white-glass rounded-1 p-2">
                     <img id="gold-bar" src="data:image/png;base64,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" alt="gold-bars--v1">
@@ -55,55 +55,15 @@
             <h5 class="card-header text-center fs-3">
               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAD/0lEQVR4nO2Z628MURTAh8Qu3UaVZO+5231oLaGesdtqa3tvqxXEfyBEkAgiJIKI1weSKl+8QoOUEETqmeCDEJUIEkXird4Eu96P+EDQI3famc7YXZ1tZ1/J3uRkdufeOff87nnMnRlJyrRMyzQDzdcDgK8kwG8Q4D+BcuyqUMqaJEnqLsW7FRYWWoCyK2YYHSbA6+MOIVY+LsYnCoIAv9E+GVskwqmLKrsRyur0EGx33CC0MS/CySS1iYMAzSRm6COELwHgrwlhSxMCEQ0Ag5INg5Y6DFk+YMiKRsXtLpd1iWNL0IpLFwzGuEJEBxDGGzdcEa0+DFnjDxEVIMaVV8TlYqq+r49s8YeIDhC78UImVPlivdmlFsC5IySm+4SUagBCzh4GnDTepwuntAKIKdFfSr3SGyBoOYPPpJ7pCxCSzzWkN0DQ2mI6QM0KLxYUBHDdSq86sTjnNJCYWnG6mHxdBx5A0wEGDAjI57zegDqJAIrFeGgTcV3CAcTKC4h1q9LUA5jYJMYMAGQArBi6nY03G/vhp2Zb8gFqDJTRYn8JPm3KkftO7HOgx9P6MOPI41hV4cfVSwbhmQZQt9UpWUa3r8+X+0qKx0StRHlOhrOnD8OPD1pBlE2eOCa1jGo9IH53VFLLy4rx3d1sWY/wlra8mg4Qa/zPmjZM1bO1Nh/PHyW4dtlAnFjtk0NK6eOBInx/LzxHkg5Qv9mj6hEw2r5T+x3ocrd7LlBajG/vZKcWQPPlPqqeIYPH4p83+v6T+x268BvHitScSAkA8eA+YniZquvWhb5hY47vzZMTWhlTxf1qyU06gJC5M4aGJSz+M+boHj1EdaUfPz+0pQbA3Yu56ostIRXlRfjjZa+wcUfq9RDjK/3odgdykw4QKdZvNvaLOK5hV56uOhHKmjwe3ifpAEJOH6A4elQpzpw6HH+96hl13KGdTh0EAG+OGSIRm7nGYwQ31xSEbSmE7N7iQurQQpTfys2tzuny63WzjH9yNUddZbE/Egmr9H17nIWTJ0R6k8euUOrLMgpwXePCxQqEWQAvrvfW5YRI2C+PbJGMb2mT1pwAttEQgJ2y5R3tYYzIyBFlEWs/RkjYKu6TtxjKfxFChPL5AGyeRucfuz1QYPQL5SUzINYsG2g8YWm78Xu2uNX8A8pOKX12yqYY8oKAEJ4glF3r7GfW/3kA2+TgDifSfyDqNvRHDFneqwDAN2kAFkqdbRi0bDezEmGb1K7y6gBEHjy/1lt8yZQAKj1A+dv2nKzgnQd4LWVhyLJNrI7ZENtq8/Wlk7LPBNhFoOy7Jonve70TrVKqNgA+Byj7HSkcCbAfdjsvSbaNHTa7g5UCZXd0AMAvE1I5VBn0FzXAvvsW0BwXAAAAAElFTkSuQmCC" alt="reservation-2">
               رزرو نوبت</h5>
-            <div class="card-body glass-element rounded-1 d-flex flex-column align-items-center">
+            <div class="card-body rounded-1 d-flex flex-column align-items-center">
               <p class="card-text text-center" id="p-exp">{% trans 'Book your appointment now to melt precious metals in our workshop.' %}</p>
-              <a href="{% url 'login' %}" class="btn reserve-btn border border-dark rounded rounded-pill py-3 px-4">{% trans 'reservation' %}</a>
+              <a href="{% url 'login' %}" class="btn reserve-btn rounded rounded-pill py-3 px-4">{% trans 'reservation' %}</a>
             </div>
           </div>
         </div>
         <div class="col-12 col-lg-7">
           {% include 'calendar.html' %}
         </div>
-        <div class="col-12 col-md-6 col-md-12">
-            <div id="carouselWithCaptions" class="carousel slide" data-bs-ride="carousel">
-              <ol class="carousel-indicators">
-                <li data-bs-target="#carouselWithCaptions" data-bs-slide-to="0" class="active"></li>
-                <li data-bs-target="#carouselWithCaptions" data-bs-slide-to="1"></li>
-                <li data-bs-target="#carouselWithCaptions" data-bs-slide-to="2"></li>
-              </ol>
-              <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <img src="{% static 'images/Introduction.png' %}" class="d-block w-100" alt="Slide 1">
-                  <div class="carousel-caption d-none d-sm-block">
-                    <h5>First slide label</h5>
-                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                  </div>
-                </div>
-                <div class="carousel-item">
-                  <img src="{% static 'images/Introduction.png' %}" class="d-block w-100" alt="Slide 2">
-                  <div class="carousel-caption d-none d-sm-block">
-                    <h5>Second slide label</h5>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                  </div>
-                </div>
-                <div class="carousel-item">
-                  <img src="{% static 'images/Introduction.png' %}" class="d-block w-100" alt="Slide 3">
-                  <div class="carousel-caption d-none d-sm-block">
-                    <h5>Third slide label</h5>
-                    <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-                  </div>
-                </div>
-              </div>
-              <a class="carousel-control-prev" href="#carouselWithCaptions" role="button" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-              </a>
-              <a class="carousel-control-next" href="#carouselWithCaptions" role="button" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-              </a>
-            </div>
-          </div>
       </div>
     </div>
 {% endblock %}

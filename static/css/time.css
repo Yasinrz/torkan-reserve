@@ -1,7 +1,15 @@
+:root {
+        --digit-color: #000000;
+}
+
+[data-theme="dark"] {
+        --digit-color: #ffffff;
+}
+
 /* Clock widget styles - Elegant digital display */
 .clock-time {
         width: 100%;
-        font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+        font-family: monospace;
         font-weight: 500;
         color: #ffd700;
         text-shadow:
@@ -13,14 +21,15 @@
         filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.5));
         padding: 8px 0;
         line-height: 1;
+        border: 2px solid #ffd9006b;
 }
 
 .clock-time .digit {
-        color: #000000;
+        color: var(--digit-color);
 }
 
 .clock-time .colon {
-        color: #000000;
+        color: var(--digit-color);
         text-shadow:
                 0 0 5px rgba(255, 215, 0, 0.8),
                 0 0 10px rgba(255, 215, 0, 0.6),

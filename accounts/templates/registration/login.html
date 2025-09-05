@@ -15,7 +15,7 @@
             </div>
             <div class="card-body white-glass border border-dark border-1 rounded-bottom mx-lg-5">
                 <div class="row g-2">
-                    <div class="col-12 col-md-6 rounded-1 border border-dark border-1 p-4">
+                    <div class="col-12 col-md-6 p-4">
                         <form class="" method="POST">
                             {% csrf_token %}
                             {{ form | crispy }}
@@ -23,7 +23,7 @@
                         </form>
                     </div>
                     {% comment %} <div class="vr mx-2 bg-warning"></div> {% endcomment %}
-                    <div class="col-12 col-md-6 text-end rounded-1 border border-dark border-1 p-4">
+                    <div class="col-12 col-md-6 text-end p-4">
                         <p class="fs-5 d-inline"> 🟠 </p>
                         <p class="fs-5 d-inline fw-normal" id="p-exp">
                              بعد از دریافت کد یکبار مصرف ضمن وارد شدن به حساب کاربری خود، قادر به رزرو نوبت خود خواهید بود.

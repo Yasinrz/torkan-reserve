@@ -5,12 +5,15 @@ from django.shortcuts import render, redirect ,get_object_or_404
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 from home.models import Time ,RequestReservation
-from .forms import VerificationCodeForm, PhoneNumberForm ,SupportTicketForm ,EmployeeTicketForm , SuggestionForm
-from .models import SupportTicket, CustomerProfile ,Invoice ,StaffProfile ,WorkHourReport , Payslip ,EmployeeTicket,TicketReply,EmployeeTicketReply
+from .forms import *
+from .models import *
 from random import randint
 from .utils import send_code
 from accounts.models import User
 from django.views.decorators.cache import never_cache
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib import messages
+
 
 
 
@@ -218,4 +221,3 @@ def suggestion(request):
 
     back_url = 'employee_panel' if request.user.is_staff else 'custom_panel'    
     return render(request, 'registration/suggestion.html', {'form': form, 'success': success,'back_url': back_url})
-

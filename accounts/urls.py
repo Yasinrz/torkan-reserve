@@ -12,6 +12,5 @@ urlpatterns = [
     path('employee_panel/',views.employee_panel, name='employee_panel'),
     path('answer_custom/', views.answer_custom, name='answer_custom'),
     path('answer_employee/', views.answer_employee , name='answer_employee'),
-    path('suggestion/', views.suggestion , name='suggestion')
-
+    path('suggestion/', views.suggestion , name='suggestion'),
 ]

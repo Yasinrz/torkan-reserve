@@ -64,3 +64,13 @@ class CommentAdmin(admin.ModelAdmin):
     @admin.display(description='تاریخ ایجاد')
     def shamsi_date(self,obj):
         return date2jalali(obj.created_at).strftime('%Y/%m/%d')
+
+
+@admin.register(Gallery)
+class GalleryAdmin(admin.ModelAdmin):
+    list_display = ['title' , 'status' , 'shamsi_date']
+    list_filter = ['status' , 'created_at']
+
+    @admin.display(description='تاریخ ایجاد')
+    def shamsi_date(self,obj):
+        return date2jalali(obj.created_at).strftime('%Y/%m/%d')

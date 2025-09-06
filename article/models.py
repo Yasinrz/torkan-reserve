@@ -96,3 +96,22 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"نظر {self.user} روی {self.article}"
+    
+
+# Gallery
+
+class Gallery(models.Model):
+    
+    title = models.CharField(max_length=200, blank=True, verbose_name="عنوان")
+    description = models.TextField(blank=True, verbose_name="توضیحات")
+    image = models.ImageField(upload_to="gallery/%Y/%m/%d/", verbose_name="تصویر")
+    status = models.BooleanField(default=0, verbose_name="انتشار؟")
+    created_at = models.DateTimeField(auto_now_add=True , verbose_name='تاریخ ایجاد')
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = "عکس"
+        verbose_name_plural = "تصاویر"
+
+    def __str__(self):
+        return self.title or f"تصویر {self.id}"

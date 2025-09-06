@@ -35,7 +35,7 @@ urlpatterns = [
         path("admin/", custom_admin_site.urls),
         path('',include('home.urls')),
         path('accounts/', include('accounts.urls')),
-
+        path('article/', include('article.urls')),
 
         # Rosetta (i18n)
         path('rosetta/',include('rosetta.urls')),

@@ -1,6 +1,7 @@
 __pycache__/
 db.sqlite3
 __pypackages__/
+postgres_database/
 # Environments
 .env
 .venv

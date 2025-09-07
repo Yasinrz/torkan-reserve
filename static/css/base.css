@@ -326,6 +326,10 @@ footer {
         height: 1rem;
     }
 
+    .dropdown-item {
+        font-size: 0.7rem;
+    }
+
     #datetime {
         font-size: 0.65rem;
     }

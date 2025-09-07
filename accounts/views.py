@@ -11,6 +11,7 @@ from random import randint
 from .utils import send_code
 from accounts.models import User
 from django.views.decorators.cache import never_cache
+from config.settings import DEBUG
 
 
 
@@ -26,9 +27,9 @@ def phone_number_view(request):
             request.session['phone_number'] = phone_number
             request.session['verification_code'] = token
             request.session['name'] = name
-
-            send_code(phone_number, token)
-            print(token)
+            if not DEBUG:
+                send_code(phone_number, token)
+            print(f" $--------------------$ {token} $--------------------$ ")
             return redirect('code_view')
     else:
         form = PhoneNumberForm()

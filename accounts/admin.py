@@ -1,9 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User , CustomerProfile , SupportTicket ,TicketReply ,Invoice ,StaffProfile ,WorkHourReport ,Payslip , EmployeeTicket,EmployeeTicketReply,EmployeeTicketProxy ,SupportTicketProxy,Suggestion
+from django.contrib import messages
+from django.shortcuts import render ,redirect
+from django.urls import path
+from django import forms
+from .models import *
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from jalali_date.admin import ModelAdminJalaliMixin
-from django.utils.html import format_html
+from django.utils.html import format_html ,format_html_join
 from jalali_date import datetime2jalali ,datetime2jalali
 from django.utils.translation import gettext_lazy as _
 from home.models import Time
@@ -229,6 +233,7 @@ class CustomerProfileAdmin(admin.ModelAdmin):
     readonly_fields = ['show_reserve_history','show_tikets']
     inlines = [InvoiceInline]
 
+
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         return qs.filter(user__is_staff=False)
@@ -236,32 +241,49 @@ class CustomerProfileAdmin(admin.ModelAdmin):
 
     
     def show_reserve_history(self, obj):
+    # استفاده از prefetch_related برای کاهش تعداد query ها
         times = Time.objects.filter(request_reservation__user=obj.user).order_by('-fix_reserved_date')
+        
         if not times.exists():
             return "رزروی ثبت نشده"
-        
-        return "<br>".join(
-            [
-                jdatetime.datetime.fromgregorian(datetime=t.fix_reserved_date).strftime("%Y/%m/%d %H:%M")
-                for t in times
-            ]
+
+        return format_html(
+            "<ul>{}</ul>",
+            format_html_join(
+                "",
+                "<li>{}</li>",
+                (
+                    (
+                        jdatetime.datetime.fromgregorian(datetime=t.fix_reserved_date)
+                        .strftime("%Y/%m/%d %H:%M"),
+                    ) for t in times
+                )
+            )
         )
     show_reserve_history.short_description = "تاریخچه رزروها"
-    show_reserve_history.allow_tags = True
 
 
-    def show_tikets(self,obj):
-        tikets = SupportTicket.objects.filter(sender=obj.user).order_by('-created_at')
-        if not tikets.exists():
+    # نمایش تاریخچه تیکت‌ها
+    def show_tikets(self, obj):
+        tickets = SupportTicket.objects.filter(sender=obj.user).order_by('-created_at')
+
+        if not tickets.exists():
             return "تیکتی وجود ندارد"
-        return "<br>".join(
-            [
-                jdatetime.datetime.fromgregorian(datetime=t.created_at).strftime("%Y/%m/%d %H:%M")
-                for t in tikets
-            ]
+
+        return format_html(
+            "<ul>{}</ul>",
+            format_html_join(
+                "",
+                "<li>{}</li>",
+                (
+                    (
+                        jdatetime.datetime.fromgregorian(datetime=t.created_at)
+                        .strftime("%Y/%m/%d %H:%M"),
+                    ) for t in tickets
+                )
+            )
         )
-    show_tikets.short_description = "تاریخچه تیکت ها"
-    show_tikets.allow_tags = True
+    show_tikets.short_description = "تاریخچه تیکت‌ها"
 
 
 
@@ -485,10 +507,14 @@ class EmployeeTicketProxyAdmin(admin.ModelAdmin):
 
 @admin.register(Suggestion)
 class SuggestionAdmin(admin.ModelAdmin):
-    list_display = ("title", "user", "user_type", "created_at", "is_reviewed")
+    list_display = ("title", "user", "user_type", "get_shamsi_date", "is_reviewed")
     list_filter = ("user_type", "is_reviewed",)
     search_fields = ("title", "text", "user__name")
-    readonly_fields=('user','user_type','title','text',)
+    readonly_fields=('user','user_type','title','text',"get_shamsi_date",)
+
+    @admin.display(description='تاریخ ایجاد')
+    def get_shamsi_date(self ,obj):
+        return date2jalali(obj.created_at).strftime('%Y/%m/%d')
 
     def get_object(self, request, object_id, from_field=None):
         obj = super().get_object(request, object_id, from_field)
@@ -496,3 +522,5 @@ class SuggestionAdmin(admin.ModelAdmin):
             obj.is_reviewed = True
             obj.save(update_fields=["is_reviewed"])
         return obj
+    
+

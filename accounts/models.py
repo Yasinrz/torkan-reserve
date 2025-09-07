@@ -372,7 +372,7 @@ class Suggestion(models.Model):
         ('staff','کارمند'),
     ]
     
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="suggestions")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="suggestions",verbose_name='کاربر')
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES,verbose_name='نوع کاربر')
     title = models.CharField(max_length=200, verbose_name="عنوان")
     text = models.TextField(verbose_name="متن پیشنهاد/انتقاد")
@@ -386,3 +386,6 @@ class Suggestion(models.Model):
 
     def __str__(self):
         return f"{self.get_user_type_display()} - {self.title}"
+    
+
+

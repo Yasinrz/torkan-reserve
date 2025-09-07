@@ -1,0 +1,13 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>ارسال SMS</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p>
+        <label>شماره‌ها (با کاما جدا کنید):</label><br>
+        <input type="text" name="receptors" placeholder="مثال: 09123456789,09351234567">
+    </p>
+    <input type="submit" value="ارسال" class="default">
+</form>
+{% endblock %}

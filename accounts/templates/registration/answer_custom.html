@@ -178,6 +178,7 @@
                     <p><strong>وضعیت تیکت:</strong> {{ ticket.get_status_display }}</p>
                     <p><strong>متن تیکت:</strong> {{ ticket.message|default:"-" }}</p>
                     <p><strong>تاریخ ایجاد:</strong> {{ ticket.created_at|to_jalali }}</p>
+                    <p><strong>زمان ایجاد:</strong> {{ ticket.time_created }}</p>
                 </div>
 
                 <!-- Replies Section -->

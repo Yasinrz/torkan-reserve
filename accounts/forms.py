@@ -209,3 +209,7 @@ class SuggestionForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'class': 'form-input'}),
             'text': forms.Textarea(attrs={'class': 'form-textarea', 'rows': 4}),
         }
+
+
+class SendSMSForm(forms.Form):
+    message = forms.CharField(widget=forms.Textarea, label="پیام")

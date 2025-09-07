@@ -55,13 +55,17 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'channels',
+    "ckeditor",
+    "ckeditor_uploader",
 
     # my app
     'home',
     'accounts',
     'notifications',
+    'article',
     
 ]
+
 
 ASGI_APPLICATION = "config.asgi.application"
 
@@ -74,6 +78,14 @@ CHANNEL_LAYERS = {
     },
 }
 
+
+CKEDITOR_CONFIGS = {
+    "default": {
+        "toolbar": "full",
+        "height": 400,
+        "width": "100%",
+    },
+}
 
 
 
@@ -200,3 +212,4 @@ MESSAGE_TAGS = {
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+CKEDITOR_UPLOAD_PATH = "uploads/"

@@ -130,40 +130,77 @@ document.addEventListener("DOMContentLoaded", function(){
     });
   });
 
-  // ⭐ تابع فرمت سه‌رقمی برای فیلدهای مبلغ
+  // ⭐ تابع بهبودیافته برای فرمت سه‌رقمی با حفظ کرسور دقیق‌تر (بر اساس روش StackOverflow)
   function setupPriceInput(selector) {
     const input = document.querySelector(selector);
     if (!input) return;
 
-    // تغییر نوع فیلد به text
+    // تغییر نوع به text و استایل LTR برای سازگاری با اعداد
     input.setAttribute("type", "text");
+    input.style.textAlign = "left";
+    input.style.direction = "ltr";
 
-    // ایجاد فیلد مخفی برای ارسال مقدار خام
+    // فیلد مخفی برای مقدار خام (بدون کاما)
     const hiddenInput = document.createElement("input");
     hiddenInput.type = "hidden";
     hiddenInput.name = input.name;
-    input.name = input.name + "_display"; // تغییر نام فیلد اصلی
+    input.name = input.name + "_display";  // نام نمایش رو تغییر می‌دیم
     input.parentNode.insertBefore(hiddenInput, input.nextSibling);
 
-    input.addEventListener("input", function (e) {
-      let value = e.target.value.replace(/,/g, "");
-      const errorElement = document.getElementById(`error-${e.target.id}`);
+    const formatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });  // برای کاما انگلیسی
+    // اگر ویرگول پارسی می‌خواید: const formatter = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '،');
 
-      if (!isNaN(value) && value !== "") {
-        const formattedValue = Number(value).toLocaleString("fa-IR");
-        e.target.value = formattedValue;
-        hiddenInput.value = value; // مقدار بدون کاما برای ارسال
+    // تابع برای شمارش کاماها قبل از یک موقعیت خاص
+    function countCommasBefore(str, pos) {
+      return (str.slice(0, pos).match(/,/g) || []).length;
+    }
+
+    // فرمت اولیه اگر value داشته باشه
+    if (input.value) {
+      let initialValue = input.value.replace(/,/g, "").trim();
+      if (/^\d+$/.test(initialValue)) {
+        input.value = formatter.format(initialValue);
+        hiddenInput.value = initialValue;
+      }
+    }
+
+    input.addEventListener("input", function (e) {
+      const errorElement = document.getElementById(`error-${e.target.id}`);
+      const oldValue = e.target.value;
+      const cursorStart = e.target.selectionStart;
+      const cursorEnd = e.target.selectionEnd;
+
+      // محاسبه موقعیت بدون کاما
+      const commasBeforeStart = countCommasBefore(oldValue, cursorStart);
+      const commasBeforeEnd = countCommasBefore(oldValue, cursorEnd);
+      let value = oldValue.replace(/,/g, "").trim();
+
+      if (/^\d*$/.test(value)) {
+        if (value !== "") {
+          const formatted = formatter.format(value);
+
+          // محاسبه موقعیت جدید کرسور
+          const newStart = cursorStart + (countCommasBefore(formatted, cursorStart - commasBeforeStart) - commasBeforeStart);
+          const newEnd = cursorEnd + (countCommasBefore(formatted, cursorEnd - commasBeforeEnd) - commasBeforeEnd);
+
+          e.target.value = formatted;
+          hiddenInput.value = value;
+          e.target.setSelectionRange(newStart, newEnd);
+        } else {
+          hiddenInput.value = "";
+        }
         errorElement.classList.remove("show");
         errorElement.textContent = "";
       } else {
-        e.target.value = "";
-        hiddenInput.value = "";
+        value = value.replace(/\D/g, "");
+        e.target.value = value ? formatter.format(value) : "";
+        hiddenInput.value = value;
         errorElement.textContent = "لطفاً فقط عدد وارد کنید";
         errorElement.classList.add("show");
       }
     });
 
-    // جلوگیری از ورود کاراکتر غیر عددی
+    // جلوگیری از ورود غیرعددی
     input.addEventListener("keypress", function(e) {
       if (!/[0-9]/.test(e.key)) {
         e.preventDefault();
@@ -171,19 +208,13 @@ document.addEventListener("DOMContentLoaded", function(){
     });
   }
 
-  // اعمال روی همه فیلدهای مبلغ
+  // اعمال روی فیلدهای مبلغ
   setupPriceInput("#id_facility_amount");
   setupPriceInput("#id_advance_amount");
 
-  // قبل از ارسال فرم، اطمینان از اینکه مقادیر خام ارسال می‌شوند
+  // قبل از ارسال فرم، اطمینان از ارسال مقادیر خام
   document.getElementById("ticketForm").addEventListener("submit", function() {
-    ["#id_facility_amount", "#id_advance_amount"].forEach(selector => {
-      const input = document.querySelector(selector);
-      const hiddenInput = document.querySelector(`input[name='${input.name.replace('_display', '')}']`);
-      if (input && hiddenInput) {
-        hiddenInput.value = input.value.replace(/,/g, "");
-      }
-    });
+    // لازم نیست چیزی اضافه کنی
   });
 });
 </script>

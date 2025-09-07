@@ -3,10 +3,11 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-from .models import Notification
+from .models import Notification , SMS
 from accounts.models import User,SupportTicket,EmployeeTicket,Suggestion
 from home.models import RequestReservation
 import jdatetime
+from .utils import send_location
 
 
 @receiver(post_save, sender=SupportTicket)
@@ -108,4 +109,19 @@ def create_suggestion_notification(sender ,instance ,created ,**kwargs):
                 "message": notif.message,
                 "ticket_url": f"/admin/accounts/suggestion/{instance.id}/change/",
             }
+        )
+
+
+@receiver(post_save, sender=SMS)
+def sms_location(sender , instance , created , **kwargs):
+    if created :
+        created_at_shamsi = jdatetime.datetime.fromgregorian(
+            datetime=instance.created_at
+        ).strftime("%Y/%m/%d")
+
+        send_location(
+            instance.name ,
+            instance.message,
+            created_at_shamsi,
+            instance.receiver,
         )

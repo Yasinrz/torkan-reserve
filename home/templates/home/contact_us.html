@@ -1,12 +1,62 @@
 {% extends '_base.html' %}
 {% load i18n %}
 {% load humanize %}
+{% load static %}
+{% block head %}
+<!-- Contact Us Css -->
+    <link as="style" href="{% static 'css/contact_us.css' %}" rel="stylesheet" crossorigin="anonymous">
+{% endblock head%}
 {% block content %}
-
-    <div class="container-fluid rounded-1 my-5 text-center px-md-5">
-        <h2>از طریق شماره های زیر میتوانید با ما در ارتباط باشید .</h2>
-        <h3>{% trans '09133393234' %}</h3>
-        <h2>{% trans 'واحد حسابداری ' %}</h2>
-        <h3>{% trans '09351189747' %}</h3>
+    {% comment %} <div class="row">
+        <div class="card h-100 rounded-1 p-0 border-0">
+            <img src="{% static "images/contact-us-img.png" %}" class="card-img w-100 h-100 mh-100 img-fluid bg-dark" id="main-image" alt="introduction">
+            <div class="card-img-overlay">
+              <h1 class="card-title text-center fw-bolder fs-4 rounded-1 p-2">
+                <img id="gold-bar" src="data:image/png;base64,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" alt="gold-bars--v1">
+                صنایع ذوب فلزات نجیب ترکان</h1>
+            </div>
+        </div>  
+    </div> {% endcomment %}
+    <div class="container-lg pb-4 mb-5 contact-us-container shadow-lg rounded-3">
+        <div class="card border border-0 bg-transparent">
+            <div class="row g-2">
+                <div class="col-12 col-md-4">
+                    <div class="contact-img m-3 rounded-3 shadow-lg" alt="card-horizontal-image"> </div>
+                </div>
+                <div class="col-12 col-md-8">
+                    <div class="row g-2">
+                        <div class="card-body col-12">
+                            <h5 class="card-title contact-us-title">با ما در ارتباط باشید</h5>
+                            <p class="card-text contact-us-text">در صورت هر گونه سوال یا نیاز به همراهی پشتیبانی می‌توانید از مسیر‌های ارتباطی زیر با ما در تماس باشید.</p>
+                        </div>
+                        <div class="col-12">
+                            <div class="card-group" style="direction: ltr;">
+                                <div class="card bg-transparent text-end h-25 border-0 shadow-lg">
+                                    <img class="card-img-top mx-auto d-block" src="data:image/png;base64,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" alt="businessman">
+                                    <div class="card-body h-50 shadow-lg rounded-3 mb-3 mx-1">
+                                      <h5 class="card-title-number">شماره مدیریت</h5>
+                                      <p class="card-text">09131189747</p>
+                                    </div>
+                                </div>
+                                <div class="card bg-transparent text-end h-25 border-0 shadow-lg">
+                                    <img class="card-img-top mx-auto d-block" src="data:image/png;base64,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" alt="stock-share">
+                                    <div class="card-body h-50 shadow-lg rounded-3 mb-3 mx-1">
+                                      <h5 class="card-title-number">واحد مالی</h5>
+                                      <p class="card-text">09133393234</p>
+                                    </div>
+                                </div>
+                                <div class="card bg-transparent text-end h-25 border-0 shadow-lg">
+                                    <img class="card-img-top mx-auto d-block" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAADyklEQVR4nO2ZXYhVVRTHf6WZFVr4IlJGgWSFUfngS0IQFdJDBH1QQfYg9aK+SD2EDz1EFIig1Msw41373AGJax8kRL1dqFSICWfuXnempJx6qFBE+zIKxYl1Zl+Z8s6M5969z73F/OHAcDnzX/u/19prr7UOLGABCygVx/ZydaPCQyrs8Y4jKhxXx1kvfFarsYh+x9SrXNkUnvSOSXVMtXu8YzP9jKPCDeqoX1y0ecE8Ijyujg3q2JYLEX5T4bAX9quwfUK4hX6BDrJCHY2w4z944Tnzzsx36nUWW2hd4iHhghcOaJU1vQ2nKa5Qx8GwKB0b5qa53h8Z4FpfYXUz40EVdnnhVPjfX+w3egUvbAkLOWUL7CQkveCCN/9U4R7KhtZY4h3fhTB5phuvesdAOFvjIwNcRZmwsxBENP59JopiUljqha97ktlU+CQIeTEKX8bzge8LSk23wjkv/GVZKwbn4RrXqPC7ZbKjjhspA80Kj4Td+zwmrxc+zHkrPEsZUOG1EM9vxOT1ws6QBXdTBtTxbjD4dExeP10JmKffowy0bvLxCuuj8mZsDEIOkRqWalX4wwxODLEsJrdWWRPuk29i8rY3lnFzCKsfY3OPDHB9OHu/khpeuC8YOxKbu15ncfDIeVJDHU8EY+8n4RfOGX/yUsX6iOCRt1Pwe+tZEpy/dobeDGdkZwp+dZzMM+Iwq0gJ7/jADDUcTyXhF77PNyrjDlJCHV/lO1ZlXQp+7/gy36iM+0mFPD3aYbSnxpIUNry1vtPJZCupoBk7ws17sCsex6HZJi3awWPzgKIL+Dns1qYuhUzFfigC7/i4dWHZ3154WSs8ULQn6ch4TK5jwyxXYdiEtNmVM+oY8cJb87W+PRfSQmOQldaa2qKtuVLhxD9E7eNOChrvNIw04qbkGBtibctTDeH22d6zNrZvhYxn3KaO0YtZxOa/GTvsrrFSw9K238fd6njFO37qm9BqwW5fC698uDZN+K1NQZJkmlnQMZdVpVae2NDaJh4hj1/Ik8AgK+zTgToeVeEdG7hZEWgjURupqpB5x8M9FTJa5TrveMkaqhm7etamhGMV7urGeDsvacHfLre13dqqSoMHvJXzNt8qIqBnQiaGWDZjopjPsSw0Oln8XEKSck0KS+2jTLjJTzSFx2IYvizjMbmsAwwijo9WubUIed+E1tj05Wbl+vlmxr0xRZQqRIXXw8X2UWwR8xoviLmFtC414YWixF0bL4j5PHK6SO3T6ZM8tHybL7D/SSGpUWr6TYn/nRBNEKaUidhn0Ds+/RvFjS7AsMf1oQAAAABJRU5ErkJggg==" alt="accountant">  
+                                    <div class="card-body h-50 shadow-lg rounded-3 mb-3 mx-1">
+                                      <h5 class="card-title-number">حسابداری</h5>
+                                      <p class="card-text">09351189747</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

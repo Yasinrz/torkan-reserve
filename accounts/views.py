@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required ,staff_member_required
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect ,get_object_or_404
@@ -138,7 +138,7 @@ def custom_create_ticket(request):
     return render(request, 'registration/customer_ticket.html', {'form': form, 'success': success})
 
 
-
+@staff_member_required
 @login_required
 def staff_create_ticket(request):
     success = False
@@ -160,6 +160,7 @@ def staff_create_ticket(request):
     return render(request, 'registration/employee_ticket.html', {'form': form, 'ticket_type': ticket_type})   
 
 
+@staff_member_required
 @login_required
 def employee_panel(request):
     user = request.user
@@ -192,6 +193,7 @@ def answer_custom(request):
     return render(request,'registration/answer_custom.html',{'tickets':tickets})
 
 
+@staff_member_required
 @login_required
 def answer_employee(request):
     user = request.user

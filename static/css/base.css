@@ -210,6 +210,10 @@ body {
     color: var(--text-color);
 }
 
+.form-control::placeholder {
+  color: #888888;
+}
+
 .logo {
     display: flex;
     align-items: center;

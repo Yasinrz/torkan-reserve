@@ -1,4 +1,6 @@
+{% extends "_base.html" %}
 {% load c_jformat %}
+{%block content%}
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -9,10 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Vazirmatn', sans-serif;
-            background: linear-gradient(to bottom, #f5f5f5, #e5e5e5);
-        }
+        
         .gold-gradient {
             background: linear-gradient(45deg, #FFD700, #DAA520);
         }
@@ -196,9 +195,9 @@
         </div>
 
         <!-- Footer -->
-        <div class="mt-8 text-center text-gray-600">
+        {% comment %} <div class="mt-8 text-center text-gray-600">
             <p class="text-sm">کارگاه طلاسازی | طراحی شده برای تجربه‌ای لوکس و بی‌نظیر</p>
-        </div>
+        </div> {% endcomment %}
     </div>
 
     <script>
@@ -224,3 +223,4 @@
     </script>
 </body>
 </html>
+{%endblock%}

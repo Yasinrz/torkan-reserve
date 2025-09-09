@@ -1,7 +1,6 @@
+{%extends '_base.html'%}
 {% load c_jformat %}
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
+{%block head%}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تیکت‌های کارمند - کارگاه طلاسازی</title>
@@ -9,18 +8,18 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: 'Vazirmatn', sans-serif;
-            background: linear-gradient(to bottom, #f5f5f5, #e5e5e5);
-            min-height: 100vh;
+           font-family:'Vazirmatn',sans-serif;
+            min-height:100vh;
+            margin: 0;
+            padding: 0;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
+            flex-direction: column; /* محتوای اصلی بالا، فوتر پایین */
         }
-        .container {
+        .form-container {
             max-width: 48rem;
             background: white;
             border-radius: 0.5rem;
+            margin: 6rem auto 2rem;
             padding: 1.5rem;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05);
         }
@@ -151,16 +150,10 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        .footer {
-            margin-top: 2rem;
-            text-align: center;
-            color: #4B5563;
-            font-size: 0.875rem;
-        }
     </style>
-</head>
-<body>
-    <div class="container">
+{%endblock%}
+{%block content%}
+    <div class="form-container">
         <!-- Header -->
         <div class="header gold-gradient">
             <div class="header-overlay"></div>
@@ -238,11 +231,5 @@
         <a href="{% url 'employee_panel' %}" class="back-button">
             <i class="fas fa-arrow-right mr-2"></i> بازگشت به پنل کاربری
         </a>
-
-        <!-- Footer -->
-        <div class="footer">
-            <p>کارگاه طلاسازی | طراحی شده برای تجربه‌ای لوکس و بی‌نظیر</p>
-        </div>
     </div>
-</body>
-</html>
+{%endblock%}

@@ -248,7 +248,7 @@ body {
 
 .reserve-btn {
     background: linear-gradient(135deg, #d4af37, #f9d423, #d4af37);
-    color: var(--reserve-btn-txt-color);
+    color: black;
     box-shadow: 0 4px 15px rgba(212, 175, 55, 0.5), 0 0 10px rgba(212, 175, 55, 0.3);
     transition: all 0.3s ease;
     position: relative;
@@ -274,6 +274,7 @@ body {
 .reserve-btn:hover {
     box-shadow: 0 6px 25px rgba(212, 175, 55, 0.8), 0 0 20px rgba(212, 175, 55, 1);
     transform: scale(1.08) translateY(-3px);
+    color: black;
 }
 
 footer {

@@ -5,7 +5,9 @@
 {% block head %}
 <!-- Contact Us Css -->
     <link as="style" href="{% static 'css/contact_us.css' %}" rel="stylesheet" crossorigin="anonymous">
-{% endblock head%}
+<!-- Customer Ticket Css -->
+    <link as="style" herf="{% static 'css/customer_ticket.css' %}" rel ="stylesheet" crossorigin="anonymous">
+{% endblock head %}
 {% block content %}
     {% comment %} <div class="row">
         <div class="card h-100 rounded-1 p-0 border-0">
@@ -55,6 +57,9 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-12 col-md-7">
+                    {% include "registration/customer_ticket.html" %}
                 </div>
             </div>
         </div>

@@ -45,6 +45,14 @@
     color: var(--text-color);
 }
 
+.text-mod {
+    color: var(--text-color);
+}
+
+.border-mod {
+    border-color: var(--border-color);
+}
+
 body {
     /* color: var(--text-color); */
     background: var(--bg-image) center/cover no-repeat fixed;

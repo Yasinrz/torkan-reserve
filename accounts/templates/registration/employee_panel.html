@@ -1,7 +1,6 @@
+{%extends '_base.html'%}
 {% load c_jformat %}
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
+{%block head%}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>پنل کارمند - کارگاه طلاسازی</title>
@@ -11,7 +10,6 @@
     <style>
         body {
             font-family: 'Vazirmatn', sans-serif;
-            background: linear-gradient(to bottom, #f5f5f5, #e5e5e5);
         }
         .gold-gradient {
             background: linear-gradient(45deg, #FFD700, #DAA520);
@@ -70,7 +68,9 @@
             color: #FFD700;
         }
     </style>
-</head>
+{%endblock%}
+
+{%block content%}
 <body class="min-h-screen p-4">
     <div class="container mx-auto max-w-4xl">
         <!-- Header -->
@@ -190,9 +190,8 @@
         </div>
 
         <!-- Footer -->
-        <div class="mt-8 text-center text-gray-600">
+        {% comment %} <div class="mt-8 text-center text-gray-600">
             <p class="text-sm">کارگاه طلاسازی | طراحی شده برای تجربه‌ای لوکس و بی‌نظیر</p>
-        </div>
+        </div> {% endcomment %}
     </div>
-</body>
-</html>
+{%endblock%}

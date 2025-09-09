@@ -1,7 +1,7 @@
+{% extends '_base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
+{%block head%}
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ارسال تیکت پشتیبانی - کارگاه طلاسازی</title>
@@ -9,143 +9,147 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     {% comment %} <script src="{% static 'notifications/js/notifications.js' %}"></script> {% endcomment %}
     <style>
-        body {
-            font-family: 'Vazirmatn', sans-serif;
-            background: linear-gradient(to bottom, #f5f5f5, #e5e5e5);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-        }
-        .container {
-            max-width: 32rem;
-            background: white;
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-        .gold-gradient {
-            background: linear-gradient(45deg, #FFD700, #DAA520);
-        }
-        .header {
-            color: white;
-            border-radius: 0.5rem 0.5rem 0 0;
-            padding: 2rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .header-overlay {
-            position: absolute;
-            inset: 0;
-            background: black;
-            opacity: 0.1;
-        }
+    body {
+        font-family: 'Vazirmatn', sans-serif;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column; /* اضافه شد: جهت عمودی */
+        align-items: stretch; /* تغییر: عرض کامل */
+        padding: 1rem;
+        margin: 0; /* اضافه: حاشیه پیش‌فرض رو صفر کن */
+    }
+    .form-container {
+        max-width: 600px;
+        margin: 6rem auto 2rem; /* فاصله بیشتر از بالا */
+        background: #fff;
+        border-radius: 0.75rem;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .gold-gradient {
+        background: linear-gradient(45deg, #FFD700, #DAA520);
+    }
+    .header {
+        padding: 1.5rem;
+        text-align: center;
+        position: relative;
+        color: #fff;
+        border-bottom: 2px solid #DAA520;
+    }
+    .header-overlay {
+        position: absolute;
+        inset: 0;
+        background: black;
+        opacity: 0.1;
+    }
+    .header h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        position: relative;
+        z-index: 10;
+    }
+    @media (min-width: 768px) {
         .header h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            position: relative;
-            z-index: 10;
+            font-size: 1.875rem;
         }
-        @media (min-width: 768px) {
-            .header h1 {
-                font-size: 1.875rem;
-            }
-        }
-        .gold-icon {
-            color: #DAA520;
-        }
-        .form-section {
-            margin-top: 1.5rem;
-            padding: 1rem;
-        }
-        .form-input, .form-textarea {
-            border: 1px solid #DAA520;
-            border-radius: 0.5rem;
-            padding: 0.5rem;
-            width: 100%;
-            transition: border-color 0.3s ease-in-out;
-        }
-        .form-input:focus, .form-textarea:focus {
-            border-color: #FFD700;
-            outline: none;
-            box-shadow: 0 0 5px rgba(218, 165, 32, 0.3);
-        }
-        label {
-            color: #4B5563;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-        .gold-button {
-            background: linear-gradient(45deg, #FFD700, #DAA520);
-            color: white;
-            font-weight: 600;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .gold-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .form-buttons {
-            display: flex;
-            flex-direction: column; /* عمودی */
-            gap: 1rem; /* فاصله بین دکمه‌ها */
-            margin-top: 1.5rem;
-            align-items: center; /* وسط چین افقی */
-        }
-        .form-buttons .submit-button {
-            width: 100%; /* دکمه ارسال عرض کامل */
-        }
-        .form-buttons .back-button {
-            width: auto; /* دکمه بازگشت اندازه محتوا */
-        }
-        .success-message {
-            background: #d1fae5;
-            border: 1px solid #10b981;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            color: #065f46;
-            text-align: center;
-        }
-        .success-message i {
-            margin-right: 0.5rem;
-        }
-        .error-list {
-            background: #fee2e2;
-            border: 1px solid #ef4444;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin-bottom: 1rem;
-        }
-        .error-list li {
-            color: #b91c1c;
-            margin-bottom: 0.5rem;
-        }
-        .error-list li:before {
-            content: '\f057';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            margin-right: 0.5rem;
-        }
-        .footer {
-            margin-top: 2rem;
-            text-align: center;
-            color: #4B5563;
-            font-size: 0.875rem;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
+    }
+    .gold-icon {
+        color: #DAA520;
+    }
+    .form-section {
+        margin-top: 1.5rem;
+        padding: 1rem;
+        flex: 1; /* اضافه: محتوای فرم ارتفاع رو پر کنه */
+    }
+    .form-input, .form-textarea {
+        border: 1px solid #DAA520;
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        width: 100%;
+        transition: border-color 0.3s ease-in-out;
+    }
+    .form-input:focus, .form-textarea:focus {
+        border-color: #FFD700;
+        outline: none;
+        box-shadow: 0 0 5px rgba(218, 165, 32, 0.3);
+    }
+    label {
+        color: #4B5563;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+    .gold-button {
+        background: linear-gradient(45deg, #FFD700, #DAA520);
+        color: white;
+        font-weight: 600;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+    .gold-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .form-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 1.5rem;
+        align-items: center;
+    }
+    .form-buttons .submit-button {
+        width: 100%;
+    }
+    .form-buttons .back-button {
+        width: auto;
+    }
+    .success-message {
+        background: #d1fae5;
+        border: 1px solid #10b981;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        color: #065f46;
+        text-align: center;
+    }
+    .success-message i {
+        margin-right: 0.5rem;
+    }
+    .error-list {
+        background: #fee2e2;
+        border: 1px solid #ef4444;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    .error-list li {
+        color: #b91c1c;
+        margin-bottom: 0.5rem;
+    }
+    .error-list li:before {
+        content: '\f057';
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        margin-right: 0.5rem;
+    }
+    {% comment %} .footer {
+        margin-top: auto; /* اضافه: به پایین بچسبه */
+        text-align: center;
+        color: #4B5563;
+        font-size: 0.875rem;
+        padding-top: 1rem; /* فاصله از محتوا */
+        border-top: 1px solid #e5e7eb; /* اختیاری: خط جداکننده */
+    } {% endcomment %}
+</style>
+{%endblock%}
+{% block content %}
+    <div class="form-container">
         <!-- Header -->
         <div class="header gold-gradient">
             <div class="header-overlay"></div>
@@ -192,10 +196,9 @@
         </div>
 
         <!-- Footer -->
-        <div class="footer">
+        {% comment %} <div class="footer">
             <p>کارگاه طلاسازی | طراحی شده برای تجربه‌ای لوکس و بی‌نظیر</p>
-        </div>
+        </div> {% endcomment %}
     </div>
     {% comment %} <div id="notification-container"></div> {% endcomment %}
-</body>
-</html>
+{%endblock%}

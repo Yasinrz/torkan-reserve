@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect ,get_object_or_404
+from django.urls import reverse
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 from home.models import Time ,RequestReservation
@@ -121,10 +122,12 @@ def ticket_success(request):
     return render (request , 'registration/ticket_success.html')
 
 
- 
-def custom_create_ticket(request):
+def custom_create_ticket(request, template_name = 'registration/customer_ticket.html'):
     success = False
     if request.method == 'POST':
+        if not request.user.is_authenticated:
+            request.session['pending_ticket_data'] = request.POST
+            return redirect(f"{reverse('login')}?next={request.path}")
         form = SupportTicketForm(request.POST)
         if form.is_valid():
             ticket = form.save(commit=False)
@@ -134,8 +137,11 @@ def custom_create_ticket(request):
             form = SupportTicketForm() 
         
     else:
-        form = SupportTicketForm()
-    return render(request, 'registration/customer_ticket.html', {'form': form, 'success': success})
+        if 'pending_ticket_data' in request.session and request.user.is_authenticated:
+            form = SupportTicket(request.session.pop('pending_ticket_data'))
+        else:
+            form = SupportTicketForm()
+    return render(request, template_name, {'form': form, 'success': success})
 
 
 

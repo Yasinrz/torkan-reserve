@@ -1,8 +1,8 @@
 .text-alert {
-    font-size: 2.5rem;
+    font-size: 1.25rem;
 }
 
-@media (min-width: 576px) {
+@media (max-width: 576px) {
     .text-alert {
         font-size: 0.75rem;
     }

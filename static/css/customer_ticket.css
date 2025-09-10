@@ -1,0 +1,10 @@
+.text-alert {
+    font-size: 2.5rem;
+}
+
+@media (min-width: 576px) {
+    .text-alert {
+        font-size: 0.75rem;
+    }
+}
+

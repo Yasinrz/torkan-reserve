@@ -37,7 +37,7 @@
             </div>
         {% endif %}
         <!-- Form -->
-        <form class="card-body border-mod" id="ticketForm" method="post" action="{% url 'custom_ticket' %}">
+        <form class="card-body border-mod" id="ticketForm" method="post" action="">
             {% csrf_token %}
             {{ form | crispy }}
             <div class="d-flex flex-column align-items-center gap-3 mt-4">

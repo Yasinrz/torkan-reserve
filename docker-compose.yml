@@ -31,3 +31,8 @@ services:
 
     volumes:
       - ./postgres_database:/var/lib/postgresql/data
+
+  redis:
+    image: redis:alpine3.22
+    ports:
+      - "6379:6379"

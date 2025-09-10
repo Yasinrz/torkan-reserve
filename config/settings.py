@@ -79,7 +79,7 @@ CHANNEL_LAYERS = {
     },
 }
 
-
+#CKEDITOR CONFIG
 CKEDITOR_CONFIGS = {
     "default": {
         "toolbar": "full",
@@ -196,7 +196,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # registration config
 AUTH_USER_MODEL = 'accounts.User'
 
-LOGIN_REDIRECT_URL = 'reservation'
+LOGIN_REDIRECT_URL = 'custom_panel'
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 # settings for localization

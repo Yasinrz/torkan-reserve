@@ -6,7 +6,11 @@
 <title>ارسال تیکت پرسنل - کارگاه طلاسازی</title>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css">
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/flatpickr.min.css' %}">
+<link rel="stylesheet" href="{% static 'admin/css/django_jalali.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/time-picker-calendar.css' %}">
+{% comment %} {{ form.media }} {% endcomment %}
 
 <style>
   body {
@@ -69,6 +73,16 @@
   .field-error.show{display:block}
   .hidden{display:none}
   .mb-4{margin-bottom:1rem}
+
+  /* Icons for leave_start and leave_end date fields */
+  #id_leave_start,
+  #id_leave_end {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23DAA520' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='4' width='18' height='18' rx='2' ry='2'/><line x1='16' y1='2' x2='16' y2='6'/><line x1='8' y1='2' x2='8' y2='6'/><line x1='3' y1='10' x2='21' y2='10'/></svg>");
+    background-repeat: no-repeat;
+    background-position: left .75rem center; /* RTL: icon on left */
+    background-size: 1rem 1rem;
+    padding-left: 2.25rem; /* make room for icon */
+  }
 </style>
 {%endblock%}
 {%block content%}
@@ -113,12 +127,16 @@
     </div> {% endcomment %}
   </div>
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/persian-date@1.2.0/dist/persian-date.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
+<script src="{% static 'js/flatpickr.min.js' %}"></script>
+<script src="{% static 'js/flatpickr.fa.js' %}"></script>
+<script src="{% static 'admin/js/django_jalali.min.js' %}"></script>
+<script src="{% static 'js/flatpickr-custom-arrows.js' %}"></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function(){
+  if (window.flatpickr && flatpickr.l10ns && flatpickr.l10ns.fa) {
+    flatpickr.localize(flatpickr.l10ns.fa);
+  }
   const ticketTypeSelect = document.querySelector("#id_ticket_type");
   const wrappers = Array.from(document.querySelectorAll(".field-wrapper"));
 
@@ -162,14 +180,8 @@ document.addEventListener("DOMContentLoaded", function(){
       setVisibility(this.value);
   });
 
-  // persianDatepicker روی inputهای type date
-  $("input[type='date']").each(function() {
-    $(this).persianDatepicker({
-      format: 'YYYY/MM/DD',
-      autoClose: true,
-      initialValue: false,
-    });
-  });
+  // Jalali date fields are rendered with AdminJalaliDateWidget.
+  // If needed, you can target class .jalali-date-input for extra behavior.
 
   // ⭐ تابع بهبودیافته برای فرمت سه‌رقمی با حفظ کرسور دقیق‌تر (بر اساس روش StackOverflow)
   function setupPriceInput(selector) {

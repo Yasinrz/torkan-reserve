@@ -37,8 +37,9 @@
             </div>
         {% endif %}
         <!-- Form -->
-        <form class="card-body border-mod" id="ticketForm" method="post" action="">
+        <form class="card-body border-mod" id="ticketForm" method="post" action="{{ action|default:'' }}">
             {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next|default:request.path }}">
             {{ form | crispy }}
             <div class="d-flex flex-column align-items-center gap-3 mt-4">
                 <button type="submit" class="btn reserve-btn d-block border border-dark rounded-pill py-3 px-4 w-75 fw-bold">

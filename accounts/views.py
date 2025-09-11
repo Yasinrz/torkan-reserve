@@ -203,7 +203,7 @@ def staff_create_ticket(request):
     return render(request, 'registration/employee_ticket.html', {'form': form, 'ticket_type': ticket_type})
 
 
-@staff_member_required
+
 @login_required
 def employee_panel(request):
     user = request.user

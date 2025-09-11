@@ -1,20 +1,18 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib import messages
-from django.shortcuts import render ,redirect
+from django.shortcuts import render, redirect
 from django.urls import path
 from django import forms
 from .models import *
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from jalali_date.admin import ModelAdminJalaliMixin
-from django.utils.html import format_html ,format_html_join
-from jalali_date import datetime2jalali ,datetime2jalali
+from django.utils.html import format_html, format_html_join
+from jalali_date import datetime2jalali, datetime2jalali
 from django.utils.translation import gettext_lazy as _
 from home.models import Time
 from jalali_date import date2jalali
 import jdatetime
-
-
 
 
 class WorkHourInline(admin.TabularInline):
@@ -27,31 +25,30 @@ class PayslipInline(admin.TabularInline):
     extra = 0
 
 
-
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    
-    list_display = ('id','phone_number', 'name', 'is_staff', 'is_active')
+
+    list_display = ('id', 'phone_number', 'name', 'is_staff', 'is_active')
     list_filter = ('is_staff', 'is_active')
     search_fields = ('phone_number', 'name')
     ordering = ('phone_number',)
     fieldsets = (
         (None, {'fields': ('phone_number', 'password')}),
         ('اطلاعات شخصی', {'fields': ('name',)}),
-        ('دسترسی‌ها', {'fields': ('is_staff', 'is_active', 'is_superuser', 'groups', 'user_permissions')}),
+        ('دسترسی‌ها', {'fields': ('is_staff', 'is_active',
+         'is_superuser', 'groups', 'user_permissions')}),
         ('تاریخ‌ها', {'fields': ('date_joined',)}),
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
             'fields': ('phone_number', 'name', 'password1', 'password2', 'is_staff', 'is_active')}
-        ),
+         ),
     )
 
     @admin.display(description=_('datetime joined'))
     def date_joined_jalali(self, obj):
         return datetime2jalali(obj.date_joined).strftime('%Y/%m/%d - %H:%M')
-    
 
 
 @admin.register(WorkHourReport)
@@ -59,6 +56,7 @@ class WorkHourReportAdmin(admin.ModelAdmin):
     list_display = ('employee', 'year', 'month', 'duty_hours', 'overtime')
     list_filter = ('year', 'month')
     search_fields = ('employee__phone_number', 'employee__name')
+
 
 @admin.register(Payslip)
 class PayslipAdmin(admin.ModelAdmin):
@@ -70,21 +68,20 @@ class PayslipAdmin(admin.ModelAdmin):
     def payslip_jalali_date(self, obj):
         return date2jalali(obj.date_created).strftime('%Y/%m/%d')
 
+
 @admin.register(StaffProfile)
 class StaffProfileAdmin(admin.ModelAdmin):
-    inlines = [WorkHourInline,PayslipInline]
+    inlines = [WorkHourInline, PayslipInline]
 
     list_display = ('user', 'birth_date', 'staff_joined_jalali_date')
     search_fields = ('employee__name',)
 
     @admin.display(description=_('تاریخ پیوستن'))
-    def staff_joined_jalali_date(self,obj):
+    def staff_joined_jalali_date(self, obj):
         return date2jalali(obj.date_joined).strftime('%Y/%m/%d')
 
 
-
-
-#مشتری ها 
+# مشتری ها
 
 class TicketReplyInline(admin.TabularInline):
     model = TicketReply
@@ -112,9 +109,11 @@ class TicketReplyInline(admin.TabularInline):
 
 @admin.register(SupportTicketProxy)
 class SupportTicketProxyAdmin(admin.ModelAdmin):
-    list_display = ['sender','title', 'created_jalali', 'time_created','colored_status']
-    readonly_fields = ['created_jalali', 'status','title','sender','message']
-    search_fields = ['sender__name','status']
+    list_display = ['sender', 'title', 'created_jalali',
+                    'time_created', 'colored_status']
+    readonly_fields = ['created_jalali',
+                       'status', 'title', 'sender', 'message']
+    search_fields = ['sender__name', 'status']
     list_filter = ['status']
     inlines = [TicketReplyInline]
 
@@ -135,13 +134,6 @@ class SupportTicketProxyAdmin(admin.ModelAdmin):
             background,
             text
         )
-
-
-
-    
-
-    
-
 
 
 # class SupportTicketAdmin(admin.ModelAdmin):
@@ -167,17 +159,14 @@ class SupportTicketProxyAdmin(admin.ModelAdmin):
 #             background,
 #             text
 #         )
-    
+
 #     colored_status.short_description = 'وضعیت'
-    
-
-
 
 
 # admin.site.register(SupportTicket, SupportTicketAdmin)
 
 # class TicketReplyAdmin(admin.ModelAdmin):
-#     list_display = ['ticket','responder','reply_admin_jalali_date'] 
+#     list_display = ['ticket','responder','reply_admin_jalali_date']
 #     list_filter = ['created_at']
 
 #     def save_model(self, request, obj, form, change):
@@ -192,12 +181,10 @@ class SupportTicketProxyAdmin(admin.ModelAdmin):
 # admin.site.register(TicketReply,TicketReplyAdmin)
 
 
-
-
 class InvoiceAdmin(admin.ModelAdmin):
-    list_display = ['customer', 'invoice_jalali_date', 'invoice_preview'] 
+    list_display = ['customer', 'invoice_jalali_date', 'invoice_preview']
     list_filter = ['created_date']
-    
+
     @admin.display(description=_('پیش‌نمایش فاکتور'))
     def invoice_preview(self, obj):
         if obj.invoice and obj.invoice.url.lower().endswith(('.png', '.jpg', '.jpeg')):
@@ -212,38 +199,39 @@ class InvoiceAdmin(admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'customer':
-            kwargs["queryset"] = CustomerProfile.objects.filter(user__is_staff=False)
+            kwargs["queryset"] = CustomerProfile.objects.filter(
+                user__is_staff=False)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
-admin.site.register(Invoice,InvoiceAdmin)    
+admin.site.register(Invoice, InvoiceAdmin)
+
 
 class InvoiceInline(admin.TabularInline):
     model = Invoice
     extra = 0
     readonly_fields = ('invoice', 'created_date')
     can_delete = False
-    
+
     def has_add_permission(self, request, obj=None):
         return False
+
 
 @admin.register(CustomerProfile)
 class CustomerProfileAdmin(admin.ModelAdmin):
     list_display = ['user',]
-    readonly_fields = ['show_reserve_history','show_tikets']
+    readonly_fields = ['show_reserve_history', 'show_tikets']
     inlines = [InvoiceInline]
-
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         return qs.filter(user__is_staff=False)
-            
 
-    
     def show_reserve_history(self, obj):
-    # استفاده از prefetch_related برای کاهش تعداد query ها
-        times = Time.objects.filter(request_reservation__user=obj.user).order_by('-fix_reserved_date')
-        
+        # استفاده از prefetch_related برای کاهش تعداد query ها
+        times = Time.objects.filter(
+            request_reservation__user=obj.user).order_by('-fix_reserved_date')
+
         if not times.exists():
             return "رزروی ثبت نشده"
 
@@ -254,7 +242,8 @@ class CustomerProfileAdmin(admin.ModelAdmin):
                 "<li>{}</li>",
                 (
                     (
-                        jdatetime.datetime.fromgregorian(datetime=t.fix_reserved_date)
+                        jdatetime.datetime.fromgregorian(
+                            datetime=t.fix_reserved_date)
                         .strftime("%Y/%m/%d %H:%M"),
                     ) for t in times
                 )
@@ -262,10 +251,11 @@ class CustomerProfileAdmin(admin.ModelAdmin):
         )
     show_reserve_history.short_description = "تاریخچه رزروها"
 
-
     # نمایش تاریخچه تیکت‌ها
+
     def show_tikets(self, obj):
-        tickets = SupportTicket.objects.filter(sender=obj.user).order_by('-created_at')
+        tickets = SupportTicket.objects.filter(
+            sender=obj.user).order_by('-created_at')
 
         if not tickets.exists():
             return "تیکتی وجود ندارد"
@@ -284,7 +274,6 @@ class CustomerProfileAdmin(admin.ModelAdmin):
             )
         )
     show_tikets.short_description = "تاریخچه تیکت‌ها"
-
 
 
 # Employee Tickets
@@ -325,7 +314,7 @@ class CustomerProfileAdmin(admin.ModelAdmin):
 #     @admin.display(description=_('تاریخ ایجاد'))
 #     def create_employee_ticket_jalali_date(self,obj):
 #         return date2jalali(obj.created_at).strftime('%Y/%m/%d')
-    
+
 #     def last_reply_status(self, obj):
 #         last_reply = obj.replies.order_by('-created_at').first()
 #         if last_reply:
@@ -345,10 +334,8 @@ class CustomerProfileAdmin(admin.ModelAdmin):
 #             )
 #         return "-"
 
-#     last_reply_status.short_description = "وضعیت آخرین پاسخ"    
+#     last_reply_status.short_description = "وضعیت آخرین پاسخ"
 
-
-    
 
 # @admin.register(EmployeeTicketReply)
 # class EmployeeTicketReplyAdmin(admin.ModelAdmin):
@@ -412,14 +399,12 @@ class CustomerProfileAdmin(admin.ModelAdmin):
 #         )
 #     read_status_colored.short_description = 'وضعیت پاسخ'
 
-    
-
 
 class EmployeeTicketReplyInline(admin.TabularInline):
     model = EmployeeTicketReply
     extra = 0
     readonly_fields = ('author', 'created_at')
-    fields = ('author', 'message', 'file','status_ticket', 'created_at')
+    fields = ('author', 'message', 'file', 'status_ticket', 'created_at')
     show_change_link = True
 
     def save_new_instance(self, obj, request):
@@ -456,12 +441,28 @@ class EmployeeTicketReplyInline(admin.TabularInline):
 @admin.register(EmployeeTicketProxy)
 class EmployeeTicketProxyAdmin(admin.ModelAdmin):
     list_display = (
-        'employee__name', 'ticket_type', 'created_jalali','time_created',
+        'employee__name', 'ticket_type', 'leave_start_jalali', 'leave_end_jalali', 'created_jalali', 'time_created',
         'status_colored', 'status_colored_ticket', 'description'
     )
-    search_fields = ('employee__username', 'employee__first_name', 'employee__last_name')
+    search_fields = ('employee__username',
+                     'employee__first_name', 'employee__last_name')
     list_filter = ('ticket_type',)
     inlines = [EmployeeTicketReplyInline]
+    exclude = ('leave_start', 'leave_end',)
+    readonly_fields = ('leave_start_jalali', 'leave_end_jalali',
+                       'created_jalali', 'time_created', 'ticket_type', 'description')
+
+    fieldsets = (
+        ('اطلاعات عمومی', {
+            'fields': ('employee', 'ticket_type', 'description')
+        }),
+        ('مرخصی', {
+            'fields': ('leave_type', 'leave_start_jalali', 'leave_end_jalali'),
+        }),
+        ('زمان‌ها', {
+            'fields': ('created_jalali', 'time_created'),
+        }),
+    )
 
     @admin.display(description="تاریخ ایجاد")
     def created_jalali(self, obj):
@@ -498,22 +499,35 @@ class EmployeeTicketProxyAdmin(admin.ModelAdmin):
             bg, text
         )
 
+    @admin.display(description="شروع مرخصی")
+    def leave_start_jalali(self, obj):
+        if obj.leave_start:
+            return date2jalali(obj.leave_start).strftime('%Y/%m/%d')
+        return "-"
+
+    @admin.display(description="پایان مرخصی")
+    def leave_end_jalali(self, obj):
+        if obj.leave_end:
+            return date2jalali(obj.leave_end).strftime('%Y/%m/%d')
+        return "-"
+
     def save_model(self, request, obj, form, change):
-        
+
         obj._admin_override = True
         super().save_model(request, obj, form, change)
-    
-    
+
 
 @admin.register(Suggestion)
 class SuggestionAdmin(admin.ModelAdmin):
-    list_display = ("title", "user", "user_type", "get_shamsi_date", "is_reviewed")
+    list_display = ("title", "user", "user_type",
+                    "get_shamsi_date", "is_reviewed")
     list_filter = ("user_type", "is_reviewed",)
     search_fields = ("title", "text", "user__name")
-    readonly_fields=('user','user_type','title','text',"get_shamsi_date",)
+    readonly_fields = ('user', 'user_type', 'title',
+                       'text', "get_shamsi_date",)
 
     @admin.display(description='تاریخ ایجاد')
-    def get_shamsi_date(self ,obj):
+    def get_shamsi_date(self, obj):
         return date2jalali(obj.created_at).strftime('%Y/%m/%d')
 
     def get_object(self, request, object_id, from_field=None):
@@ -522,5 +536,3 @@ class SuggestionAdmin(admin.ModelAdmin):
             obj.is_reviewed = True
             obj.save(update_fields=["is_reviewed"])
         return obj
-    
-

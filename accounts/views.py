@@ -104,12 +104,36 @@ def custom_panel(request):
     invoices = Invoice.objects.filter(
         customer__user=user).order_by('created_date')
 
+    success = False
+    open_modal = False
+
+    if request.method == 'POST':
+        # Create ticket from modal
+        form = SupportTicketForm(request.POST)
+        if form.is_valid():
+            ticket = form.save(commit=False)
+            ticket.sender = request.user
+            ticket.save()
+            request.session['ticket_success'] = True
+            return redirect('custom_panel')
+        else:
+            open_modal = True
+    else:
+        form = SupportTicketForm()
+
+    if request.session.get('ticket_success'):
+        success = True
+        del request.session['ticket_success']
+
     context = {
         'profile': profile,
         'tickets': tickets,
         'reserves': reserves,
         'suggestions': suggestions,
         'invoices': invoices,
+        'form': form,
+        'success': success,
+        'open_modal': open_modal,
     }
 
     return render(request, 'registration/custom_panel.html', context)

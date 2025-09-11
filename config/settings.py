@@ -67,18 +67,19 @@ INSTALLED_APPS = [
 ]
 
 
+# REDIS CONFIG
 ASGI_APPLICATION = "config.asgi.application"
 
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [("redis", 6379)],
         },
     },
 }
 
-
+#CKEDITOR CONFIG
 CKEDITOR_CONFIGS = {
     "default": {
         "toolbar": "full",
@@ -195,7 +196,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # registration config
 AUTH_USER_MODEL = 'accounts.User'
 
-LOGIN_REDIRECT_URL = 'reservation'
+LOGIN_REDIRECT_URL = 'custom_panel'
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 # settings for localization

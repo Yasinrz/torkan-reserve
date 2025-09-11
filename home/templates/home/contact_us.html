@@ -5,19 +5,11 @@
 {% block head %}
 <!-- Contact Us Css -->
     <link as="style" href="{% static 'css/contact_us.css' %}" rel="stylesheet" crossorigin="anonymous">
-{% endblock head%}
+<!-- Customer Ticket Css -->
+    <link as="style" herf="{% static 'css/customer_ticket.css' %}" rel ="stylesheet" crossorigin="anonymous">
+{% endblock head %}
 {% block content %}
-    {% comment %} <div class="row">
-        <div class="card h-100 rounded-1 p-0 border-0">
-            <img src="{% static "images/contact-us-img.png" %}" class="card-img w-100 h-100 mh-100 img-fluid bg-dark" id="main-image" alt="introduction">
-            <div class="card-img-overlay">
-              <h1 class="card-title text-center fw-bolder fs-4 rounded-1 p-2">
-                <img id="gold-bar" src="data:image/png;base64,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" alt="gold-bars--v1">
-                صنایع ذوب فلزات نجیب ترکان</h1>
-            </div>
-        </div>  
-    </div> {% endcomment %}
-    <div class="container-lg pb-4 mb-5 contact-us-container shadow-lg rounded-3">
+    <div class="container-lg pb-4 mb-5 white-glass shadow-lg rounded-3">
         <div class="card border border-0 bg-transparent">
             <div class="row g-2">
                 <div class="col-12 col-md-4">
@@ -30,7 +22,7 @@
                             <p class="card-text contact-us-text">در صورت هر گونه سوال یا نیاز به همراهی پشتیبانی می‌توانید از مسیر‌های ارتباطی زیر با ما در تماس باشید.</p>
                         </div>
                         <div class="col-12">
-                            <div class="card-group" style="direction: ltr;">
+                            <div class="card-group glass-element rounded-1" style="direction: ltr;">
                                 <div class="card bg-transparent text-end h-25 border-0 shadow-lg">
                                     <img class="card-img-top mx-auto d-block" src="data:image/png;base64,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" alt="businessman">
                                     <div class="card-body h-50 shadow-lg rounded-3 mb-3 mx-1">
@@ -55,6 +47,60 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-12 col-md-5">
+                    <div class="row g-1">
+                        <div class="card bg-transparent border-0">
+                            <ul class="list-group list-group-flush m-0 px-0 shadow-lg">
+                                <li class="list-group-item glass-element rounded-0 rounded-top pt-3">
+                                    <h5 class="list-title">
+                                        <img class="list-icon ms-2" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFYklEQVR4nO1YaWhcVRT+WjFqjXtxFxU3Kop1R1o3cMENEfSH4oJWrCKiooLUH6lCRFI1FP0Tkrxz3sS4jAhuVQtWUVGLRJK8e98ktKJWtLZaixqMdcvImc6bnHl992XemygKc+D+mLnnnX29QAta0IIW/G+h5GO/0MfJgY9zA8apYR8OL3dgLv6rUCxip9DHBYbwlCFssIxy/BjGz5awuuTj2Dw8bBHthnH+UA/mzarwoY8rDSNMEjrxEPxcCjA+rBri/VkRfHwQ8w3jbYegvxjCekP4wDKGDGFjhTlhKiDcLt8bD4dZQqfxcXlDChD+iGiIx5sSftTDiZbweV2IEL43hMcCH2clxftIAfuP9eHg6LchvBIJZAjLZ+JpCBM1fkW05xZeYtgStirhfxdLDvVgryx0DMGL5cjDafiW8V2EK8bIJfwwYW/LGFNW3yKJlYfWugHsKfEcC71rXfiG8WWEJ1UtlwKG8YwS/ifbj+PRBEhFkcqkaQ4zDknCtYRSDc/HgszMSh5OkXituvuv0MOlzQhfE6yIdssYV1VqIAnPMD6NcESW7IyUpVxM8kLo4ezIOJbw50gBRybwf6cWQoxLMjEoDeAgsXrVzb+NEY5w4X5B2NUS7jKMNYaxrmq5lbaAo9N4GMYqZaDOBAV8lfDLMilgGUvVx6tceKMDONTV1Axjm/VwnVMBD1co3DB+HzCuV7myYagHOzesgCG8rIS5LQmnXMYcw/g4rQuL90w/Tkrx3GQNvxf76ntbRJslfK0S+eIsCqxX7l2YiMO4qE5Qxt1SpYSRIVilyHMuPpbxiYrzcxJ43FGVYXK0D8dlUaDWBYNeHOBg3qVC4Gl9JxOp7tgpfF5Uil6dhCO00nIwESrddrqNtzlw+hXzpXV3RbTVSjBhyjVaW0ZBGeHGhpohYdGM+WAY36oQOjCROaFTWZn1nYSDutvo5EN4o9FSWS5jTq25EV6T32kKDNdCyMdpiQr4WKysJyW3S/Ii8HCLZXylvNOXooBptFkN9WCeYfyqDHtnYyME4/6GanlyFZowjKOSvpUBTfca28DEaQhPKLmG0xBvUEK858ILBrGPZbzr6AM/yNaWwmOJwl2TJvhYH/aQJI+V93HnB1J5dCIbD6e7cCUWA8ZVkgfS/oWJITwge7Lzmw7MrRvWCPfEcaQkW0aHTLAVD+1ooEfSlBYLsYq3t1KTJiNU8ySivVWqix7ho+XHEZZTltDrqo7TCvhYEMVoUqnMC5ITlYV/mm6HawaKWTy0hBWyHTbMTDcr2XvDAs5sRnjZ4iwj0ELFXx0sYbOewyzjZhkuczFctxK7WMKoct/avMJXaKmEl2EvaU4yqoQLfuDhwqaWehmLLWNT1EDy0Kgm7fN1fcMxqRpVAZXhthjCs9bHTWnFwQniQqk0IwXsnkcBy+iOCXVvGr4hPCSLjiMXtsmCJc80eWQR4otkaTGMHgmLGfEZy2JCdGXwfLdhfJNYkQibQw/HZFbAMl5VhF5Ki8/aODzN1M9ajsvbZ6CFlvCg5GCMXvaQ1tta1aWUJJQ8megyLINbpq3KAXUzGGECecAwHo+5tFvfB4TL6jo5YW3e/IlAwlXeZfUSZAmfIQ9U3dobqxTLoxeHulWRMS7vqlnojw9ivmWcIR27YizC6sq71I7VaQnygsS+IbwQIzpWtwxtD7E3JeH1EeUNoyjHMl6XgbH6OLDJVX1isT9pCfehWahuXrWl5J8+Rp5tCI+6lqxc8FERuxnCk3XLRvPnR/FIZagjrJCmN9M7U9NQeff0sVh2gJBwjRzDuFWeZeJH/o9wJOEN4bxSASeIZWejUrWgBS1oAf51+Btu9waE83POswAAAABJRU5ErkJggg==" alt="location">
+                                        آدرس کارگاه:
+                                    </h5>
+                                    <p> اصفهان، بلوارآزادگان، بلوار صنعتگران، انتهای صنعت ۱۴ </p>
+                                    <p>
+                                    پلاک 9 / کد پستی: 8345183399
+                                    </p>
+                                </li>
+                                <li class="list-group-item glass-element d-flex rounded-0">
+                                    <h5 class="list-title">
+                                        <img class="list-icon ms-2" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEGElEQVR4nNWayWsUQRTGP3cPIu6IiAguiAp6cr2oePCq4HLR/8CDgggqenIJGDV6Ek1ezUg8jBcREURwF0VETapmDFHjwai4HTSokagjr/M6TDLT3dUzbdn5oAnTVe9V/Wp5tXSAEpkcRhqFOk14axSKNo9WeKMVDrNttT7ilGUUdhSLGIIwacKRqgshHKrVh7F9CPvDQXqJi7oJK0Iz9odf6bdWtT5slSdsNIQerfBbN2JRYEafOG4BpXbV+ohRVp2UcdmqQmkFaW3GeKPwjXvl2VlMi6xQ0iCGcL2G+Xen1JcmXJC5st09SI0THP1BtgjI1f8GUotvXy3nMF0CzOeKoXiwgLC0wjt+/4wwE4MahHBFwvwGDGYQQzjhpWWws8xIK/zgxPYGjLItiPPKxPvuFERht8yTowgad48bMdm2oKdZTJEQ+dYliCZslXLPVwLJe4aNmG9dUCPmS8vkXYVflmnCGhkJNzFQmnCRE1sV1sNSnFda5mJEC96pekFUuD3QXyGLhaUN2E+GcFAS99iCcF5pmYNhIElLK8ySsl5WStwmlcrYOjQKWemRrS5BWmRRNITOssR8FkulUg9sHXJetmHbiDlyr2S43K32va9CBhOlrp8wUCaDGYHdFSBD6JB4PiPOZK/2vS+TwxgB6UJZ4hlMEMMPsJQmfPRszmCCS5AbNzBchlZPOUjveZsne7c1iEK359A/sweD3K20LY/73grEX6X/BUjSMmFDy1+lDeG9tUOFD2zT1oxJLkHamjFJQD6WJRYymCs90m7rUBOee1GrCXNcRq2WsPCrM9gcebAP2E63KmxyGrWymC0gL8oqZRQaxPCALQjnFYcnXIIU/C0KwVSq1ENJXGULohVWS2EPXUYtI5tGTbhVqVLe5ZohTLUF4SsZsXkdBpK0dMQ23jtYvSKMtnXIeW0OVknL+AcrQr3ro26iUcvIUVcTdrkGSTZqKVwSkC2DG4TQ6YV9wjzXIIlFrTZZ1fkOOJfDMKcgScoQ1nmACvcjK5RmEK1wUsqpi6xQynukw5sfGSyPrFBaQfIZrJVh9a54AEMjK5RGkGIRQ/geS0D2BWbs+/5HWBn3G6K/na7GR4yy9grE5yeEccEZ+TPzgPht/ci9Vk0+VPSjCX8iLxD5uMoV6ds82gF0ehd7Jd/ZY/uwL6uj4koeV7WMfxfRzFpa4atXoRzG2FsB7ecwVobFF6RB2r+tV1gSx65AWCYgGmmQUTguIA1x7DThVODZ4X8or7DAEH7xXVbov1CUyBAWa8JPtovz3eWfq2+fQ3gdBcMQ/nbbv5xIjR6dxghNuCYLUzeDeXNAAgD/5T0QDyevJ3qH1DW2Q9pketeKk95wCY/7PdwTqYRAiXjOaMIxjkZ8Byut3yW/613Oib8yvaw9TfeAMQAAAABJRU5ErkJggg==" alt="phone-office">
+                                        تلفن کارگاه:
+                                    </h5>
+                                    <p class="me-3 mt-1">
+                                        031-55567890
+                                    </p>
+                                </li>
+                                <li class="list-group-item glass-element d-flex rounded-0">
+                                    <h5 class="list-title">
+                                        <img class="list-icon ms-2" src="data:image/png;base64,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" alt="external-email-business-kiranshastry-lineal-kiranshastry">
+                                        ایمیل:
+                                    </h5>
+                                    <p class="me-3 mt-1">
+                                        zarnobat@gmail.com
+                                    </p>
+                                </li>
+                                <li class="list-group-item glass-element rounded-0 rounded-bottom">
+                                    <h5 class="list-title">
+                                        <img class="list-icon ms-2" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAACYklEQVR4nO2Yv27UQBDGP2gCHVwJiAdBAaQUSAQK3oBABw+AoqRANKSmPuQZC9Eg8eclEimJIOJmrDugQAL6HAkFUGA0Pl90kS7+k1t7LfAnrc6Fd3d+u+vZ7wZo1arV/60owKIytoTwSxlxkZa+uxUxrnsNXhjXhPCnaODTWhRg0RuAreIswetoNza9AUwem95znC3aT7voHAAwflYbZVYgEytZZ99/H0BC3CybWapqkmasHuFGmeC9Bq1HZSzCrVwAJWz7DlRnyViHjk0XHXiWls1YjcgOs8TUAlQgbQE8S1sAz9IWwLOUsd44ALthewHuCuGNMgZK+JE0xkAYr5VxZ/wfI36IkxLivrkE7wAbL3BaCKtC+F7A/wyFsWJ9rG8U4HItAEJ4PPZU9jue+P0zXBDG29JGjrC9wzhfaHJHAAeGUBj3xsEr4dux3SjhayEIpxaYsBHHOJEcm4yVlwCXNMR8kZ34TDhVG0AvxNV0R1az3kOZuQnLtQAIQZPxuujkfbAoN/cwswLi4htQxm9hPLJnS5V5QaHs4hGWKgUQxpoGWEieR3neNcCrSgEOwRA+OQdgDOoE2HcNIIT9+gAYe0UBpmlaerUx69yBD7mrGmL+qP52i/s9QiNjFjtuL2urC5mrdA4Q4nbllTlhRBOFqaFDgN0dwplaaqMR40oyJmPF1ZhCeJC77VYJtjqkg+r0upk5M2AudlYIm7lmriqZFTZLPAPAl/5TnINPWQC2isdY+Xca4iKaoPQ4LRf8sHftzH98gjk0TWaJlbCU3hN9swep7eibWbNUmZltWqEZ+guvtY05rykK+AAAAABJRU5ErkJggg==" alt="business-time">
+                                        ساعات کاری:
+                                    </h5>
+                                    <p>
+                                        شنبه تا پنجشنبه (به جز روز‌های تعطیل رسمی) از ساعت 8 صبح تا 5 عصر
+                                    </p>
+                                    <p>
+                                        در این زمان کاری آماده پاسخگویی به درخواست‌های شما هستیم.
+                                    </p>
+                                    <p>
+                                         لطفا رزرو نوبت‌های خود را در این زمان کاری تنظیم کنید با سپاس از شما.
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-7">
+                    {% include "registration/customer_ticket.html" %}
                 </div>
             </div>
         </div>

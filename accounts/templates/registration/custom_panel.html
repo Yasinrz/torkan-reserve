@@ -1,15 +1,24 @@
 {% extends "_base.html" %}
 {% load c_jformat %}
 {%block content%}
+{% load static %}
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>پنل کاربری - کارگاه طلاسازی</title>
+    <script>
+        // Disable Tailwind preflight to avoid resetting Bootstrap/form styles
+        window.tailwind = window.tailwind || {};
+        tailwind.config = { corePlugins: { preflight: false } };
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Contact Us Css -->
+    <link as="style" href="{% static 'css/contact_us.css' %}" rel="stylesheet" crossorigin="anonymous">
+    <!-- Customer Ticket Css -->
+    <link as="style" href="{% static 'css/customer_ticket.css' %}" rel ="stylesheet" crossorigin="anonymous">
     <style>
         
         .gold-gradient {
@@ -72,9 +81,9 @@
                         <!-- New Ticket -->
                         <div>
                             <h3 class="text-lg font-semibold text-gray-800"><i class="fas fa-plus-circle gold-icon mr-2"></i> تیکت جدید</h3>
-                            <a href="{% url 'custom_ticket' %}" class="gold-button text-white font-semibold py-2 px-4 rounded-lg inline-block mt-2">
+                            <button type="button" class="gold-button text-white font-semibold py-2 px-4 rounded-lg inline-block mt-2" data-bs-toggle="modal" data-bs-target="#newTicketModal">
                                 <i class="fas fa-ticket-alt mr-2"></i> ثبت تیکت جدید
-                            </a>
+                            </button>
                         </div>
                         <!-- Your Tickets -->
                         <div>
@@ -204,7 +213,31 @@
 
     </div>
 
+    <!-- New Ticket Modal -->
+    <div class="modal fade" id="newTicketModal" tabindex="-1" aria-labelledby="newTicketModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="newTicketModalLabel">ثبت تیکت جدید</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="p-2">
+                {% include 'registration/customer_ticket.html' with action=request.path %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script>
+        // Auto-open modal if server indicates form had errors or success message needs showing
+        document.addEventListener('DOMContentLoaded', function() {
+            {% if open_modal or success %}
+            var myModal = new bootstrap.Modal(document.getElementById('newTicketModal'));
+            myModal.show();
+            {% endif %}
+        });
         document.querySelectorAll('.accordion-header').forEach(header => {
             header.addEventListener('click', () => {
                 const content = header.nextElementSibling;

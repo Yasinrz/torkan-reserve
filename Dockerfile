@@ -34,5 +34,5 @@ ENTRYPOINT ["/code/entrypoint.sh"]
 
 EXPOSE 8000
 
-# Run the app with gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "config.wsgi:application"]
+# Run the app with Daphne (ASGI)
+CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "config.asgi:application"]

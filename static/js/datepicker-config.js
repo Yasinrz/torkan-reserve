@@ -63,14 +63,16 @@ function it(jy, jm, jd) {
 }
 document.addEventListener("DOMContentLoaded", function () {
     const today = new Date();
-    const oneWeekLater = new Date();
-    oneWeekLater.setDate(today.getDate() + 14);
+    const nextDay = new Date();
+    nextDay.setDate(today.getDate() + 1);
+    const twoWeekLater = new Date();
+    twoWeekLater.setDate(today.getDate() + 14);
 
-    const todayJalali = toJalali(today);
-    const oneWeekLaterJalali = toJalali(oneWeekLater);
+    const nextDayJalali = toJalali(nextDay);
+    const oneWeekLaterJalali = toJalali(twoWeekLater);
 
     jalaliDatepicker.startWatch({
-        minDate: todayJalali,
+        minDate: nextDayJalali,
         maxDate: oneWeekLaterJalali,
         changeMonth: false,
         changeYear: false,

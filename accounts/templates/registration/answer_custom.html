@@ -1,0 +1,192 @@
+{% extends "_base.html" %}
+{% load c_jformat %}
+
+{% block head %}
+    <title>تیکت‌های مشتری - کارگاه طلاسازی</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        {% comment %} .container {
+            max-width: 48rem;
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1), 
+                        0 2px 4px rgba(0, 0, 0, 0.05);
+            margin: 0 auto; /* وسط‌چین شدن */
+        } {% endcomment %}
+        .gold-gradient {
+            background: linear-gradient(45deg, #FFD700, #DAA520);
+        }
+        .header {
+            color: white;
+            border-radius: 0.5rem 0.5rem 0 0;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-overlay {
+            position: absolute;
+            inset: 0;
+            background: black;
+            opacity: 0.1;
+        }
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            position: relative;
+            z-index: 10;
+        }
+        @media (min-width: 768px) {
+            .header h1 { font-size: 1.875rem; }
+        }
+        .gold-icon { color: #DAA520; }
+        .ticket-card {
+            background: #f9fafb;
+            border: 1px solid #DAA520;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .ticket-info p {
+            margin: 0.5rem 0;
+            color: #4B5563;
+        }
+        .ticket-info strong {
+            color: #1f2937;
+            font-weight: 600;
+        }
+        .replies-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        .reply-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .reply-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .reply-author {
+            color: #1f2937;
+            font-weight: 600;
+        }
+        .reply-date {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        .reply-message { color: #4B5563; margin: 0.5rem 0; }
+        .reply-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+        }
+        .status-open,
+        .status-in_progress {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .status-closed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .no-tickets {
+            background: #fee2e2;
+            border: 1px solid #ef4444;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            color: #b91c1c;
+            text-align: center;
+        }
+        .no-tickets i { margin-right: 0.5rem; }
+        .back-button {
+            background: linear-gradient(45deg, #FFD700, #DAA520);
+            color: white;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            width: 100%;
+            margin-top: 1.5rem;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+{% endblock head %}
+
+{% block content %}
+<div class="container">
+    <!-- Header -->
+    <div class="header gold-gradient">
+        <div class="header-overlay"></div>
+        <h1>
+            <i class="fas fa-ticket-alt gold-icon mr-2"></i> تیکت‌های مشتری
+        </h1>
+    </div>
+
+    <!-- Tickets Section -->
+    <div class="tickets-section">
+        {% for ticket in tickets %}
+        <div class="ticket-card">
+            <div class="ticket-info">
+                <p><strong>عنوان تیکت:</strong> {{ ticket.title }}</p>
+                <p><strong>وضعیت تیکت:</strong> {{ ticket.get_status_display }}</p>
+                <p><strong>متن تیکت:</strong> {{ ticket.message|default:"-" }}</p>
+                <p><strong>تاریخ ایجاد:</strong> {{ ticket.created_at|to_jalali }}</p>
+                <p><strong>زمان ایجاد:</strong> {{ ticket.time_created }}</p>
+            </div>
+
+            <!-- Replies Section -->
+            {% if ticket.replies.exists %}
+            <div class="replies-section">
+                <h3>پاسخ‌ها:</h3>
+                {% for reply in ticket.replies.all %}
+                <div class="reply-card">
+                    <div class="reply-header">
+                        <span class="reply-author"></span>
+                        <span class="reply-date">{{ reply.created_at|to_jalali }}</span>
+                    </div>
+                    <p class="reply-message">{{ reply.message }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% empty %}
+        <div class="no-tickets">
+            <i class="fas fa-info-circle"></i> هیچ تیکتی ثبت نشده است
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Back Button -->
+    <a href="{% url 'custom_panel' %}" class="back-button">
+        <i class="fas fa-arrow-right mr-2"></i> بازگشت به پنل کاربری
+    </a>
+</div>
+{% endblock content %}
+
+{% block footer %}
+<div class="footer">
+    <p>کارگاه طلاسازی | طراحی شده برای تجربه‌ای لوکس و بی‌نظیر</p>
+</div>
+{% endblock footer %}

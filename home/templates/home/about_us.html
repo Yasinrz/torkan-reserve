@@ -1,0 +1,92 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <div class="container-xxl my-4">
+        <div class="card glass-element rounded-3 border-0 overflow-hidden shadow-lg">
+            <div class="row g-0 align-items-stretch">
+                <div class="col-12 col-lg-6 d-flex">
+                    <img src="{% static 'images/about-us.png' %}" class="img-fluid w-100 h-100" style="aspect-ratio: 16 / 9; object-fit: contain; object-position: center; background: rgba(0,0,0,0.04);" alt="about_us_image">
+                </div>
+                <div class="col-12 col-lg-6 d-flex" style="direction: rtl;">
+                    <div class="card-body d-flex flex-column justify-content-center p-4 p-lg-5">
+                        <h2 class="fw-bolder mb-3">صنایع ذوب فلزات نجیب ترکان</h2>
+                        <p class="mb-0" style="line-height: 2;">
+                            ما با بیش از دو دهه تجربه در صنعت قالکاری و ذوب و استخراج فلزات گرانبها، به عنوان یکی از پیشگامان این حوزه در ارائه خدمات تخصصی شناخته می‌شویم. کارگاه ما با بهره‌گیری از تجهیزات پیشرفته، دانش فنی به‌روز و تیمی از متخصصین متعهد، فرآیندهای استخراج و جداسازی فلزات گرانبها را با دقت و کیفیت بی‌نظیر انجام می‌دهد. هدف ما ارائه خدماتی قابل اعتماد، سریع و کارآمد به مشتریان عزیز است تا ارزش واقعی مواد اولیه آن‌ها را به بهترین شکل ممکن بازیابی کنیم.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Benefits Section -->
+    <div class="container-xxl mb-5">
+        <div class="card glass-element rounded-3 border-0 p-3 p-md-4">
+            <div class="card-header bg-transparent border-0 pb-0" style="direction: rtl;">
+                <h3 class="fw-bold">مزایای فرآیند قالکاری ما</h3>
+            </div>
+            <div class="card-body pt-3">
+                <div class="row g-3 g-md-4" style="direction: rtl;">
+                    <!-- Item 1 -->
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="h-100 glass-element rounded-3 p-3 p-md-4 shadow-sm d-flex flex-column gap-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-success rounded-pill p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                                      <path d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>
+                                    </svg>
+                                </span>
+                                <h6 class="m-0 fw-bold">دقت بالا در جداسازی</h6>
+                            </div>
+                            <p class="mb-0 small">استفاده از تکنیک‌های پیشرفته برای استخراج حداکثری فلزات گرانبها با کمترین ضایعات.</p>
+                        </div>
+                    </div>
+                    <!-- Item 2 -->
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="h-100 glass-element rounded-3 p-3 p-md-4 shadow-sm d-flex flex-column gap-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-primary rounded-pill p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                                      <path d="M6 2a.5.5 0 0 1 .5-.5h3.528a.5.5 0 0 1 .354.146l3.472 3.472a.5.5 0 0 1 .146.354V13a1 1 0 0 1-1 1H6a.5.5 0 0 1 0-1h6.5a.5.5 0 0 0 .5-.5V6h-3.5A1.5 1.5 0 0 1 8 4.5V1H6.5A.5.5 0 0 1 6 2z"/>
+                                    </svg>
+                                </span>
+                                <h6 class="m-0 fw-bold">سرعت و کارایی</h6>
+                            </div>
+                            <p class="mb-0 small">فرآیندهای بهینه‌سازی‌شده برای ارائه نتایج سریع بدون افت کیفیت.</p>
+                        </div>
+                    </div>
+                    <!-- Item 3 -->
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="h-100 glass-element rounded-3 p-3 p-md-4 shadow-sm d-flex flex-column gap-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-warning rounded-pill p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                                      <path d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14m0-9a1 1 0 1 1 0-2 1 1 0 0 1 0 2m.93 2.588-1 3.5a.5.5 0 0 1-.96-.276l1-3.5a.5.5 0 1 1 .96.276"/>
+                                    </svg>
+                                </span>
+                                <h6 class="m-0 fw-bold">پایداری و ایمنی</h6>
+                            </div>
+                            <p class="mb-0 small">رعایت استانداردهای زیست‌محیطی و ایمنی در تمامی مراحل ذوب و استخراج.</p>
+                        </div>
+                    </div>
+                    <!-- Item 4 -->
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="h-100 glass-element rounded-3 p-3 p-md-4 shadow-sm d-flex flex-column gap-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-info rounded-pill p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                                      <path d="M8 3a5 5 0 1 0 4.546 2.916.5.5 0 1 1 .908-.418A6 6 0 1 1 8 2v1z"/>
+                                    </svg>
+                                </span>
+                                <h6 class="m-0 fw-bold">شفافیت</h6>
+                            </div>
+                            <p class="mb-0 small">ارائه گزارش‌های دقیق و قابل اعتماد از فرآیندها و نتایج به مشتریان.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,111 +1,252 @@
 {% load humanize %}
 {% load static %}
 {% load i18n %}
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% trans 'Gold smelting workshop' %}{% endblock %}</title>
-    <!-- Load Back-ground image -->
-    <link rel="preload" as="image" href="{% static 'images/back.webp' %}" type="image/webp">
+    <link rel="icon" href="{% static 'images/logo.png' %}" type="image/png">
     <!-- Bootstrap CSS & JS -->
-    <link rel="preload" as="style" href="{% static 'css/bootstrap.min.css' %}" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"></noscript>
+    <link as="style" href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" crossorigin="anonymous">
     <script src="{% static 'js/bootstrap.bundle.min.js' %}" defer></script>
+    <script src="{% static 'notifications/js/notifications.js' %}"></script>
     <!-- Load Vazir font -->
     <link rel="preload" href="{% static 'fonts/Vazir.woff2' %}" as="font" type="font/woff2" crossorigin="anonymous">
     <!-- Base Css -->
-    <link rel="preload" as="style" href="{% static 'css/base.css' %}" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{% static 'css/base.css' %}"></noscript>
+    <link as="style" href="{% static 'css/base.css' %}" rel="stylesheet" crossorigin="anonymous">
     <!-- Customize heading -->
     {% block head %}
 
     {% endblock %}
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100 ">
 <header>
-    <div class="price-line">
-        {% for key, price_data in prices.items %}
-            <span class="
-          {% if price_data.change > 0 %} up
-          {% elif price_data.change < 0 %} down
-          {% else %} nochange
-          {% endif %}
-        ">
-          {% if key == '18ayar' %}🪙 {% trans '18-karat gold' %}{% elif key == 'abshodeh' %}⚖️
-              {% trans 'Melted' %}{% elif key == 'sekkeh' %}🥇
-              {% trans 'Coin' %}{% elif key == 'gerami' %}🏅 {% trans 'Gram coin' %}{% endif %}
-                : {{ price_data.value|intcomma }} ریال
-          (
-                {% if price_data.change > 0 %}📈{% elif price_data.change < 0 %}📉{% endif %}
-                {{ price_data.change|floatformat:0 }}
-          )
-        </span>
-            {% if not forloop.last %} | {% endif %}
-        {% endfor %}
-    </div>
-    <nav>
-        <ul>
-            <li><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
-            <li><a href="#">{% trans 'Articles' %}</a></li>
-            <li><a href="{% url 'contact_us' %}">{% trans 'Contact us' %}</a></li>
-            <li><a href="#">{% trans 'Torkan Separation of precious metals' %}</a></li>
-        </ul>
+    {% comment %} {% include "gold_price.html" %} {% endcomment %}
+    <nav class="navbar fixed-top">
+      <div class="container-fluid py-3">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <!-- Left side - Menu Toggle -->
+            <div class="d-flex align-items-center">
+                <div class="dropdown ms-sm-4">
+                    <button class="navbar-toggler d-flex justify-content-center align-items-center p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Toggle navigation" id="navbar-toggler-btn">
+                        <div class="hamburger-container d-flex flex-column justify-content-between position-relative">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </div>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end mt-2 text-end">
+                        <li><a class="dropdown-item border-bottom border-2 fw-bold" href="{% url 'home' %}"> 
+                            صفحه اصلی</a>
+                        </li>
+                        <li><a class="dropdown-item border-bottom border-2 fw-bold" href="{% url 'custom_panel' %}">پروفایل</a></li>
+                        <li><a class="dropdown-item border-bottom border-2 fw-bold" href="{% url "about_us" %}">درباره ما</a></li>
+                        <li><a class="dropdown-item border-bottom border-2 fw-bold" href="{% url 'contact_us' %}">ارتباط با ما</a></li>
+                        <li><a class="dropdown-item border-bottom border-2 fw-bold" href="#">مقالات</a></li>
+                        <li><a class="dropdown-item border-bottom border-2 fw-bold" href="#">گالری تصاویر</a></li>
+                        <li><a class="dropdown-item fw-bold" href="{% url 'contact_us' %}">انتقادات و پیشنهادات</a></li>
+                    </ul>
+                </div>
+                <button class="theme-toggle d-flex justify-content-center align-items-center rounded-circle me-2" id="theme-toggle" title="تغییر تم">
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"/>
+                    </svg>
+                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display: none;">
+                    <path d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"/>
+                    </svg>
+                </button>
+            </div>    
+            <!-- Center - Logo -->
+            <div class="d-flex justify-content-center flex-grow-1">
+                <img src="{% static 'images/logo.png' %}" alt="لوگو" class="navbar-brand">
+            </div>
+          
+            <!-- Right side - Theme Toggle and Customer Panel -->
+            <div class="d-flex align-items-center">
+                <a href="{% url 'custom_panel' %}" class="btn px-sm-3 py-sm-3 p-2 fw-black rounded-pill" id="nav-btn">پنل مشتریان</a>
+            </div>
+        </div>
+      </div>
     </nav>
 
 </header>
 
 <!-- Main content -->
-<main>
-    <section class="hero-section">
-        {% block content %}
-
-        {% endblock %}
-    </section>
+<main style="flex: 1;">
+    {% block content %}
+        
+    {% endblock %}
 </main>
 
-<!-- Footer -->
-<footer style="background-color: #f0c000; padding: 40px 20px;">
-    <div class="footer-content" style="
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        text-align: center;
-        max-width: 1200px;
-        margin: auto;
-        flex-wrap: wrap;
-    ">
-
-        <!-- column1 (right side): About us -->
-        <div class="footer-section" style="flex: 1; min-width: 250px; text-align: right; padding: 10px;">
-            <h3>{% trans 'About us' %}</h3>
+<footer class="text-center mt-2">
+    <div class="container p-4 pb-0">
+      <section>
+        <div class="row">
+          <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+            <h6 class="mb-4 font-weight-bold fs-3">
+              {% trans 'About us' %}
+            </h6>
             <p>{% trans 'Melting and separating various precious metals with more than 20 years of experience.' %}</p>
-        </div>
+          </div>
 
-        <!-- column2 (middle): Address, Map & ... -->
-        <div class="footer-section" style="flex: 1; min-width: 300px; padding: 10px;">
-            <h3>{% trans "Address" %}</h3>
-            <p>{% trans "Khorzoug Industrial Zone, Azadegan Boulevard, Ragbad Street, End of Ragbad 12" %}</p>
+          <hr class="w-100 clearfix d-md-none" />
+
+          <div class="col-md-2 col-lg-2 col-xl-3 mx-auto mt-3">
+            <h6 class="mb-4 font-weight-bold fs-3">{% trans "Address" %}</h6>
+            <p>اصفهان، بلوارآزادگان، بلوار صنعتگران، انتهای صنعت ۱۴، پلاک 9</p>
             <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d838.752323089107!2d51.65533090045559!3d32.76548796033608!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3fbdcb00799d2255%3A0xafeeeb8442a54802!2z2LXZhtin24zYuSDYsduM2K7YqtmHINqv2LHbjCDYqtix2qnYp9mG!5e0!3m2!1sen!2s!4v1750154804981!5m2!1sen!2s"
-                    width="100%" height="150"
+                    width="100%" height="40%"
                     style="border:0; border-radius:10px; box-shadow: 0 2px 8px rgba(0,0.0,0,1) " allowfullscreen=""
                     loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade">
             </iframe>
-        </div>
+          </div>
 
-        <!-- column3 (left side): Ways to contact us -->
-        <div class="footer-section" style="flex: 1; min-width: 250px; text-align: left; padding: 10px;">
-            <h3>{% trans 'Ways to contact us' %}</h3>
-            <p>09133393234</p>
-            {#            <p>info@example.com</p>#}
-            <p>{% trans "Telegram, Whats App and ..." %}</p>
-        </div>
+          <hr class="w-100 clearfix d-md-none" />
 
+          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+            <h6 class="mb-4 font-weight-bold fs-3">{% trans 'Ways to contact us' %}</h6>
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-building-fill" viewBox="0 0 16 16">
+                <path d="M3 0a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h3v-3.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V16h3a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1zm1 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5M4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM7.5 5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5m2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM4.5 8h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5m2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5"/>
+                </svg> کد پستی: 8345183399
+            </p>
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-at-fill" viewBox="0 0 16 16">
+                <path d="M2 2A2 2 0 0 0 .05 3.555L8 8.414l7.95-4.859A2 2 0 0 0 14 2zm-2 9.8V4.698l5.803 3.546zm6.761-2.97-6.57 4.026A2 2 0 0 0 2 14h6.256A4.5 4.5 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586zM16 9.671V4.697l-5.803 3.546.338.208A4.5 4.5 0 0 1 12.5 8c1.414 0 2.675.652 3.5 1.671"/>
+                <path d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791"/>
+                </svg> zarnobat@gmail.com
+            </p>
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
+                </svg> + 01 234 567 88
+            </p>
+          </div>
+          <hr class="w-100 clearfix d-md-none" />
+          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+            <h6 class=" mb-4 font-weight-bold fs-5">ما را در شبکه های اجتماعی دنبال کنید</h6>
+
+            <!-- WhatsAPP -->
+            <a
+               class="btn btn-primary btn-floating m-1"
+               style="background-color: #1f7111ff"
+               href="#!"
+               role="button">
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-whatsapp" viewBox="0 0 16 16">
+                <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/>
+                </svg>
+            </a>
+            <!-- Eitaa   -->
+            <a
+               class="btn btn-primary btn-floating m-1"
+               style="background-color: #c08600ff"
+               href="#!"
+               role="button">
+               <image src="{% static 'images/eitaa.svg' %}" alt="Eitaa" style="width: 16px; height: 16px; object-fit: cover;"/>
+            </a>
+            <!-- Instagram -->
+            <a
+               class="btn btn-primary btn-floating m-1"
+               style="background-color: #ac2bac"
+               href="#!"
+               role="button"
+               ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
+                </svg></a>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+      © 2025 Copyright: <a class="text-white" href="https://zarnobat.ir/">zarnobat.ir</a>
+      <br>
+      <span style="font-size: 0.8rem">تمامی حقوق برای صنایع ذوب فلزات نجیب ترکان محفوظ است.</span>
     </div>
 </footer>
+
+<script>
+// Theme Toggle Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const sunIcon = document.querySelector('.sun-icon');
+    const moonIcon = document.querySelector('.moon-icon');
+    
+    // Function to detect system theme preference
+    function getSystemTheme() {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return 'dark';
+        }
+        return 'light';
+    }
+    
+    // Function to set theme
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        updateIcon(theme);
+    }
+    
+    // Function to update icon display
+    function updateIcon(theme) {
+        if (theme === 'dark') {
+            sunIcon.style.display = 'none';
+            moonIcon.style.display = 'block';
+        } else {
+            sunIcon.style.display = 'block';
+            moonIcon.style.display = 'none';
+        }
+    }
+    
+    // Check for saved theme preference or use system preference
+    const savedTheme = localStorage.getItem('theme');
+    const systemTheme = getSystemTheme();
+    const currentTheme = savedTheme || systemTheme;
+    
+    // Set initial theme
+    setTheme(currentTheme);
+    
+    // Listen for system theme changes
+    if (window.matchMedia) {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+            if (!localStorage.getItem('theme')) {
+                // Only auto-switch if user hasn't manually set a preference
+                setTheme(e.matches ? 'dark' : 'light');
+            }
+        });
+    }
+    
+    // Theme toggle click handler
+    themeToggle.addEventListener('click', function() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
+    });
+    
+    // Navbar toggler animation
+    const navbarToggler = document.getElementById('navbar-toggler-btn');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+    
+    if (navbarToggler && dropdownMenu) {
+        // Listen for Bootstrap dropdown events
+        dropdownMenu.addEventListener('show.bs.dropdown', function() {
+            navbarToggler.classList.add('active');
+        });
+        
+        dropdownMenu.addEventListener('hide.bs.dropdown', function() {
+            navbarToggler.classList.remove('active');
+        });
+        
+        // Also handle manual clicks on the toggler
+        navbarToggler.addEventListener('click', function() {
+            // Toggle the active class
+            navbarToggler.classList.toggle('active');
+        });
+    }
+});
+</script>
 </body>
 </html>

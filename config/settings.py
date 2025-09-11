@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from environs import Env
+import os
 
 # This is for loading environment variables from a .env file
 env = Env()
@@ -55,10 +56,41 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'crispy_forms',
     'crispy_bootstrap5',
+    'channels',
+    "ckeditor",
+    "ckeditor_uploader",
+
     # my app
     'home',
     'accounts',
+    'notifications',
+    'article',
+    
 ]
+
+
+# REDIS CONFIG
+ASGI_APPLICATION = "config.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis", 6379)],
+        },
+    },
+}
+
+#CKEDITOR CONFIG
+CKEDITOR_CONFIGS = {
+    "default": {
+        "toolbar": "full",
+        "height": 400,
+        "width": "100%",
+    },
+}
+
+
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
@@ -108,14 +140,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env("DB_NAME"),
-        'USER': env("DB_USER"),
-        'PASSWORD': env("DB_PASSWORD"),
-        'HOST': env("DB_HOST"),
-        'PORT': env.int("DB_PORT"),
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': env('DB_ENGINE', default='django.db.backends.sqlite3'),
+        'NAME': env('DB_NAME', default=os.path.join(BASE_DIR, 'db.sqlite3')),
+        'USER': env('DB_USER', default=''),
+        'PASSWORD': env('DB_PASSWORD', default=''),
+        'HOST': env('DB_HOST', default=''),
+        'PORT': env.int('DB_PORT', default=''),
     }
 }
 
@@ -177,7 +207,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # registration config
 AUTH_USER_MODEL = 'accounts.User'
 
-LOGIN_REDIRECT_URL = 'reservation'
+LOGIN_REDIRECT_URL = 'custom_panel'
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 # settings for localization
@@ -194,3 +224,7 @@ MESSAGE_TAGS = {
 
 SECURE_SSL_REDIRECT = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+CKEDITOR_UPLOAD_PATH = "uploads/"

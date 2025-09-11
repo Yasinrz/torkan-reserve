@@ -1,0 +1,75 @@
+{% load crispy_forms_tags %}
+    <div class="card glass-element rounded-2 border-mod">
+        <!-- Header -->
+        <div class="card-header gold-gradient border-mod">
+            <h4>
+                <i>
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAADg0lEQVR4nO2Ze4hMURzHv+uVPFaeUUh5hSVZeRVpJ7FsUUIhSUophf/sf9RaNGN3PfKWxr1r5Rm1u8XO2rxCtMSyO7Z9r0jYkOTx1bn3YNZrzpm5M0but7413XvPOb/PPc/7G8CVK1euXLly9R+IZVMHMOA5zsCsIAPpzWFdlNpAE9VhfJsG5rZqx8BimigPU66cJvbQjz56EIUTkhlIb+KlDCr73BDShIo/0UAuDSyiiX008FmxHGkiSD86q4NcmL7eCq5sHll/gnzbSL57YvvVffLKotYQF6eT+W1Vg4nWy9RBSjx7rQArtvGXur3WBiidTRaOJY91iBcEaSBLo0fS9luBNp63A3/bQJZn2ha9cay9bTMpsmCuZ5A1G8nLnkhAsiMHeX7TuTda0IFsziWb88gmn/7LMKICueHs8Hiwxga5uyJOPdJw1gZ5dtlZkPw25OmeZH5SnEBurSaflpGl6c6CRGMjEpCicXJS4x8FOTNwPgs66WxUei5OIe8sJQuHRVJ+vTKIBWNiAU20OA4herjRa0/2+mzdVauQB9FVC8SCOQqP5hFCbaLXbLJBght0htROEknaEN9gDBQ53iunupMlE8kTyaplqlmKdhFDWCAmMmM2V9S9JSqIhAExsC56EAPFzg+tHmRgEnlScWgZ2B0dRD5mxGSy18rJ/jhTqcwHP15U5aF3pBALY7781m1WWn7rd4BVPlx95EUvPQgDGY73RKiLR8kNcWjYZ98dASu90j7UB3dhiA5IdswgNN1yMATECwZ9OkeUxAbJTRwQ6xjfS+kY35LQIBXyw+reyn8YpCDkU1esXmFWrZaEBRG+NlsmH9J+uvfZAD8e/e6XB6IDyYopyC/85jBYm2ftF60C/9FBL3J0QJbHE+L1oT8HXxnixzlYpQ7iR2crPRmbwD/RRI5Mme4RG291jhpElRc1D7dqfliJhLE4rCkkmHX8UxL7vR9LqnyoqPSi7ncW94Pbcbh2O/ppQbhy5cqVUBsAHQF0A6y/wvoDGAxghHQKgDHSqT/46/WUkOcHyzpEXd1k3aINRyXySD0BDAcwEYAHQEac7JFtDpcxRJ7TAjApjoGH8+RoQLoAGAVgGoA5fyH4ObLtkTIWRyTGbTKAvgAGARgGYDSA8QCmyAbTpGcAmAlgVkhQ4re4Ju59fU6UEWVFHaIuUaeoW7Qh2lKeK18AckwWexjZxpAAAAAASUVORK5CYII=" alt="ticket">
+                </i>
+                 ارسال تیکت به پشتیبانی
+            </h4>
+        </div>
+        <!-- Success Message -->
+        {% if success %}
+            <div class="success-message d-flex align-items-center justify-content-center rounded-0">
+                <div class="d-flex align-items-center gap-2">
+                    <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#10b981" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05"/>
+                        </svg>
+                    </i>
+                    <span class="fw-bold text-success">تیکت شما با موفقیت ثبت شد.</span>
+                </div>
+            </div>
+        {% endif %}
+        
+        <!-- Login Required Message -->
+        {% if login_required_message %}
+            <div class="alert alert-warning d-flex align-items-center justify-content-center rounded-0" role="alert">
+                <div class="d-flex align-items-center gap-2">
+                    <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#f59e0b" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                          <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                        </svg>
+                    </i>
+                    <span class="fw-bold text-danger text-alert">برای ارسال تیکت باید وارد حساب کاربری خود شوید.</span>
+                </div>
+            </div>
+        {% endif %}
+        <!-- Form -->
+        <form class="card-body border-mod" id="ticketForm" method="post" action="{{ action|default:'' }}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next|default:request.path }}">
+            {{ form | crispy }}
+            <div class="d-flex flex-column align-items-center gap-3 mt-4">
+                <button type="submit" class="btn reserve-btn d-block border border-dark rounded-pill py-3 px-4 w-75 fw-bold">
+                    <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-send" viewBox="0 0 16 16">
+                            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"/>
+                        </svg>
+                    </i>
+                     ارسال
+                </button>
+                <a href="{% url 'custom_panel' %}" class="link-primary text-decoration-underline fw-bolder">رفتن به پنل کاربری | ثبت نام</a>
+            </div>
+        </form>
+        <!-- Error Messages -->
+        {% if form.errors %}
+        <ul class="error-list">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ field.label }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <!-- Footer -->
+        <div class="card-footer text-center text-mod border-mod">
+            کارگاه طلاسازی | طراحی شده برای تجربه‌ای لوکس و بی‌نظیر
+        </div>
+    </div>
+
+    {% comment %} <div id="notification-container"></div> {% endcomment %}

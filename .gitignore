@@ -10,3 +10,5 @@ db_reserve
 venv/
 .idea/
 /staticfiles/
+*.docx
+*.pdf

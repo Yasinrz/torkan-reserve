@@ -1,9 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const today = new Date();
-    const oneWeekLater = new Date();
-    oneWeekLater.setDate(today.getDate() + 14);
-
-    function toJalali(gregorianDate) {
+function toJalali(gregorianDate) {
         var t, n, e = gregorianDate,
             i = parseInt(e.getFullYear()),
             o = parseInt(e.getMonth()) + 1,
@@ -12,14 +7,13 @@ document.addEventListener("DOMContentLoaded", function () {
         var r = o > 2 ? i + 1 : i;
         return n = 365 * i + parseInt((r + 3) / 4) - parseInt((r + 99) / 100) + parseInt((r + 399) / 400) - 80 + a + [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334][o - 1],
             t += 33 * parseInt(n / 12053), n %= 12053, t += 4 * parseInt(n / 1461),
-        (n %= 1461) > 365 && (t += parseInt((n - 1) / 365), n = (n - 1) % 365), {
+            (n %= 1461) > 365 && (t += parseInt((n - 1) / 365), n = (n - 1) % 365), {
             year: t,
             month: n < 186 ? 1 + parseInt(n / 31) : 7 + parseInt((n - 186) / 30),
             day: 1 + (n < 186 ? n % 31 : (n - 186) % 30)
         };
     }
-
-    function jalaliToGregorian(jy, jm, jd) {
+function jalaliToGregorian(jy, jm, jd) {
         var gy;
         if (jy > 979) {
             gy = 1600;
@@ -63,16 +57,22 @@ document.addEventListener("DOMContentLoaded", function () {
         return new Date(gy, gm - 1, gd);
     }
 
-    function it(jy, jm, jd) {
-        const gDate = jalaliToGregorian(jy, jm, jd);
-        return gDate.getDay();
-    }
+function it(jy, jm, jd) {
+    const gDate = jalaliToGregorian(jy, jm, jd);
+    return gDate.getDay();
+}
+document.addEventListener("DOMContentLoaded", function () {
+    const today = new Date();
+    const nextDay = new Date();
+    nextDay.setDate(today.getDate() + 1);
+    const twoWeekLater = new Date();
+    twoWeekLater.setDate(today.getDate() + 14);
 
-    const todayJalali = toJalali(today);
-    const oneWeekLaterJalali = toJalali(oneWeekLater);
+    const nextDayJalali = toJalali(nextDay);
+    const oneWeekLaterJalali = toJalali(twoWeekLater);
 
     jalaliDatepicker.startWatch({
-        minDate: todayJalali,
+        minDate: nextDayJalali,
         maxDate: oneWeekLaterJalali,
         changeMonth: false,
         changeYear: false,

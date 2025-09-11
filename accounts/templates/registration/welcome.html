@@ -1,18 +1,25 @@
 {% extends '_base.html' %}
 {% load i18n %}
-{% block head %}
-<style>
 
-.hero-content p{
-    font-size: 1rem; !important;
-}
-</style>
-{% endblock head %}
 {% block content %}
-    <div class="hero-content">
-        <h2> {% trans 'Your appointment has been temporarily booked.' %} </h2>
-        <p>{% trans 'We will contact you soon to arrange a definitive reservation.' %} </p>
-        <p>{% trans 'Thank you for your patience.' %}</p>
-        <a type="submit" href="{% url 'home' %}" class="reserve-btn">{% trans 'return home' %}</a>
+    <div class="container-fluid rounded-1 my-5 text-center px-md-5">
+        <div class="card bg-transparent border-0 mx-lg-5 px-md-5">
+            <div class="card-header border border-dark border-1 glass-element py-2 mx-lg-5">
+                <h5 class="fs-4">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAC8UlEQVR4nO2ZTWsTQRjHVzGeBOkhmecppL4cU0oaAtaXOuNBb/0EPSjoyRdosQmBxpNgr9aDV8G7H8CbobvRg02lRxE9KX4BbYg7MvJsNsnmZTdNdrJJMAMPQ5KZnf9v9v9MlmcNY9ZmbdY0tGwMQDxhIA4YiBqgUIDiLwB/1RgBwHcYiN8MRAWAF2mOMQktlUqdBuQfXNFdMTd38yyNA+S/2n4DUZ4ICNp5H/FddwCQ294xCeTb41VvGAbZprWr/HHwrmZjjIl8YzwDUYnQ47xIC3o83hXxuDjT70o0xm8+A1GjNep3RpO9+nm8w9c5Gh90LYa8cMxrlbVABHh85JHQkSP9Pe4coeVBxa3duKSqpXklLVTShLdKGSfca+WalkK+rwOg6Xl/e2RjtFu0YFCOJJNC3bq2onZziy3xVj1q7xNLLcu2ciI0gFeA93vaMWmyh9LCfdvCr21hwnevuOOEbeHPxnzvmtLETaWMk9oBpImPBhV53AAvQN1iW/oBLKhEBWBb+E07gG3Cj8jugIXq/wVgII7cE+FoKgESyDcYiM/UTyWAXwsD8GcPVfFeWp1b4OrZg6XpAiDxm+uZpsCL56+POIlhNQ7Ab1MfFqBTPKBQ23fTowYQh+7T4WEYANtElb+TbhO3sZ5xoCb+GB1EvIwSgBKQEpES0k9ML9vQZ7/xMkoASsAgUcOIl1ECUAL6iRtWvIwSwM/btb35gTwvx5nEvXb6cubKUDsvx3UK9YIYVrwc1zEaxvOyI1aWrzrzqY/0f8D7jBN0tPaLL28W1MtCyukn4o9MRxgzAIwO4OD1BceC1E8lwHJq1VmP+qkEgEl7Gh0rAPMpLY4KoFrCtlKkDoBmcZdeTjQgRgFQLaF6kU81AaiOGt5CwIu9HhGiiN3cYniAYcvnYWPNW34PX5Vwy+d9XjGFjaRbfn++1V5+p2q3obu5pXUVRdgWPtUO4LwfsOC+NPFj1/sBTSFN+CRNLKh3xintALNm6Gn/AHXkdj9YVYpbAAAAAElFTkSuQmCC" alt="pass">
+                    {% trans 'Your appointment has been temporarily booked.' %} 
+                </h5>
+            </div>
+            <div class="card-body white-glass border border-dark border-1 rounded-bottom mx-lg-5">
+                <div class="row g-2">
+                    <div class="col-12 rounded-1 p-4">
+                        <p style="font-size: 1.25rem;">🟢 {% trans 'We will contact you soon to arrange a definitive reservation.' %} </p>
+                        <p style="font-size: 1.25rem;">{% trans 'Thank you for your patience.' %}🙏</p>
+                        <hr></hr>
+                        <a type="submit" href="{% url 'home' %}"class="btn reserve-btn border border-dark rounded rounded-pill py-3 px-4">{% trans 'return home' %}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

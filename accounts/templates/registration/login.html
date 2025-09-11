@@ -3,18 +3,36 @@
 {% load i18n %}
 {% load crispy_forms_filters %}
 {% load crispy_forms_tags %}
-{% block head %}
-    <div class="prices"></div>
-{% endblock %}
 
 {% block content %}
-    <div class="hero-content">
-        <h2>{% trans 'Enter your phone number to book an appointment.' %}</h2>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form | crispy }}
-            <button type="submit" class="reserve-btn"> {% trans 'Get validation code' %}</button>
-        </form>
+    <div class="container-fluid rounded-1 my-5 text-center px-md-5">
+        <div class="card bg-transparent border-0 mx-lg-5 px-md-5">
+            <div class="card-header border border-dark border-1 glass-element py-2 mx-lg-5">
+                <h5 class="fw-bolder fs-4">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAADO0lEQVR4nO2Zv08UQRTHN4HYGiK5eW83BySAxfFLRUP0uBkQNBpNxILOQmNnZwEkaGtroqDoX2CDia0R9bg7LYDaTgJoolhaCCsbx7zlbm85Flh2d9ZcvJe8TDJ7O/P9zLzZeTejaTWrWc0ObYiikSF/yoB/AeQWoJDBnFsMxBpD8QxgsFmLwxjjg4D8e3DRe/pPxjLnlY+8IvGSnKH4wdjZhDIAhnzG6QzEKs2Gpo3WFZ/N+hfKZ7dbHK0DyHCGfMUF8UQdAIg1pyNbfNkaDd4OKJZ9ACzTb93vJvSBIRfcijIA94ItjXw0NlrnXtiaKnOPZOUzM2d0W3l8t1WATauA8rAOrrbNj4muWAFI/FYBNoIItzwAqC0lEHsB0MiHEW9VANh1eXwbOQBDsVD8Uiy468OOvuUBQG1GDtDQMHw0gQPXqHTXhxVvec1AAXetM58m6hnycYZ8iYEww25OyaSQF9J98vFYSm7O66oBRD0gf69qpx0ZOrMnBEQBwJBPqBJfcpoJlQBLpUYSyCdTqdQRP+/tF9sbWZQP73Y44i729ykEgHLM+xV/EAD5r6y+Y00oAwCP7zxjA1cY8K927g/8slf9m6k2p9PXj9rliY60PNmZlu56L4FWLAD2nxYnA13zqj/VmXY6JeFe9TWAoAAUNiTWTqVBXPKqn5suhwqFDUGQeHd9LACs2hcxQ77oNAT8XvV9RpGPB9ic/twa6ZW/czsF3b/dIw2Dx7uRadt5UDbIDvv5ZZPTsZnTPcVfH1acSlQkc4s+k7l9Z4BinsJmaqwjjmQumB20iP14Mrl7kVcVwIM7XbK5idtlVQJYHh650OIh1AyVUQOYOV1+etFil+oAUKwXF9p61AA3rvbaa4BKlQC7Uo2oAHRju10qqxIA4viM1gAK/xyAex7uhhW/OV/OVmn3VgbgPl5H5JmoAPLPWx2A093nFAJUXHDQuT7NRFDhZk63xZPoUrsTN3sUAjDRQndZQbJVP368rV+uvkqqOxst36bwb1GLb2/NyOxMa3mG8jCnqTJdHzoGKKYpjMJcsxoGt8OHwqY08qXRNz+wTi1OowsJOtMPc9S+Re/mYS528TX7n+0vjArZoOcyBtwAAAAASUVORK5CYII=" alt="one-time-password">
+                    {% trans 'Enter your phone number to book an appointment.' %}
+                </h5>
+            </div>
+            <div class="card-body white-glass border border-dark border-1 rounded-bottom mx-lg-5">
+                <div class="row g-2">
+                    <div class="col-12 col-md-6 p-4">
+                        <form class="" method="POST">
+                            {% csrf_token %}
+                            {{ form | crispy }}
+                            <button type="submit" class="btn reserve-btn border border-dark rounded rounded-pill py-3 px-4"> {% trans 'Get validation code' %}</button>
+                        </form>
+                    </div>
+                    {% comment %} <div class="vr mx-2 bg-warning"></div> {% endcomment %}
+                    <div class="col-12 col-md-6 text-end p-4">
+                        <p class="fs-5 d-inline"> 🟠 </p>
+                        <p class="fs-5 d-inline fw-normal" id="p-exp">
+                             بعد از دریافت کد یکبار مصرف ضمن وارد شدن به حساب کاربری خود، قادر به رزرو نوبت خود خواهید بود.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 

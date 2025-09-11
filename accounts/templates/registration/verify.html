@@ -4,31 +4,33 @@
 {% load i18n %}
 
 {% block content %}
-    <style>
-        .btn-submit {
-        background-color: #E6B800FF;
-        color: white;
-        padding: 0.75rem 1.25rem;
-        border: none;
-        border-radius: 0.5rem;
-        cursor: pointer;
-        font-size: 1rem;
-        width: 100%;
-        transition: background-color 0.3s;
-    }
-    </style>
-    <div class="hero-content">
-        <h2>{% trans 'Phone number verification' %}</h2>
-        <p class="subtitle">{% trans 'Please enter the 4-digit code sent to your number.' %}.</p>
+    <div class="container-fluid rounded-1 my-5 text-center px-md-5">
+        <div class="card bg-transparent border-0 mx-lg-5 px-md-5">
+            <div class="card-header border border-dark border-1 glass-element py-2 mx-lg-5">
+                <h5 class="fw-bolder fs-4">
+                    <img src="data:image/png;base64,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" alt="external-confirmation-online-money-service-flaticons-lineal-color-flat-icons">
+                    {% trans 'Phone number verification' %}
+                </h5>
+            </div>
+            <div class="card-body white-glass border border-dark border-1 rounded-bottom mx-lg-5">
+                <div class="row g-2">
+                    <div class="col-12 col-md-6 rounded-1 border border-dark border-1 p-4">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <button type="submit" class="btn reserve-btn border border-dark rounded rounded-pill py-3 px-4">{% trans 'verification' %}</button>
+                        </form>
+                    </div>
+                    <div class="col-12 col-md-6 text-end rounded-1 border border-dark border-1 p-4">
+                        <p class="subtitle">🟠 {% trans 'Please enter the 4-digit code sent to your number.' %}.</p>
+                        <hr></hr>
+                        <p class="resend-text">
+                            🔄 {% trans "Didn't receive a code?" %} <a href={% url 'login' %}>{% trans 'Resend' %}</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <form method="POST">
-            {% csrf_token %}
-            {{ form|crispy }}
-            <button type="submit" class="btn-submit">{% trans 'verification' %}</button>
-        </form>
-
-        <p class="resend-text">
-            {% trans "Didn't receive a code?" %} <a href={% url 'login' %}>{% trans 'Resend' %}</a>
-        </p>
     </div>
 {% endblock %}

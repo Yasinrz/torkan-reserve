@@ -7,6 +7,7 @@ services:
     container_name: django-torkan-reserve
     depends_on:
       - db
+      - redis
     env_file:
       - .env
     volumes:

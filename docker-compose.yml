@@ -49,6 +49,14 @@ services:
       - "POSTGRES_USER=${DB_USER}"
       - "POSTGRES_PASSWORD=${DB_PASSWORD}"
     restart: always
+
+  redis:
+    image: redis:alpine3.22
+    container_name: redis-server
+    ports:
+      - "6379:6379"
+    restart: always
+
 volumes:
   postgres_data:
   static_volume:

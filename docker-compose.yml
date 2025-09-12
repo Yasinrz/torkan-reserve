@@ -4,7 +4,8 @@ services:
 
   web:
     build: .
-    command: daphne -b 0.0.0.0 -p 8000 config.asgi:application
+    command: python /code/manage.py runserver 0.0.0.0:8000
+
     volumes:
       - .:/code
     depends_on:

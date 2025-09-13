@@ -47,8 +47,8 @@
                         <li><a class="dropdown-item border-bottom border-2 fw-bold" href="{% url "about_us" %}">درباره ما</a></li>
                         <li><a class="dropdown-item border-bottom border-2 fw-bold" href="{% url 'contact_us' %}">ارتباط با ما</a></li>
                         <li><a class="dropdown-item border-bottom border-2 fw-bold" href="#">مقالات</a></li>
-                        <li><a class="dropdown-item border-bottom border-2 fw-bold" href="#">گالری تصاویر</a></li>
-                        <li><a class="dropdown-item fw-bold" href="{% url 'contact_us' %}">انتقادات و پیشنهادات</a></li>
+                        <li><a class="dropdown-item border-bottom border-2 fw-bold" href="{% url 'gallery' %}">گالری تصاویر</a></li>
+                        <li><a class="dropdown-item fw-bold" href="{% url 'suggestion' %}">انتقادات و پیشنهادات</a></li>
                     </ul>
                 </div>
                 <button class="theme-toggle d-flex justify-content-center align-items-center rounded-circle me-2" id="theme-toggle" title="تغییر تم">
@@ -67,7 +67,7 @@
           
             <!-- Right side - Theme Toggle and Customer Panel -->
             <div class="d-flex align-items-center">
-                <a href="{% url 'custom_panel' %}" class="btn px-sm-3 py-sm-3 p-2 fw-black rounded-pill" id="nav-btn">پنل مشتریان</a>
+                <a href="{% url 'custom_panel' %}" class="btn px-sm-3 py-sm-3 p-2 fw-black rounded-pill" id="nav-btn">ورود کاربران</a>
             </div>
         </div>
       </div>

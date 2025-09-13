@@ -44,4 +44,4 @@ ENTRYPOINT ["/code/entrypoint.sh"]
 EXPOSE 8000
 
 # Run the app with Daphne (ASGI)
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "--timeout", "120", "config.asgi:application", "-k", "uvicorn.workers.UvicornWorker"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "5", "--timeout", "120", "config.asgi:application", "-k", "uvicorn.workers.UvicornWorker"]

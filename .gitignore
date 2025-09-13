@@ -2,6 +2,7 @@ __pycache__/
 db.sqlite3
 __pypackages__/
 acme-challenge
+ssl_certs
 postgres_database/
 db_reserve
 # Environments

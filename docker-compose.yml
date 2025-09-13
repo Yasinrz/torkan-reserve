@@ -31,7 +31,7 @@ services:
       - static_volume:/static:ro
       - media_volume:/media:ro 
       - ./acme-challenge:/var/www/html/.well-known/acme-challenge:ro
-      - ~/ssl_certs/zarnobat.ir:/etc/nginx/ssl:ro
+      - ./ssl_certs:/etc/nginx/ssl:ro
     depends_on:
       - web
     restart: always

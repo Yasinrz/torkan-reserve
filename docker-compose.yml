@@ -42,7 +42,7 @@ services:
       - .env
 
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - database:/var/lib/postgresql/data
 
     environment:
       - "POSTGRES_USER=${DB_USER}"
@@ -57,6 +57,6 @@ services:
     restart: always
 
 volumes:
-  postgres_data:
+  database:
   static_volume:
   media_volume:

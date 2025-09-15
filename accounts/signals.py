@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from .models import CustomerProfile, StaffProfile, EmployeeTicketReply, EmployeeTicket, SupportTicket, TicketReply, Invoice, Payslip
 from .utils import customer_ticket, employee_ticket, answer_customer, answer_employee, invoice_customer, payslip_employee
 import jdatetime
-
+from config.settings import DEBUG
 
 User = get_user_model()
 
@@ -107,10 +107,20 @@ def answer_ticket_customer_sms(sender, instance, created, **kwargs):
 
 
 @receiver(post_save, sender=Payslip)
-def payslip_employee_sms(sender, instance, created, **kwargs):
-    if created:
+def payslip_employee_sms(sender, instance: Payslip, created, **kwargs):
+    created_at_shamsi = jdatetime.datetime.fromgregorian(
+        datetime=instance.date_created
+    ).strftime("%Y/%m/%d")
+    employee = instance.employee.user.name
+    phone_number = instance.employee.user.phone_number
 
+    if created and not DEBUG:
         payslip_employee(
-            instance.receiver,
-            instance.mess(),
+            employee,
+            created_at_shamsi,
+            phone_number
         )
+    elif created:
+        print(f"------------------------------------------------------------------------\n\
+                |                  payslip for {employee} - {phone_number}               |\n\
+                ------------------------------------------------------------------------\n")

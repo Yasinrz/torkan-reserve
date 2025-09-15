@@ -20,7 +20,7 @@ services:
       - "DJANGO_DEBUG=True"
 
   db:
-    image: postgres:17.0
+    image: postgres:17-alpine
     ports:
       - "5432:5432"
     env_file:

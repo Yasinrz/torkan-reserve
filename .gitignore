@@ -4,6 +4,9 @@ __pypackages__/
 acme-challenge
 postgres_database/
 db_reserve
+database
+media/*
+!media/.gitkeep
 # Environments
 .env
 .venv

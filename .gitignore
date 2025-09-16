@@ -3,6 +3,9 @@ db.sqlite3
 __pypackages__/
 postgres_database/
 db_reserve
+postgres
+database
+media/*
 # Environments
 .env
 .venv

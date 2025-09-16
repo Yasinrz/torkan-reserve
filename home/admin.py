@@ -17,16 +17,6 @@ class TimeAdmin(ModelAdminJalaliMixin, admin.ModelAdmin):
     ordering = ('-fix_reserved_date',)
     autocomplete_fields = ('request_reservation',)
 
-    def save_model(self, request, obj, form, change):
-        super().save_model(request, obj, form, change)
-
-        # get data to send SMS
-        phone = obj.request_reservation.user.phone_number
-        name = obj.request_reservation.user.name
-        miladi_date = form.cleaned_data['fix_reserved_date']
-        shamsi_date = jdatetime.date.fromgregorian(date=miladi_date)
-        date = shamsi_date.strftime('%Y/%m/%d')
-        send_reservation_sms(phone, name, date)
 
     @admin.display(description=_('Reservation date'))
     def format_date(self, obj):

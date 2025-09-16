@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'channels',
     "ckeditor",
     "ckeditor_uploader",
+    # 'debug_toolbar',
 
     # my app
     'home',
@@ -96,6 +97,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -214,3 +216,13 @@ MESSAGE_TAGS = {
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 CKEDITOR_UPLOAD_PATH = "uploads/"
+
+# DEBUG TOOLBAR & SILK CONFIG << DEBUGER >>
+if DEBUG:
+    import socket
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips]
+
+    INSTALLED_APPS += ["debug_toolbar", "silk"]
+    MIDDLEWARE.insert(2, "debug_toolbar.middleware.DebugToolbarMiddleware")
+    MIDDLEWARE.insert(3, 'silk.middleware.SilkyMiddleware')

@@ -15,3 +15,12 @@ class AdminNotificationConsumer(AsyncWebsocketConsumer):
             "ticket_url": event["ticket_url"]
         }))
 
+# notifications/consumers.py
+
+# class TestConsumer(AsyncWebsocketConsumer):
+#     async def connect(self):
+#         await self.accept()
+#         await self.send(text_data="✅ Connected to WebSocket!")
+
+#     async def disconnect(self, close_code):
+#         print("WebSocket disconnected")

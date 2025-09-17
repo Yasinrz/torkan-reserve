@@ -161,24 +161,3 @@ def payslip_employee(employee ,created_at, phone):
     except Exception as e:
         return {"error": f"Exception occurred: {str(e)}"}
     
-
-def payslip_employee(employee ,created_at, phone):
-    api_key = env("API_KEY")
-    url = f"https://api.kavenegar.com/v1/{api_key}/verify/lookup.json"
-
-    params = {
-        "receptor":phone,
-        "template": "payslip",
-        "token10": employee,
-        "token": created_at,
-    }
-
-    try:
-        response = requests.get(url, params=params)
-        if response.status_code == 200:
-            return response.json()
-        else:
-            return {"error": f"Failed to send request reserve sms: {response.text}"}
-    except Exception as e:
-        return {"error": f"Exception occurred: {str(e)}"}
-    

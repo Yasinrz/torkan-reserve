@@ -5,6 +5,9 @@ acme-challenge
 ssl_certs
 postgres_database/
 db_reserve
+database
+media/*
+!media/.gitkeep
 # Environments
 .env
 .venv

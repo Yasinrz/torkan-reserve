@@ -4,7 +4,7 @@ services:
 
   web:
     build: .
-    container_name: django-torkan-reserve
+    container_name: web
     depends_on:
       - db
       - redis
@@ -23,19 +23,22 @@ services:
 
   web_server:
     image: nginx:stable-alpine3.21
+    container_name: web-server
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - static_volume:/static:ro
       - media_volume:/media:ro 
       # - ./acme-challenge:/var/www/html/.well-known/acme-challenge:ro
-      # - ./ssl_certs:/etc/nginx/ssl:ro
+      - ./cert:/etc/nginx/ssl:ro
     depends_on:
       - web
     restart: always
   db:
     image: postgres:17-alpine
+    container_name: db
     ports:
       - "65432:5432"
     env_file:
@@ -51,7 +54,7 @@ services:
 
   redis:
     image: redis:alpine3.22
-    container_name: redis-server
+    container_name: redis
     ports:
       - "6379:6379"
     restart: always

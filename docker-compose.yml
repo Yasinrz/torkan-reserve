@@ -5,6 +5,7 @@ services:
   web:
     build: .
     container_name: django-torkan-reserve
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3 --threads 4 --worker-class gthread --timeout 120
     depends_on:
       - db
       - redis
@@ -12,13 +13,29 @@ services:
       - .env
     volumes:
       - ./static:/code/static
-      -  static_volume:/code/staticfiles
+      - static_volume:/code/staticfiles
       - media_volume:/code/media
     ports:
       - "8000:8000"
-
     environment:
       - "DJANGO_DEBUG=False"
+    restart: always
+
+  daphne:
+    build: .
+    container_name: django-daphne
+    command: daphne -b 0.0.0.0 -p 8001 config.asgi:application
+    depends_on:
+      - db
+      - redis
+    env_file:
+      - .env
+    volumes:
+      - ./static:/code/static
+      - static_volume:/code/staticfiles
+      - media_volume:/code/media
+    ports:
+      - "8001:8001"
     restart: always
 
   web_server:
@@ -29,22 +46,22 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - static_volume:/static:ro
-      - media_volume:/media:ro 
+      - media_volume:/media:ro
       - ./acme-challenge:/var/www/html/.well-known/acme-challenge:ro
       - ./ssl_certs:/etc/nginx/ssl:ro
     depends_on:
       - web
+      - daphne
     restart: always
+
   db:
     image: postgres:17-alpine
     ports:
       - "5432:5432"
     env_file:
       - .env
-
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
     environment:
       - "POSTGRES_USER=${DB_USER}"
       - "POSTGRES_PASSWORD=${DB_PASSWORD}"

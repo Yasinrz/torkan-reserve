@@ -116,7 +116,7 @@ def send_sms_to_admin(phone_admin, date_request ,phone_user , name):
     }
 
     try:
-        response = requests.get(url, params=params)
+        response = requests.post(url, params=params)
         if response.status_code == 200:
             return response.json()
         else:

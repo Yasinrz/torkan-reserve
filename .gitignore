@@ -8,6 +8,7 @@ db_reserve
 database
 cert
 media/*
+postgres
 !media/.gitkeep
 # Environments
 .env

@@ -4,6 +4,8 @@ from django.contrib.auth import get_user_model
 from .models import CustomerProfile, StaffProfile, EmployeeTicketReply, EmployeeTicket, SupportTicket, TicketReply, Invoice, Payslip
 from .utils import customer_ticket, employee_ticket, answer_customer, answer_employee, invoice_customer, payslip_employee
 import jdatetime
+from home.models import Time
+from home.utils import send_reservation_sms
 from config.settings import DEBUG
 
 User = get_user_model()
@@ -124,3 +126,20 @@ def payslip_employee_sms(sender, instance: Payslip, created, **kwargs):
         print(f"------------------------------------------------------------------------\n\
                 |                  payslip for {employee} - {phone_number}               |\n\
                 ------------------------------------------------------------------------\n")
+
+@receiver(post_save, sender=Time)
+def sms_fixed_reseve(sender, instance, created, **kwargs):
+    if created:
+        created_at_shamsi = jdatetime.datetime.fromgregorian(
+            datetime=instance.fix_reserved_date
+        ).strftime("%Y/%m/%d")
+
+        send_reservation_sms(
+            instance.request_reservation.user.phone_number,
+            instance.request_reservation.user.name,
+            created_at_shamsi,
+        )
+    if created:
+        print("$---- send fixed reservation time ----$\n")
+    else:
+        print("$---- Not send fixed reservation time ----$\n")

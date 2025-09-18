@@ -32,7 +32,7 @@ services:
       - "POSTGRES_DB=${DB_NAME}"
 
     volumes:
-      - ./postgres_database:/var/lib/postgresql/data
+      - ./database:/var/lib/postgresql/data
 
   redis:
     image: redis:alpine3.22

@@ -1,6 +1,7 @@
 from django.core.cache import cache
 import requests
 from environs import Env
+from config.settings import DEBUG
 
 env = Env()
 env.read_env()
@@ -80,23 +81,26 @@ def get_gold_price():
     return prices
 
 def send_temporary(phone, name, date):
-    api_key = env("API_KEY")
-    url = f"https://api.kavenegar.com/v1/{api_key}/verify/lookup.json"
+    if not DEBUG:
+        api_key = env("API_KEY")
+        url = f"https://api.kavenegar.com/v1/{api_key}/verify/lookup.json"
 
-    params = {
-        "receptor": phone,
-        "template": "request",
-        "token10": name,
-        "token": date,
-    }
-    try:
-        response = requests.get(url, params=params)
-        if response.status_code == 200:
-            return response.json()
-        else:
-            return {"error": f"Failed to send reserve sms: {response.text}"}
-    except Exception as e:
-        return {"error": f"Exception occurred: {str(e)}"}
+        params = {
+            "receptor": phone,
+            "template": "request",
+            "token10": name,
+            "token": date,
+        }
+        try:
+            response = requests.get(url, params=params)
+            if response.status_code == 200:
+                return response.json()
+            else:
+                return {"error": f"Failed to send reserve sms: {response.text}"}
+        except Exception as e:
+            return {"error": f"Exception occurred: {str(e)}"}
+    else:
+        print(f"$---- send reservation sms to {name} with phone {phone} ----$\n")
 
 
 def send_sms_to_admin(phone_admin, date_request ,phone_user , name):

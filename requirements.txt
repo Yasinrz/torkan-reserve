@@ -19,6 +19,7 @@ Django==5.1.7
 django-allauth==65.7.0
 django-cache-url==3.4.5
 django-ckeditor==6.7.3
+django-cleanup==9.0.0
 django-crispy-forms==2.4
 django-debug-toolbar==6.0.0
 django-jalali==7.3.0

@@ -57,13 +57,15 @@ INSTALLED_APPS = [
     'channels',
     "ckeditor",
     "ckeditor_uploader",
-    # 'debug_toolbar',
 
     # my app
     'home',
     'accounts',
     'notifications',
     'article',
+
+    # 3-rd party app (overiden my app)
+    'django_cleanup.apps.CleanupConfig',
     
 ]
 

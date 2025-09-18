@@ -38,7 +38,6 @@ def calendar(request):
             admin_users = User.objects.filter(is_superuser=True)
 
             for admin in admin_users:
-                phone_admin = admin.phone_number
                 miladi_date = form.cleaned_data['suggested_reservation_date']
                 shamsi_date = jdatetime.date.fromgregorian(date=miladi_date)
                 date_request = shamsi_date.strftime('%Y/%m/%d')

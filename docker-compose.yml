@@ -13,8 +13,8 @@ services:
       - .env
     volumes:
       - ./static:/code/static
-      - static_volume:/code/staticfiles
-      - media_volume:/code/media
+      - ./staticfiles:/code/staticfiles
+      - ./media:/code/media
     ports:
       - "8000:8000"
     environment:
@@ -32,10 +32,12 @@ services:
       - .env
     volumes:
       - ./static:/code/static
-      - static_volume:/code/staticfiles
-      - media_volume:/code/media
+      - ./staticfiles:/code/staticfiles
+      - ./media:/code/media
     ports:
       - "8001:8001"
+    environment:
+      - "DJANGO_DEBUG=False"
     restart: always
 
   web_server:
@@ -45,8 +47,8 @@ services:
       - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - static_volume:/static:ro
-      - media_volume:/media:ro
+      - ./staticfiles:/static:ro
+      - ./media:/media:ro
       - ./acme-challenge:/var/www/html/.well-known/acme-challenge:ro
       - ./ssl_certs:/etc/nginx/ssl:ro
     depends_on:
@@ -76,5 +78,3 @@ services:
 
 volumes:
   postgres_data:
-  static_volume:
-  media_volume:

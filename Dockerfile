@@ -31,8 +31,9 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 RUN mkdir -p /code/staticfiles && \
-    chown -R appuser:appuser /code/staticfiles && \
-    chmod -R 755 /code/staticfiles
+    mkdir -p /code/media && \
+    chown -R appuser:appuser /code/staticfiles /code/media && \
+    chmod -R 755 /code/staticfiles /code/media
 
 USER appuser
 

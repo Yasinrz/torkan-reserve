@@ -4,6 +4,8 @@ __pypackages__/
 postgres_database/
 db_reserve
 database
+acme-challenge
+cert
 media/*
 # Environments
 .env

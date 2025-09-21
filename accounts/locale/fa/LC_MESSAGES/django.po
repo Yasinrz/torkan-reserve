@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-27 22:29+0330\n"
-"PO-Revision-Date: 2025-08-28 19:09+0330\n"
+"PO-Revision-Date: 2025-09-21 13:30+0330\n"
 "Last-Translator: Anonymous User <anonymous@user.tld>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -41,7 +41,7 @@ msgstr "نام و نام خانوادگی"
 
 #: .\accounts\models.py:34
 msgid "is active ?"
-msgstr "فغال است؟"
+msgstr "فعال است؟"
 
 #: .\accounts\models.py:35
 msgid "is staff ?"
@@ -57,7 +57,7 @@ msgstr "تاریخ عضویت"
 
 #: .\accounts\templates\registration\login.html:12
 msgid "Enter your phone number to book an appointment."
-msgstr "شماره تلفن خود را جهت رزرو نوبت وارد کنید."
+msgstr "شماره تلفن خود را وارد کنید."
 
 #: .\accounts\templates\registration\login.html:16
 msgid "Get validation code"

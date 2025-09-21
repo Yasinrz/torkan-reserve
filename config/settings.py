@@ -110,6 +110,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    "accounts.middleware.RequestTimingMiddleware",
 ]
 
 ROOT_URLCONF = 'config.urls'

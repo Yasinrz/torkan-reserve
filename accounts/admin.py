@@ -70,15 +70,22 @@ class PayslipAdmin(admin.ModelAdmin):
 
 
 @admin.register(StaffProfile)
-class StaffProfileAdmin(admin.ModelAdmin):
+class StaffProfileAdmin(ModelAdminJalaliMixin, admin.ModelAdmin):
     inlines = [WorkHourInline, PayslipInline]
 
-    list_display = ('user', 'birth_date', 'staff_joined_jalali_date')
+    list_display = ('user', 'staff_jalali_birth_date',
+                    'staff_joined_jalali_date')
     search_fields = ('employee__name',)
 
     @admin.display(description=_('تاریخ پیوستن'))
     def staff_joined_jalali_date(self, obj):
         return date2jalali(obj.date_joined).strftime('%Y/%m/%d')
+
+    @admin.display(description="تاریخ تولد")
+    def staff_jalali_birth_date(self, obj):
+        if obj.birth_date:
+            return date2jalali(obj.birth_date).strftime('%Y/%m/%d')
+        return ""
 
 
 # مشتری ها

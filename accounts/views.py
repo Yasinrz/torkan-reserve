@@ -297,7 +297,7 @@ def employee_login(request):
             return redirect('code_view')
     else:
         form = PhoneNumberForm()
-    return render(request ,'registration/employee_login.html ',{'form': form})
+    return render(request ,'registration/employee_login.html',{'form': form})
 
 @login_required
 def staff_or_customer(request):

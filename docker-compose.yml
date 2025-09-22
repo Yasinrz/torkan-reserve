@@ -15,8 +15,8 @@ services:
       - ./static:/code/static
       - ./staticfiles:/code/staticfiles
       - ./media:/code/media
-    ports:
-      - "8000:8000"
+    # ports:
+    #   - "8000:8000"
     environment:
       - "DJANGO_DEBUG=False"
     restart: always

@@ -118,6 +118,26 @@ body {
     background: var(--hover-color);
 }
 
+/* Place Bootstrap caret to the visual right of text in RTL */
+.caret-end-rtl {
+    display: inline-flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    /* show caret at the right edge */
+}
+
+.caret-end-rtl::after {
+    /* space between caret and text */
+    margin-left: 0.25 !important;
+}
+
+#login-menu {
+    direction: rtl;
+    text-align: right;
+    min-width: max-content;
+    /* override generic min-widths */
+}
+
 /* Navbar Toggler Animation */
 .navbar-toggler {
     width: 40px;

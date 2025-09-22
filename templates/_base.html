@@ -17,6 +17,17 @@
     <link rel="preload" href="{% static 'fonts/Vazir.woff2' %}" as="font" type="font/woff2" crossorigin="anonymous">
     <!-- Base Css -->
     <link as="style" href="{% static 'css/base.css' %}" rel="stylesheet" crossorigin="anonymous">
+    <!-- استایل عمومی برای dropdown ورود (در همه صفحات اعمال شود) -->
+    <style>
+      .login-dropdown .dropdown-menu {
+        min-width: 10rem; /* عرض متوسط، نه خیلی بزرگ نه خیلی کوچک */
+        padding: 0.5rem 0; /* padding مناسب */
+      }
+      .login-dropdown .dropdown-item {
+        padding: 0.5rem 1rem; /* padding متوسط برای آیتم‌ها */
+        font-size: 1rem; /* فونت متوسط */
+      }
+    </style>
     <!-- Customize heading -->
     {% block head %}
 
@@ -43,7 +54,7 @@
                         <li><a class="dropdown-item border-bottom border-2 fw-bold" href="{% url 'home' %}"> 
                             صفحه اصلی</a>
                         </li>
-                        <li><a class="dropdown-item border-bottom border-2 fw-bold" href="{% url 'custom_panel' %}">پروفایل</a></li>
+                        <li><a class="dropdown-item border-bottom border-2 fw-bold" href="{% url 'profile' %}">پروفایل</a></li>
                         <li><a class="dropdown-item border-bottom border-2 fw-bold" href="{% url "about_us" %}">درباره ما</a></li>
                         <li><a class="dropdown-item border-bottom border-2 fw-bold" href="{% url 'contact_us' %}">ارتباط با ما</a></li>
                         <li><a class="dropdown-item border-bottom border-2 fw-bold" href="#">مقالات</a></li>
@@ -66,8 +77,20 @@
             </div>
           
             <!-- Right side - Theme Toggle and Customer Panel -->
-            <div class="d-flex align-items-center">
-                <a href="{% url 'custom_panel' %}" class="btn px-sm-3 py-sm-3 p-2 fw-black rounded-pill" id="nav-btn">ورود کاربران</a>
+           <div class="d-flex align-items-center">
+            <!-- دکمه ورود -->
+            <div class="d-flex align-items-center position-relative">
+              <!-- دکمه ورود با Bootstrap dropdown -->
+              <div class="dropdown login-dropdown"> <!-- کلاس جدید برای هدف‌گیری استایل -->
+                <button class="btn px-sm-3 py-sm-3 p-2 fw-black rounded-pill dropdown-toggle" type="button" id="nav-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                  ورود
+                </button>
+                <ul class="dropdown-menu dropdown-menu-start" id="login-menu" aria-labelledby="nav-btn">
+                  <li><a href="{% url 'login' %}" class="dropdown-item">ورود مشتری</a></li>
+                  <li><a href="{% url 'employee_login' %}" class="dropdown-item">ورود کارمند</a></li>
+                  <li><a href="{% url 'logout' %}" class="dropdown-item">خروج</a></li>
+                </ul>
+              </div>
             </div>
         </div>
       </div>

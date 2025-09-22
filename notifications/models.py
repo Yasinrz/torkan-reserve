@@ -3,11 +3,11 @@ from accounts.models import User
 import jalali_date
 
 class Notification(models.Model):
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifications")
-    message = models.CharField(max_length=255)
-    created_at = models.DateField(auto_now_add=True)
-    time = models.TimeField(auto_now_add=True)
-    is_read = models.BooleanField(default=False)
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='گیرنده',related_name="notifications")
+    message = models.CharField(max_length=255 ,verbose_name='پیام')
+    created_at = models.DateField(auto_now_add=True ,verbose_name='تاریخ ایجاد')
+    time = models.TimeField(auto_now_add=True ,verbose_name='زمان')
+    is_read = models.BooleanField(default=False , verbose_name='خوانده شده؟')
 
     def __str__(self):
         return f"{self.receiver.name} - {self.message}"
@@ -31,7 +31,7 @@ class SMS(models.Model):
         verbose_name='پیام',
         default='https://maps.app.goo.gl/HKXdXNXsLz7B1dNS7'
     )
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True,verbose_name='تاریخ ایجاد')
 
     class Meta:
         ordering = ['-created_at']

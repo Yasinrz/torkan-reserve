@@ -1,8 +1,12 @@
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
     path('login/', views.phone_number_view, name='login'),
+    path("logout/", views.logout_view, name="logout"),
+    path('employee_login/', views.employee_login, name='employee_login'),
+    path('profile/', views.staff_or_customer, name='profile'),
     path('verify/', views.verify, name='code_view'),
     path('welcome/', views.welcome, name='welcome'),
     path('custom_panel/',views.custom_panel, name='custom_panel'),

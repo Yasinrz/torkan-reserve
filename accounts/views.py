@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import logout
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 from home.models import Time, RequestReservation
@@ -36,6 +37,11 @@ def phone_number_view(request):
         form = PhoneNumberForm()
 
     return render(request, 'registration/login.html', {'form': form})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("home")
 
 
 @never_cache
@@ -271,5 +277,32 @@ def suggestion(request):
 
     back_url = 'employee_panel' if request.user.is_staff else 'custom_panel'
     return render(request, 'registration/suggestion.html', {'form': form, 'success': success, 'back_url': back_url})
-def custom_permission_denied_view(request, exception=None):
-    return render(request, '403.html', status=403)
+
+
+def employee_login(request):
+    if request.method == 'POST':
+        form = PhoneNumberForm(request.POST)
+        if form.is_valid():
+            phone_number = form.cleaned_data['phone_number']
+            name = form.cleaned_data.get('name', '')
+
+            token = str(randint(1000, 9999))
+            request.session['phone_number'] = phone_number
+            request.session['verification_code'] = token
+            request.session['name'] = name
+            # Just for don`t use SMS in development mode
+            if not DEBUG:
+                send_code(phone_number, token)
+            print(f" $--------------------$ {token} $--------------------$ ")
+            return redirect('code_view')
+    else:
+        form = PhoneNumberForm()
+    return render(request ,'registration/employee_login.html',{'form': form})
+
+@login_required
+def staff_or_customer(request):
+    user = request.user
+    if user.is_staff:
+        return redirect('employee_panel')   # باید name در urls.py باشه
+    else:
+        return redirect('custom_panel')

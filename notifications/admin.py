@@ -5,8 +5,8 @@ from jalali_date import date2jalali
 class NotificationAdmin(admin.ModelAdmin):
     list_display = ("message", "receiver", "created_at", 'time',"is_read")
 
-    class Media:
-        js = ("notifications/js/notifications.js",)
+    # class Media:
+    #     js = ("notifications/js/notifications.js",)
                 
 
 @admin.register(SMS)

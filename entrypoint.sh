@@ -11,4 +11,11 @@ echo "--> Collecting static files..."
 python manage.py collectstatic --noinput
 
 echo "--> Starting website"
-exec "$@"
+exec python manage.py runserver 0.0.0.0:8000
+# exec gunicorn config.wsgi:application \
+#     --workers=3 \
+#     --worker-class=gevent \
+#     --bind=0.0.0.0:8000 \
+#     --timeout=120 \
+#     --keep-alive=5 \
+#     --log-level=info

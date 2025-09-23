@@ -5,10 +5,10 @@ services:
   web:
     build: .
     container_name: django-torkan-reserve
-    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3 --threads 4 --worker-class gthread --timeout 120
+    # command: gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3 --threads 4 --worker-class gthread --timeout 120
     depends_on:
       - db
-      - redis
+      # - redis
     env_file:
       - .env
     volumes:
@@ -21,24 +21,24 @@ services:
       - "DJANGO_DEBUG=False"
     restart: always
 
-  daphne:
-    build: .
-    container_name: django-daphne
-    command: daphne -b 0.0.0.0 -p 8001 config.asgi:application
-    depends_on:
-      - db
-      - redis
-    env_file:
-      - .env
-    volumes:
-      - ./static:/code/static
-      - ./staticfiles:/code/staticfiles
-      - ./media:/code/media
-    ports:
-      - "8001:8001"
-    environment:
-      - "DJANGO_DEBUG=False"
-    restart: always
+  # daphne:
+  #   build: .
+  #   container_name: django-daphne
+  #   command: daphne -b 0.0.0.0 -p 8001 config.asgi:application
+  #   depends_on:
+  #     - db
+  #     - redis
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - ./static:/code/static
+  #     - ./staticfiles:/code/staticfiles
+  #     - ./media:/code/media
+  #   ports:
+  #     - "8001:8001"
+  #   environment:
+  #     - "DJANGO_DEBUG=False"
+  #   restart: always
 
   web_server:
     image: nginx:stable-alpine3.21
@@ -53,7 +53,7 @@ services:
       - ./ssl_certs:/etc/nginx/ssl:ro
     depends_on:
       - web
-      - daphne
+      # - daphne
     restart: always
 
   db:
@@ -69,12 +69,12 @@ services:
       - "POSTGRES_PASSWORD=${DB_PASSWORD}"
     restart: always
 
-  redis:
-    image: redis:alpine3.22
-    container_name: redis-server
-    ports:
-      - "6379:6379"
-    restart: always
+  # redis:
+  #   image: redis:alpine3.22
+  #   container_name: redis-server
+  #   ports:
+  #     - "6379:6379"
+  #   restart: always
 
 volumes:
   postgres_data:

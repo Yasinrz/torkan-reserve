@@ -43,7 +43,6 @@ RUN chmod +x /code/entrypoint.sh
 ENTRYPOINT ["/code/entrypoint.sh"]
 
 EXPOSE 8000
-EXPOSE 8001
 
 # Run the app with Daphne (ASGI)
-CMD ["gunicorn", "-b", "0.0.0.0:8000", "--workers", "4", "--timeout", "120", "config.wsgi:application"]
+# CMD ["gunicorn", "-b", "0.0.0.0:8000", "--workers", "4", "--timeout", "120", "config.wsgi:application"]

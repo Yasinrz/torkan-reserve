@@ -190,6 +190,7 @@ def custom_create_ticket(request, template_name='registration/customer_ticket.ht
 def staff_create_ticket(request):
     success = False
     ticket_type = None
+    
     if request.method == 'POST':
 
         if 'select_ticket_type' in request.POST:

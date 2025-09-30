@@ -31,4 +31,4 @@ COPY ./entrypoint.sh .
 RUN chmod +x ./entrypoint.sh
 
 # execute our entrypoint.sh file
-CMD ["./entrypoint.sh"]
+# CMD ["./entrypoint.sh"]

@@ -63,11 +63,12 @@ services:
     env_file:
       - .env
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./postgres_database:/var/lib/postgresql/data
     environment:
       - "POSTGRES_USER=${DB_USER}"
       - "POSTGRES_PASSWORD=${DB_PASSWORD}"
-    restart: always
+      - "POSTGRES_DB=${DB_NAME}"
+    # restart: always
 
   # redis:
   #   image: redis:alpine3.22
@@ -76,5 +77,5 @@ services:
   #     - "6379:6379"
   #   restart: always
 
-volumes:
-  postgres_data:
+# volumes:
+#   postgres_data:

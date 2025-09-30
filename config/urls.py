@@ -8,17 +8,20 @@ from accounts import admin_registry
 from home import admin_registry
 from notifications import admin_registry
 from article import admin_registry
+from django.http import JsonResponse
 
 
-handler403 = 'accounts.views.custom_permission_denied_view'
-# handler404 = 'accounts.views.custom_permission_denied'
+
+
+def health_check(request):
+    return JsonResponse({"status": "ok"})
 
 urlpatterns = [
     path("admin/", custom_admin_site.urls),
     path('', include('home.urls')),
     path('accounts/', include('accounts.urls')),
     path('article/', include('article.urls')),
-
+    path('health/', health_check),
     # Rosetta (i18n)
     # path('rosetta/', include('rosetta.urls')),
 

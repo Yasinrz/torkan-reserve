@@ -190,6 +190,7 @@ def custom_create_ticket(request, template_name='registration/customer_ticket.ht
 def staff_create_ticket(request):
     success = False
     ticket_type = None
+    
     if request.method == 'POST':
 
         if 'select_ticket_type' in request.POST:
@@ -197,8 +198,7 @@ def staff_create_ticket(request):
             form = EmployeeTicketForm(initial={
                                       'employee': request.user, 'ticket_type': ticket_type}, ticket_type=ticket_type)
         else:
-            form = EmployeeTicketForm(
-                request.POST, ticket_type=request.POST.get('ticket_type'))
+            form = EmployeeTicketForm(request.POST)
             if form.is_valid():
                 ticket = form.save(commit=False)
                 ticket.employee = request.user

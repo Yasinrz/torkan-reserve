@@ -157,45 +157,98 @@ class EmployeeTicketForm(forms.ModelForm):
         }
         widgets = {
             "ticket_type": forms.Select(attrs={"class": "form-select"}),
-            # leave_start and leave_end will be replaced with JalaliDateField in __init__
             "leave_type": forms.Select(attrs={"class": "form-select"}),
-            # تغییر به TextInput
             "facility_amount": forms.TextInput(attrs={"class": "form-input"}),
             "facility_duration_months": forms.NumberInput(attrs={"class": "form-input"}),
-            # تغییر به TextInput
             "advance_amount": forms.TextInput(attrs={"class": "form-input"}),
             "description": forms.Textarea(attrs={"class": "form-textarea", "rows": 4}),
             "employee": forms.HiddenInput(),
         }
 
     def __init__(self, *args, **kwargs):
-        ticket_type = kwargs.pop('ticket_type', None)
         super().__init__(*args, **kwargs)
 
-        # Use JalaliDateField with AdminJalaliDateWidget for leave dates (like reservation page)
+        # Use JalaliDateField with AdminJalaliDateWidget for leave dates
         self.fields['leave_start'] = JalaliDateField(
             label=self.Meta.labels.get('leave_start', 'تاریخ شروع مرخصی'),
-            widget=AdminJalaliDateWidget
+            widget=AdminJalaliDateWidget(attrs={"class": "form-input jalali-date-input", "type": "text"}),
+            required=False  # پیش‌فرض optional
         )
-        self.fields['leave_start'].widget.attrs.update(
-            {"class": "form-input jalali-date-input", "type": "text"})
-
         self.fields['leave_end'] = JalaliDateField(
             label=self.Meta.labels.get('leave_end', 'تاریخ پایان مرخصی'),
-            widget=AdminJalaliDateWidget
+            widget=AdminJalaliDateWidget(attrs={"class": "form-input jalali-date-input", "type": "text"}),
+            required=False  # پیش‌فرض optional
         )
-        self.fields['leave_end'].widget.attrs.update(
-            {"class": "form-input jalali-date-input", "type": "text"})
 
+        # پیش‌فرض optional برای همه فیلدهای شرطی
+        conditional_fields = [
+            'leave_start', 'leave_end', 'leave_type',
+            'facility_amount', 'facility_duration_months',
+            'advance_amount', 'description'
+        ]
+        for field in conditional_fields:
+            self.fields[field].required = False
+
+        # تعیین ticket_type از instance یا data (برای post)
+        ticket_type = None
+        if self.instance and self.instance.pk:
+            ticket_type = self.instance.ticket_type
+        elif 'ticket_type' in self.data:
+            ticket_type = self.data.get('ticket_type')
+        # اگر در kwargs باشه (مثل وقتی view پاس می‌ده)
+        elif 'ticket_type' in kwargs:
+            ticket_type = kwargs.pop('ticket_type', None)
+
+        # تنظیم required بر اساس ticket_type
+        if ticket_type:
+            if ticket_type == 'leave':
+                self.fields['leave_start'].required = True
+                self.fields['leave_end'].required = True
+                self.fields['leave_type'].required = True
+            elif ticket_type == 'facility':
+                self.fields['facility_amount'].required = True
+                self.fields['facility_duration_months'].required = True
+            elif ticket_type == 'advance':
+                self.fields['advance_amount'].required = True
+            elif ticket_type == 'other':
+                self.fields['description'].required = True
+
+        # تنظیم initial اگر لازم
         if not self.instance.pk:
             self.fields['ticket_type'].initial = ticket_type or 'other'
         else:
-            self.fields['ticket_type'].initial = self.instance.ticket_type or 'other'
+            self.fields['ticket_type'].initial = ticket_type or 'other'
+
+    def clean(self):
+        cleaned_data = super().clean()
+        ticket_type = cleaned_data.get('ticket_type')
+
+        # validation شرطی (علاوه بر required)
+        if ticket_type == 'leave':
+            if not cleaned_data.get('leave_start'):
+                self.add_error('leave_start', 'تاریخ شروع مرخصی الزامی است.')
+            if not cleaned_data.get('leave_end'):
+                self.add_error('leave_end', 'تاریخ پایان مرخصی الزامی است.')
+            if not cleaned_data.get('leave_type'):
+                self.add_error('leave_type', 'نوع مرخصی الزامی است.')
+        elif ticket_type == 'facility':
+            if not cleaned_data.get('facility_amount'):
+                self.add_error('facility_amount', 'مبلغ تسهیلات الزامی است.')
+            if not cleaned_data.get('facility_duration_months'):
+                self.add_error('facility_duration_months', 'مدت بازپرداخت الزامی است.')
+        elif ticket_type == 'advance':
+            if not cleaned_data.get('advance_amount'):
+                self.add_error('advance_amount', 'مبلغ مساعده الزامی است.')
+        elif ticket_type == 'other':
+            if not cleaned_data.get('description'):
+                self.add_error('description', 'توضیحات الزامی است.')
+
+        return cleaned_data
 
     def clean_facility_amount(self):
         value = self.cleaned_data.get("facility_amount")
         if value in (None, ""):
-            return None  # یا میتونی 0 بزاری به جای None
+            return None
         if isinstance(value, str):
             value = value.replace(",", "")
         try:
@@ -206,7 +259,7 @@ class EmployeeTicketForm(forms.ModelForm):
     def clean_advance_amount(self):
         value = self.cleaned_data.get("advance_amount")
         if value in (None, ""):
-            return None  # یا 0
+            return None
         if isinstance(value, str):
             value = value.replace(",", "")
         try:

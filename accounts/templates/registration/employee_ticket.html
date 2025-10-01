@@ -83,6 +83,11 @@
     background-size: 1rem 1rem;
     padding-left: 2.25rem; /* make room for icon */
   }
+  .header h1 {
+    font-weight: 700; /* بولدتر (وزن 700 از فونت Vazirmatn) */
+    color: #FFFFFF; /* سفید کامل و روشن‌تر */
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* برای برجسته‌تر شدن و حس بولدتر */
+  }
 </style>
 {%endblock%}
 {%block content%}
@@ -149,14 +154,12 @@ document.addEventListener("DOMContentLoaded", function(){
 
   function setVisibility(selected) {
       const sel = selected || ticketTypeSelect.value || 'other';
+      console.log("Selected type:", sel);  // debug: نوع انتخاب‌شده
       wrappers.forEach(w => {
           const name = w.dataset.fieldName;
-          if (name === 'employee' || name === 'status') {
-              w.classList.add('hidden'); 
-              return;
-          }
-          if (name === 'ticket_type') {
-              w.classList.remove('hidden'); 
+          if (name === 'employee' || name === 'status' || name === 'ticket_type') {
+              if (name !== 'ticket_type') w.classList.add('hidden');
+              else w.classList.remove('hidden');
               return;
           }
           if (map[sel] && map[sel].includes(name)) {
@@ -180,88 +183,94 @@ document.addEventListener("DOMContentLoaded", function(){
       setVisibility(this.value);
   });
 
-  // Jalali date fields are rendered with AdminJalaliDateWidget.
-  // If needed, you can target class .jalali-date-input for extra behavior.
-
-  // ⭐ تابع بهبودیافته برای فرمت سه‌رقمی با حفظ کرسور دقیق‌تر (بر اساس روش StackOverflow)
+  // تابع بهبودیافته برای فرمت سه‌رقمی
   function setupPriceInput(selector) {
-    const input = document.querySelector(selector);
-    if (!input) return;
+      const input = document.querySelector(selector);
+      if (!input) return;
 
-    // تغییر نوع به text و استایل LTR برای سازگاری با اعداد
-    input.setAttribute("type", "text");
-    input.style.textAlign = "left";
-    input.style.direction = "ltr";
+      // تغییر نوع به text و استایل LTR برای سازگاری با اعداد
+      input.setAttribute("type", "text");
+      input.style.textAlign = "left";
+      input.style.direction = "ltr";
 
-    // فیلد مخفی برای مقدار خام (بدون کاما)
-    const hiddenInput = document.createElement("input");
-    hiddenInput.type = "hidden";
-    hiddenInput.name = input.name;
-    input.name = input.name + "_display";  // نام نمایش رو تغییر می‌دیم
-    input.parentNode.insertBefore(hiddenInput, input.nextSibling);
+      // فیلد مخفی برای مقدار خام (بدون کاما)
+      const hiddenInput = document.createElement("input");
+      hiddenInput.type = "hidden";
+      hiddenInput.name = input.name;
+      input.name = input.name + "_display";  // نام نمایش رو تغییر می‌دیم
+      input.parentNode.insertBefore(hiddenInput, input.nextSibling);
 
-    const formatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });  // برای کاما انگلیسی
-    // اگر ویرگول پارسی می‌خواید: const formatter = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '،');
+      const formatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });  // کاما انگلیسی (,)
+      // اگر کاما پارسی می‌خوای: const formatter = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '،');
 
-    // تابع برای شمارش کاماها قبل از یک موقعیت خاص
-    function countCommasBefore(str, pos) {
-      return (str.slice(0, pos).match(/,/g) || []).length;
-    }
-
-    // فرمت اولیه اگر value داشته باشه
-    if (input.value) {
-      let initialValue = input.value.replace(/,/g, "").trim();
-      if (/^\d+$/.test(initialValue)) {
-        input.value = formatter.format(initialValue);
-        hiddenInput.value = initialValue;
+      // تابع برای تبدیل اعداد فارسی به انگلیسی
+      function normalizeDigits(value) {
+          return value.replace(/[۰-۹]/g, function(d) {
+              return String.fromCharCode(d.charCodeAt(0) - 1728);  // تبدیل ۰-۹ به 0-9
+          });
       }
-    }
 
-    input.addEventListener("input", function (e) {
-      const errorElement = document.getElementById(`error-${e.target.id}`);
-      const oldValue = e.target.value;
-      const cursorStart = e.target.selectionStart;
-      const cursorEnd = e.target.selectionEnd;
-
-      // محاسبه موقعیت بدون کاما
-      const commasBeforeStart = countCommasBefore(oldValue, cursorStart);
-      const commasBeforeEnd = countCommasBefore(oldValue, cursorEnd);
-      let value = oldValue.replace(/,/g, "").trim();
-
-      if (/^\d*$/.test(value)) {
-        if (value !== "") {
-          const formatted = formatter.format(value);
-
-          // محاسبه موقعیت جدید کرسور
-          const newStart = cursorStart + (countCommasBefore(formatted, cursorStart - commasBeforeStart) - commasBeforeStart);
-          const newEnd = cursorEnd + (countCommasBefore(formatted, cursorEnd - commasBeforeEnd) - commasBeforeEnd);
-
-          e.target.value = formatted;
-          hiddenInput.value = value;
-          e.target.setSelectionRange(newStart, newEnd);
-        } else {
-          hiddenInput.value = "";
-        }
-        errorElement.classList.remove("show");
-        errorElement.textContent = "";
-      } else {
-        value = value.replace(/\D/g, "");
-        e.target.value = value ? formatter.format(value) : "";
-        hiddenInput.value = value;
-        errorElement.textContent = "لطفاً فقط عدد وارد کنید";
-        errorElement.classList.add("show");
+      // تابع برای شمارش کاماها قبل از یک موقعیت خاص
+      function countCommasBefore(str, pos) {
+          return (str.slice(0, pos).match(/,/g) || []).length;
       }
-    });
 
-    // جلوگیری از ورود غیرعددی
-    input.addEventListener("keypress", function(e) {
-      if (!/[0-9]/.test(e.key)) {
-        e.preventDefault();
+      // فرمت اولیه اگر value داشته باشه
+      if (input.value) {
+          let initialValue = normalizeDigits(input.value.replace(/,/g, "").trim());
+          console.log("Initial value (normalized):", initialValue);  // debug: مقدار اولیه
+          if (/^\d+$/.test(initialValue)) {
+              input.value = formatter.format ? formatter.format(initialValue) : formatter(initialValue);
+              hiddenInput.value = initialValue;
+          }
       }
-    });
+
+      input.addEventListener("input", function (e) {
+          const errorElement = document.getElementById(`error-${e.target.id}`);
+          const oldValue = e.target.value;
+          const cursorStart = e.target.selectionStart;
+          const cursorEnd = e.target.selectionEnd;
+
+          // محاسبه موقعیت بدون کاما
+          const commasBeforeStart = countCommasBefore(oldValue, cursorStart);
+          const commasBeforeEnd = countCommasBefore(oldValue, cursorEnd);
+          let value = normalizeDigits(oldValue.replace(/,/g, "").trim());  // normalize اعداد فارسی
+          console.log("Input value (normalized):", value);  // debug: مقدار بعد از تایپ
+
+          if (/^\d*$/.test(value)) {
+              if (value !== "") {
+                  const formatted = formatter.format ? formatter.format(value) : formatter(value);
+                  console.log("Formatted value:", formatted);  // debug: فرمت‌شده
+
+                  // محاسبه موقعیت جدید کرسور
+                  const newStart = cursorStart + (countCommasBefore(formatted, cursorStart - commasBeforeStart) - commasBeforeStart);
+                  const newEnd = cursorEnd + (countCommasBefore(formatted, cursorEnd - commasBeforeEnd) - commasBeforeEnd);
+
+                  e.target.value = formatted;
+                  hiddenInput.value = value;
+                  e.target.setSelectionRange(newStart, newEnd);
+              } else {
+                  hiddenInput.value = "";
+              }
+              errorElement.classList.remove("show");
+              errorElement.textContent = "";
+          } else {
+              value = value.replace(/\D/g, "");
+              e.target.value = value ? (formatter.format ? formatter.format(value) : formatter(value)) : "";
+              hiddenInput.value = value;
+              errorElement.textContent = "لطفاً فقط عدد وارد کنید";
+              errorElement.classList.add("show");
+          }
+      });
+
+      // جلوگیری از ورود غیرعددی (انگلیسی یا فارسی)
+      input.addEventListener("keypress", function(e) {
+          if (!/[0-9۰-۹]/.test(e.key)) {
+              e.preventDefault();
+          }
+      });
   }
 
-  // اعمال روی فیلدهای مبلغ
   setupPriceInput("#id_facility_amount");
   setupPriceInput("#id_advance_amount");
 

@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool("DJANGO_DEBUG", True)
+DEBUG = env.bool("DEBUG", True)
 
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
@@ -63,13 +63,15 @@ INSTALLED_APPS = [
     'channels',
     "ckeditor",
     "ckeditor_uploader",
-    # 'debug_toolbar',
 
     # my app
     'home',
     'accounts',
     'notifications',
     'article',
+
+    # 3-rd party app (overiden my app)
+    'django_cleanup.apps.CleanupConfig',
     
 ]
 

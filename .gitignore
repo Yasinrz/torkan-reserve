@@ -5,6 +5,8 @@ postgres_database/
 db_reserve
 postgres
 database
+acme-challenge
+cert
 media/*
 cert/
 # Environments

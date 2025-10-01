@@ -6,6 +6,7 @@ db_reserve
 postgres
 database
 media/*
+cert/
 # Environments
 .env
 .venv

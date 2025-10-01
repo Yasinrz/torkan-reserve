@@ -10,6 +10,7 @@ media/*
 .env
 .venv
 venv/
+env/
 .idea/
 /staticfiles/
 *.docx

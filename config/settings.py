@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'crispy_forms',
     'crispy_bootstrap5',
-    # 'channels',
+    'channels',
     "ckeditor",
     "ckeditor_uploader",
 
@@ -75,14 +75,14 @@ INSTALLED_APPS = [
 # REDIS CONFIG
 # ASGI_APPLICATION = "config.asgi.application"
 
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels_redis.core.RedisChannelLayer",
-#         "CONFIG": {
-#             "hosts": [("redis", 6379)],
-#         },
-#     },
-# }
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis", 6379)],
+        },
+    },
+}
 
 #CKEDITOR CONFIG
 CKEDITOR_CONFIGS = {

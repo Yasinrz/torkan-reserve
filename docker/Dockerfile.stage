@@ -7,7 +7,7 @@ RUN mkdir /code
 
 WORKDIR /code
 
-COPY requirements.txt /code/
+COPY ../requirements.txt /code/
 RUN pip install --no-cache-dir -r requirements.txt
 
 FROM python:3.12-alpine3.22
@@ -34,15 +34,3 @@ RUN mkdir -p /code/staticfiles && \
     mkdir -p /code/media && \
     chown -R appuser:appuser /code/staticfiles /code/media && \
     chmod -R 755 /code/staticfiles /code/media
-
-USER appuser
-
-# Collect static files
-COPY --chown=appuser:appuser entrypoint.sh /code/entrypoint.sh
-RUN chmod +x /code/entrypoint.sh
-ENTRYPOINT ["/code/entrypoint.sh"]
-
-EXPOSE 8000
-
-# Run the app with Daphne (ASGI)
-# CMD ["gunicorn", "-b", "0.0.0.0:8000", "--workers", "4", "--timeout", "120", "config.wsgi:application"]

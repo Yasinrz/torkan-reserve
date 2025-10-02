@@ -13,7 +13,7 @@ services:
       - ..:/code
     depends_on:
       - db
-      # - redis
+      - redis
     env_file:
       - ../env/.env.dev
     ports:
@@ -31,7 +31,6 @@ services:
       - "POSTGRES_USER=${DB_USER}"
       - "POSTGRES_PASSWORD=${DB_PASSWORD}"
       - "POSTGRES_DB=${DB_NAME}"
-    # restart: always
 
     volumes:
       - ../database:/var/lib/postgresql/data

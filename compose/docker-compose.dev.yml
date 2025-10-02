@@ -1,5 +1,5 @@
 version: '3.9'
-
+name: torkan-reserve-dev
 services:
 
   web:
@@ -27,9 +27,6 @@ services:
     env_file:
       - ../env/.env.dev
 
-    volumes:
-      - ./database:/var/lib/postgresql/data
-
     environment:
       - "POSTGRES_USER=${DB_USER}"
       - "POSTGRES_PASSWORD=${DB_PASSWORD}"
@@ -43,4 +40,3 @@ services:
     container_name: redis-dev
     ports:
       - "6379:6379"
-    restart: always

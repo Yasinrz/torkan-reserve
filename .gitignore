@@ -13,6 +13,7 @@ postgres
 # Environments
 .env
 .venv
+env/
 venv/
 .idea/
 /staticfiles/

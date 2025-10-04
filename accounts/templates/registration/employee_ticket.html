@@ -1,31 +1,18 @@
 {%extends '_base.html'%}
 {% load c_jformat %}
-{%block head%}
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>ارسال تیکت پرسنل - کارگاه طلاسازی</title>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 {% load static %}
+{% load crispy_forms_tags %}
+{%block head%}
+<title>ارسال تیکت پرسنل - کارگاه طلاسازی</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/flatpickr.min.css' %}">
 <link rel="stylesheet" href="{% static 'admin/css/django_jalali.min.css' %}">
 <link rel="stylesheet" href="{% static 'css/time-picker-calendar.css' %}">
-{% comment %} {{ form.media }} {% endcomment %}
-
 <style>
-  body {
-    font-family:'Vazirmatn',sans-serif;
-    min-height:100vh;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column; /* محتوای اصلی بالا، فوتر پایین */
-  }
-  .form-container{max-width:32rem;background:white;margin: 6rem auto 2rem;border-radius:.5rem;padding:1.5rem;box-shadow:0 8px 16px rgba(0,0,0,.1),0 2px 4px rgba(0,0,0,.05)}
   .gold-gradient{background:linear-gradient(45deg,#FFD700,#DAA520)}
-  .header{color:white;border-radius:.5rem .5rem 0 0;padding:2rem;text-align:center;position:relative;overflow:hidden}
+  .header{border-radius:.5rem .5rem 0 0;padding:2rem;text-align:center;position:relative;overflow:hidden}
   .header-overlay{position:absolute;inset:0;background:black;opacity:.1}
-  .form-section{margin-top:1.5rem;padding:1rem}
+  {% comment %} .form-section{margin-top:1.5rem;padding:1rem}
   .form-input,
   .form-textarea,
   .form-select {
@@ -34,22 +21,20 @@
     padding: .5rem;
     width: 100%;
     transition: border-color .3s ease-in-out;
-  }
+  } {% endcomment %}
 
-/* فقط برای select فلش پیش‌فرض حذف و فلش کاستوم اضافه بشه */
-  .form-select {
-    padding-right: 2rem; /* همیشه فاصله باشه */
+  {% comment %} .form-select {
+    padding-right: 2rem;
     -moz-appearance: none;
     -webkit-appearance: none;
     appearance: none;
     background-image: url("data:image/svg+xml;utf8,<svg fill='%23DAA520' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
     background-repeat: no-repeat;
-    background-position: left 0.75rem center; /* سمت چپ چون راست‌به‌چپه */
+    background-position: left 0.75rem center;
     background-size: 1rem;
     direction: rtl;
   }
 
-  /* برای حالت فوکوس همه‌ی input, textarea, select */
   .form-input:focus,
   .form-textarea:focus,
   .form-select:focus {
@@ -58,12 +43,12 @@
     box-shadow: 0 0 5px rgba(218, 165, 32, .3);
   }
 
-/* حذف فلش پیش‌فرض IE و Edge */
   .form-select::-ms-expand {
     display: none;
-  }
+  } {% endcomment %}
 
-  label{color:#4B5563;font-weight:600;margin-bottom:.5rem;display:block}
+  {% comment %} label{color:#4B5563;font-weight:600;margin-bottom:.5rem;display:block} {% endcomment %}
+
   .gold-button{background:linear-gradient(45deg,#FFD700,#DAA520);color:white;font-weight:600;padding:.5rem 1rem;border-radius:.5rem;width:100%;margin-top:1.5rem;transition:transform .2s ease-in-out,box-shadow .2s ease-in-out;border:none}
   .gold-button:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,.2)}
   .success-message{background:#d1fae5;border:1px solid #10b981;border-radius:.5rem;padding:1rem;margin-bottom:1rem;color:#065f46;text-align:center}
@@ -84,52 +69,51 @@
     padding-left: 2.25rem; /* make room for icon */
   }
   .header h1 {
-    font-weight: 700; /* بولدتر (وزن 700 از فونت Vazirmatn) */
-    color: #FFFFFF; /* سفید کامل و روشن‌تر */
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* برای برجسته‌تر شدن و حس بولدتر */
+    font-weight: 700;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   }
 </style>
 {%endblock%}
 {%block content%}
-  <div class="form-container">
-    <div class="header gold-gradient">
-      <div class="header-overlay"></div>
-      <h1><i class="fas fa-ticket-alt gold-icon mr-2"></i> ارسال تیکت پرسنل</h1>
-    </div>
-
-    <div class="form-section">
-      {% if success %}
-        <div class="success-message"><i class="fas fa-check-circle"></i> تیکت با موفقیت ارسال شد!</div>
-      {% endif %}
-
-      <form id="ticketForm" method="post" action="">
-        {% csrf_token %}
-        {% for field in form %}
-          <div class="mb-4 field-wrapper {% if field.name == 'employee' or field.name == 'status' %}hidden{% endif %}" data-field-name="{{ field.name }}">
-            {% if field.field.widget.input_type != "hidden" %}
-              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+  <div class="container glass-element w-75 border border-1 rounded-3 shadow-lg my-5 p-0">
+    <div class="card bg-transparent border-0">
+      <!-- Header -->
+      <div class="card-header header gold-gradient">
+        <h1 class="fs-2 fw-bolder text-white">ارسال تیکت پرسنل</h1>
+      </div>
+      <div class="card-body">
+        <!-- Form input -->
+        <div class="form-section">
+          {% if success %}
+            <div class="success-message"><i class="fas fa-check-circle"></i> تیکت با موفقیت ارسال شد!</div>
+          {% endif %} 
+          <form id="ticketForm" method="post" action="">
+            {% csrf_token %}
+            {% if messages %}
+              {% for message in messages %}
+                  <div class="alert alert-danger d-flex align-items-center" role="alert">
+                      <div style="margin-right: 0.5rem;">
+                          {{ message }}
+                      </div>
+                  </div>
+              {% endfor %}
             {% endif %}
-            {{ field }}
-            <span class="field-error" id="error-{{ field.id_for_label }}"></span>
-            {% if field.errors %}
-              <ul class="error-list">
-                {% for error in field.errors %}
-                  <li>{{ error }}</li>
-                {% endfor %}
-              </ul>
-            {% endif %}
-          </div>
-        {% endfor %}
-
-        <button type="submit" class="gold-button">
-          <i class="fas fa-paper-plane mr-2"></i> ارسال
-        </button>
-      </form>
+            {% for field in form %}
+              <div class="mb-4 field-wrapper {% if field.name == 'employee' or field.name == 'status' %}hidden{% endif %}" data-field-name="{{ field.name }}">
+                {{ field | as_crispy_field }}
+              </div>
+            {% endfor %}
+    
+            <button type="submit" class="btn gold-button w-100 mx-auto d-block">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                <path d="M2.317,10.332l3.982,3.982c0.394,0.394,1.022,0.424,1.451,0.07l10.653-8.786L9.617,16.25 c-0.354,0.429-0.324,1.058,0.07,1.451l3.982,3.982c0.559,0.559,1.509,0.348,1.779-0.395l6.486-17.837 c0.313-0.862-0.522-1.698-1.384-1.384L2.712,8.553C1.969,8.823,1.758,9.773,2.317,10.332z" fill="#5B5B5B" />
+              </svg>
+              ارسال
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
-
-    {% comment %} <div class="footer" style="margin-top:1.5rem;text-align:center;color:#4B5563;font-size:.875rem">
-      <p class="text-sm">کارگاه طلاسازی | طراحی شده برای تجربه‌ای لوکس و بی‌نظیر</p>
-    </div> {% endcomment %}
   </div>
 
 <script src="{% static 'js/flatpickr.min.js' %}"></script>
